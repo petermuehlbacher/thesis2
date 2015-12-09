@@ -1,0 +1,139 @@
+\section{Wigner's Semicircle Law}
+\begin{definition}[Wigner matrix]
+	A Wigner matrix $M$ is a complex, Hermitian matrix with independent and identically distributed entries $M_{ij}$ for $i\geq j$ and with mean $0$ and variance $1$ for $i>j$. The diagonal entries $M_{ii}$ have bounded mean and variance.
+\end{definition}
+
+% GOE special case
+
+If $M_n$ is an $n$-dimensional Wigner matrix we know \todo{prove it}that the operator norm $\|M_n\|_{OP}$ is typically of size $\mathcal O(\sqrt n)$, so it natural to define the empirical spectral distribution (ESD) as follows:
+
+\begin{definition}[ESD]
+	\begin{equation*}
+		\mu_{\frac{1}{\sqrt{n}}M_n}:=\frac{1}{n}\sum_{j=1}^n \delta_{\lambda_j(M_n)/\sqrt{n}},
+	\end{equation*}
+	where $\lambda_1(M_n)\leq\dots\leq\lambda_n(M_n)$ are the ordered, real eigenvalues of $M_n$.
+\end{definition}
+
+Since we are considering random matrices the ESDs will be random as well and thus it is interesting to ask if there is a measure on the real line $\mu$ such that it is the weak limit $\mu_{M_n/\sqrt{n}}\rightharpoonup\mu$ of $\mu_{M_n/\sqrt{n}}$, that is $\int_\mathbb{R} \varphi d\mu_{M_n/\sqrt{n}}$ converges in probability (or almost surely) \todo{which do we want to show here?} against $\int_\mathbb{R} \varphi d\mu$ for all $\varphi\in C_c(\mathbb R)$. This can also be derived from the more general definition of convergence in probability or almost surely, but we will not do that here.
+
+Surprisingly such a limit $\mu$ exists and is even deterministic.
+
+\begin{theorem}[Wigner's semicircle law]\label{thm:semicircle}
+	Let $M_n$ be the top left $n\times n$ minors of an infinite Wigner matrix, then the ESDs $\mu_{M_n/\sqrt{n}}$ converge almost surely (and thus in probability) to the Wigner semicircle distribution given by
+	\begin{equation*}
+		\mu_{sc}:=\begin{cases}
+						\frac{1}{2\pi}\sqrt{4-|x|^2}dx, &\mbox{if } |x|\leq 2 \\
+						0, &\mbox{else}
+					  \end{cases}.
+	\end{equation*}
+\end{theorem}
+
+A rough outline of the proof is given by this list of intermediary results that will be shown:
+\begin{enumerate}
+	\item \todo{preliminary reductions - look up which one we need}
+	\item To show that $\mu_n\rightharpoonup\mu$ almost surely, it suffices to show that the respective Stieltjes transforms converge almost surely, pointwise in the upper half plane, i.e. $\mu_n\rightharpoonup\mu\Leftrightarrow\forall z\in\mathbb C:Im(z)>0 s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
+	\item The Stieltjes transform $s_n := s_{\mu_{M_n/\sqrt{n}}}$ is ``stable in $n$'', i.e. $s_n(z)=s_{n-1}(z)+\mathcal O(\frac{1}{n})$, where $\mathcal O$ can depend on $z$ and even $s_n(z)-\mathbb E s_n(z)\rightarrow 0$ almost surely.
+	\item Derive the semicircle law by deriving the recursion $\mathbb E s_n(z)=-\frac{1}{z+\mathbb E s_n(z)}+o(1)$, where, again, $o(1)$ will depend on $z$ and ``inverting'' the Stieltjes transform.
+\end{enumerate}
+\begin{remark}
+	Note that instead of step 4 one could have plugged in the semicircle distribution and simplified the proof by just checking that this is indeed the limit. This is not done here because we want to see how the Stieltjes transform method can be used to derive such a conclusion without knowing about it beforehand.
+	
+	Also, there are other proofs (e.g. \cite{scGOE}) specifically for the GOE/GUE (instead of the more general Wigner matrices) which exploit their symmetries to shorten the proof considerably.
+\end{remark}
+
+\subsection{Preliminary Reductions}
+
+\subsection{Stieltjes Transform}
+
+\begin{definition}[Stieltjes transform]
+	For a probability measure $\mu$ we write $s_\mu$ for its Stieltjes transform $$\int_\mathbb{R} \frac{1}{x-z}d\mu(x).$$
+\end{definition}
+As mentioned above, $s_n$ will be a shorthand for $s_{\mu_{M_n/\sqrt{n}}}$.
+
+\begin{lemma}[Properties of the Stieltjes transform]\label{lm:stieltjesproperties}
+In the following let $\mu$ be some probability measure.
+	\begin{enumerate}
+		\item For $z=a+ib$ we have $Im\frac{1}{x-z}=\frac{b}{(x-a)^2+b^2}>0$.\label{lm:stieltjesproperties1}
+		\item $s_\mu$ is analytic in $\mathbb C\setminus supp(\mu)\supset\mathbb C_+$.
+		\item We can bound the absolute value as well as the derivatives by $|\frac{d^j}{dz^j}s_\mu(z)|\leq \mathcal O(|Im(z)|^{-(j+1)})$ for all $j\in\mathbb \{0,1,\dots\}$.
+		\item 
+		\todo{insert them here as one uses them}
+	\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+	The first property is trivial, the second one can be seen by integrating $s_\mu$ over any contour not containing the support of $\mu$, interchanging the order of integration and noting that integrating $\frac{1}{x-z}$ gives $0$ by Cauchy's integral formula ($\frac{1}{x-z}$ being holomorphic outside the support of $\mu$). The Stieltjes transform being holomorphic (and thus analytic) follows by Morera's theorem.
+	
+	The third property can be obtained by using $\frac{1}{x-z}\leq \frac{1}{Im(z)}$ and using Cauchy's integral formula integrating this inequality.
+\end{proof}
+
+\begin{corollary}
+	From \ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties1} it follows that $s_\mu$ is a Herglotz function and thus (e.g. \cite{TeschlQM}) $Im(s_\mu(.+ib))\rightharpoonup\pi\mu$ as $b\rightarrow 0^+$ in the vague topology or equivalently (by $\overline{s_\mu(z)}=s_\mu(\overline z)$)
+	\begin{equation}
+		\frac{s_\mu(.+ib)-s_\mu(.-ib)}{2\pi i}\rightharpoonup\mu.
+	\end{equation}
+	Note that this can also be seen by writing $Im(s_\mu)$ as the convolution $\pi\mu * P_b(a)$ with the Poisson kernels $P_b(x):=\frac{1}{\pi}\frac{b}{x^2+b^2} = \frac{1}{b}P_1(\frac{x}{b})$ which form a family of approximations to the identity.
+	%This ``intuition'' will become important for the next proof and when applying Cauchy's interlacing law to show that $s_n(z)=s_{n-1}(z)+\mathcal O(\frac{1}{n})$.
+\end{corollary}
+
+\begin{theorem}[Stieltjes continuity theorem]
+	For $\mu_n$ random measures and $\mu$ a deterministic measure the following statement holds:
+	
+	$\mu_n\rightharpoonup\mu$ almost surely in the vague topology if and only if $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely for every $z\in\mathbb C_+$.
+\end{theorem}
+
+\begin{proof}
+	$$\mathbb P(\{\limsup_{n\rightarrow\infty}d_v(\mu_n,\mu)=0\})=1$$
+	$$\mathbb P(\{\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu\})=1$$
+	$$\forall z\in\mathbb C_+:\mathbb P(\{\lim_{n\rightarrow\infty} s_{\mu_n}(z)=s_\mu(z)\})=1$$
+
+	``$\Rightarrow$'': If $\mu_n\rightharpoonup\mu$ in the vague topology almost surely against a deterministic limit $\mu$, then $\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu$ by definition and, by taking the completion\todo{not sure}, for all bounded, continuous functions vanishing at infinity. The function $x\mapsto \frac{1}{x-z}$ for some $z\in\mathbb C$ with $Im(z)>0$ is bounded and continuous on $\mathbb R$ and hence $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
+	
+	``$\Leftarrow$'': One can, up to an arbitrary small error $\varepsilon>0$, approximate $\int_\mathbb{R}\phi\diff\mu$ by $\int_\mathbb{R}\phi*P_b \diff\mu = \frac{1}{\pi}\int_\mathbb{R}\phi(a)s_\mu(a+ib)\diff a$ (and analogously for $\mu_n$).
+	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$.
+	
+	In order not to ``lose'' the almost sure convergence by integration\todo{not sure if that's the reason} (a summation over uncountable many summands) we approximate it by a Riemann sum (which is possible since we can choose the support $I$ of the test function $\phi$ as the boundaries of integration). The error for the middle sum is proportional to $\max_{x\in I}(|f''(x)|)|I|^3 n^{-2}$, which (for $f$ being the integrand), can be made arbitrarily small. (To be able to control the $\max_{x\in I}(|f''(x)|)$ one may have to approximate the continuous test functions $\phi$ by smooth (or at least twice differentiable) ones like in every partial differential course.)
+	
+	This discretized sum now goes to zero almost surely.
+\end{proof}
+
+\subsection{Stableness and Concentration of Measure}
+In the following we keep using the notation as defined in \ref{thm:semicircle}. To show that $s_n(z)=s_{n-1}(z)+\mathcal O_z(1/n)$ we first need to prove the following theorem:
+
+\begin{theorem}[Cauchy's interlacing theorem]
+	For any $n\times n$ Hermitian matrix $A_n$ with top left minor $A_{n-1}$ we have:
+	\begin{equation*}
+		\lambda_i(A_n)\leq\lambda_i(A_{n-1})\leq\lambda_{i+1}(A_n), 
+	\end{equation*}
+	for all $1\leq i < n$.
+\end{theorem}
+\begin{proof}
+Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in V : \|v\|=1}\langle Av,v\rangle$ and $\lambda_i(A)=\sup_{dim(V)=i}\inf_{v\in V : \|v\|=1}\langle Av,v\rangle$ respectively, c.f. \cite{TeschlQM} p.141) and writing $S_{n-i+1}$ for $\{v\in span\{a_i,\dots,a_n\}: \|v\|=1\}$, where $A_{n-1}a_j=\lambda_j a_j$ and $P:=diag(1,\dots,1,0)\in\mathbb R^{n^2}$ we have
+	\begin{equation*}
+		\lambda_i(A_{n-1}) =
+		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
+		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv \geq
+		\inf_{dim(V)=n-i}\sup_{v\in V,\|v\|=1}v^*A_nv =
+		\lambda_{i+1}(A_n),
+	\end{equation*}
+	and
+	\begin{equation*}
+		\lambda_i(A_n) =
+		\inf_{dim(V)=n-i+1}\sup_{v\in V,\|v\|=1}v^*A_nv \geq
+		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv =
+		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
+		\lambda_i(A_{n-1}),
+	\end{equation*}
+	where $S_i:=span\{a_i,\dots,a_{n-1}\}$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+

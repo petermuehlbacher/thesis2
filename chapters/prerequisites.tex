@@ -1,0 +1,69 @@
+To be able to prove the above results we first need to prove some other theorems which require some 
+
+\section{Gaussian Random Fields}
+% motivation
+% definitions
+% results for the isotropic/stationary case
+\cite{Adler07} p.121 for \begin{equation}
+	\mathbb E\left\{\frac{\partial^k f(s)}{\partial s_{i_1}\dots\partial s_{i_k}} \frac{\partial^k f(t)}{\partial t_{i_1}\dots\partial t_{i_k}}\right\}=\frac{\partial^{2k} C(s,t)}{\partial s_{i_1}t_{i_1}\dots\partial s_{i_k}t_{i_k}}
+\end{equation}
+
+\section{GOE}
+\begin{definition}
+	Symmetric $N\times N$ matrices $H=H_N$ with $\mathbb E H_{ij}=0$ and $\mathbb E H_{ij}=1+\delta_{ij}$.
+\end{definition}
+\begin{remark}
+	Their density is given by the Gaussian measure
+	\begin{equation}
+		d\mathbb P(H)=Z_N^{-1}\exp\{-\frac{1}{4}tr H^2\}
+	\end{equation}
+	with normalization constant $Z_N=\int d\mathbb P(H)\prod_{1\leq i\leq j\leq N} dH_{ij}$ which is a shorter way of writing $Z_N^{-1}\exp\left\{-\frac{1}{4}\left(2\sum_{i<j}^N H_{ij}^2+\sum_{i=j}^N H_{ij}^2\right)\right\}$.
+\end{remark}
+% definitions
+% Gaussian measure density and Z if necessary
+
+\section{LDP}
+% definitions
+% rate function of smallest EV of GOE
+
+\section{Morse Theory}
+% definitions
+% morse functions dense in C2
+
+\section{Spin Glass Models}
+% definitions
+% applications: physics, neural networks, etc.
+
+\section{Intermediary Results}
+To prove our main results we first need some refinements for the expected values of critical values.
+
+\todo{define E\_GOE, rho and B Borel sets}
+\begin{theorem}[Refinement of ${\mathbb E[Crt_{N,k}(B)]}$]
+	For all $N$, $p\geq 2$ and $k\in\{0,\dots,N-1\}$ we have
+	\todo{Kac-Rice formulae, AT07}
+	\begin{equation}\label{thm:2.1}
+		\mathbb E[Crt_{N,k}(B)]=2\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\mathbb E_{GOE}^N\left[e^{-N\frac{p-2}{2p}(\lambda_k^N)^2}\bm 1\left\{\lambda_k^N\in\sqrt{\frac{p}{2(p-1)}}B \right\}\right]
+	\end{equation} and
+	\todo{sum up previous eq.}
+	\begin{equation}\label{thm:2.2}
+		\mathbb E[Crt_N(B)]=2N\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\int_{\sqrt{\frac{p}{2(p-1)}}B}exp\left\{-\frac{N(p-2)x^2}{2p}\right\}\rho_N(x)dx
+	\end{equation}
+\end{theorem}
+
+\begin{theorem}[LDP for $k$-th largest eigenvalue]
+	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ \todo{define GOE} satisfies an LDP with speed $N$ and a good rate function\todo{define good rate function} 
+	\begin{equation}\label{thm:A.1}
+		I_k(x;\sigma)=k I_1(x;\sigma)=\begin{cases}
+						k\int_{2\sigma}^x \sigma^{-1}\sqrt{(\frac{z}{2\sigma})^2-1}dz, &\mbox{if } x\geq 2\sigma \\
+						\infty, &\mbox{otherwise}
+					  \end{cases}.
+	\end{equation}
+\end{theorem}
+
+
+
+
+
+
+
+

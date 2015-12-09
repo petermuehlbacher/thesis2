@@ -1,0 +1,50 @@
+\documentclass[11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsthm,mathtools}
+\usepackage{hyperref,graphicx}
+\usepackage{bm}
+%\usepackage{bigints}
+\usepackage{todonotes}
+\usepackage{natbib}
+\graphicspath{ {images/} }
+
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{remark}{Remark}
+
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\Diff[1]{\mathop{}\!\mathrm{d^#1}}
+
+\begin{document}
+
+\title{
+	{High-dimensional Landscapes and Random Matrices}\\
+	{\large University of Vienna}\\
+	{\includegraphics{university.png}}
+}
+\author{Peter Mühlbacher}
+\date{\today}
+\maketitle
+
+\begin{abstract}
+%In \autoref{chap:diffusionMaps} xxx will be dealt with, etc.etc.
+\end{abstract}
+
+\tableofcontents
+
+\chapter*{Introduction}
+\input{chapters/introduction}
+
+\chapter{Prerequisites}\label{chap:prerequisites}
+\input{chapters/prerequisites}
+
+\appendix
+\chapter{Wigner's Semicircle Law}
+\input{chapters/semicircle}
+
+\bibliographystyle{te}
+\bibliography{references}
+
+\end{document}

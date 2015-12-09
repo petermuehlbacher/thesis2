@@ -1,0 +1,46 @@
+\section{Motivation}
+Given some Hamiltonian $H_{N,p}: S^{N-1}\rightarrow\mathbb R$ given by $$H_{N,p}(\bm\sigma)=\frac{1}{N^{(p-1)/2}}\sum_{i_1,\dots,i_p=1}^N J_{i_1,\dots,i_p}\sigma_{i_1}\dots\sigma_{i_p},$$ where the $J_{i_1,\dots,i_p}$ are independent centered standard Gaussian random variables and $\bm\sigma=(\sigma_1,\dots,\sigma_N)$ referred to as states, one is interested in finding the expected number of critical points $Crt_N(u)$ and the restriction to some index $k$, denoted by $Crt_{N,k}(u)$, in some region in $(-\infty,Nu]$.
+
+\section{Main Results}
+\begin{theorem}[Large deviations for ${\mathbb E[\text{Crt}_{N,k}(u)]}$]
+	\begin{equation}\label{thm:2.5}
+		\lim_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E[\text{Crt}_{N,k}(u)] = \Theta_{k,p}(u)
+	\end{equation}
+	and
+	\begin{equation}\label{thm:2.8}
+		\lim_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E[\text{Crt}_N(u)] = \Theta_p(u),
+	\end{equation}
+	for $$\Theta_p(u)=\begin{cases}
+						\frac{1}{2}\log(p-1)-\frac{p-2}{4(p-1)}u^2-I_1(u), &\mbox{if } u\leq-E_\infty \\
+						\frac{1}{2}\log(p-1)-\frac{p-2}{4(p-1)}u^2, &\mbox{if } -E_\infty\leq u\leq 0\\ 
+						\frac{1}{2}\log(p-1), &\mbox{if } 0\leq u
+					  \end{cases}$$
+	and
+	$$\Theta_{k,p}(u)=\begin{cases}
+						\frac{1}{2}\log(p-1)-\frac{p-2}{4(p-1)}u^2-(k+1)I_1(u), &\mbox{if } u\leq-E_\infty \\
+						\frac{1}{2}\log(p-1)-\frac{p-2}{p}, &\mbox{if } u \geq E_\infty
+					  \end{cases},$$
+	where $E_\infty=E_\infty(p)=2\sqrt{\frac{p-1}{p}}$ and $I_1:(-\infty,E_\infty]\rightarrow\mathbb R$ is given by $$I_1(u)=\frac{2}{E_\infty^2}\int_u^{-E_\infty}\sqrt{z^2-E_\infty^2}dz$$ and is the the rate function of the LDP for the smallest eigenvalue of the GOE.
+\end{theorem}
+
+\begin{theorem}[Layered structure]
+	For all $k\geq 0$ and $\varepsilon>0$ we have
+	\begin{equation}\label{thm:2.15}
+		\limsup_{N\rightarrow\infty}\frac{1}{N}\log\mathbb P\left(\left\{\sum_{i=k}^\infty Crt_{N,i}(-E_k-\varepsilon)>0\right\}\right)<0,
+	\end{equation}
+	where $E_k=E_k(p)$ is chosen (uniquely because of strict monotonicity) such that $\Theta_{k,p}(-E_k)=0$.
+\end{theorem}
+\todo{mention 2.12 and that I don't prove it}
+
+
+
+
+
+
+
+
+
+
+
+
+
