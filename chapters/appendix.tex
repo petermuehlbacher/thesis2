@@ -41,7 +41,8 @@ A rough outline of the proof is given by this list of intermediary results that 
 	Also, there are other proofs (e.g. \cite{scGOE}) specifically for the GOE/GUE (instead of the more general Wigner matrices) which exploit their symmetries to shorten the proof considerably.
 \end{remark}
 
-\subsection{Preliminary Reductions}
+\subsection{Preliminary Reductions}\label{ssec:prelimreduct}
+\todo{show that diagonal elements don't matter}
 
 \subsection{Stieltjes Transform}
 
@@ -54,8 +55,8 @@ As mentioned above, $s_n$ will be a shorthand for $s_{\mu_{M_n/\sqrt{n}}}$.
 In the following let $\mu$ be some probability measure.
 	\begin{enumerate}
 		\item For $z=a+ib$ we have $Im\frac{1}{x-z}=\frac{b}{(x-a)^2+b^2}>0$.\label{lm:stieltjesproperties1}
-		\item $s_\mu$ is analytic in $\mathbb C\setminus supp(\mu)\supset\mathbb C_+$.
-		\item We can bound the absolute value as well as the derivatives by $|\frac{d^j}{dz^j}s_\mu(z)|\leq \mathcal O(|Im(z)|^{-(j+1)})$ for all $j\in\mathbb \{0,1,\dots\}$.
+		\item $s_\mu$ is analytic in $\mathbb C\setminus supp(\mu)\supset\mathbb C_+$.\label{lm:stieltjesproperties2}
+		\item We can bound the absolute value as well as the derivatives by $|\frac{d^j}{dz^j}s_\mu(z)|\leq \mathcal O(|Im(z)|^{-(j+1)})$ for all $j\in\mathbb \{0,1,\dots\}$.\label{lm:stieltjesproperties3}
 		\item 
 		\todo{insert them here as one uses them}
 	\end{enumerate}
@@ -101,14 +102,14 @@ In the following let $\mu$ be some probability measure.
 In the following we keep using the notation as defined in \ref{thm:semicircle}. To show that $s_n(z)=s_{n-1}(z)+\mathcal O_z(1/n)$ we first need to prove the following theorem:
 
 \begin{theorem}[Cauchy's interlacing theorem]
-	For any $n\times n$ Hermitian matrix $A_n$ with top left minor $A_{n-1}$ we have:
+	For any $n\times n$ Hermitian matrix $A_n$ with top left minor $A_{n-1}$ and eigenvalues of descending order ($\lambda_i\geq\lambda_{i+1}$) we have:
 	\begin{equation*}
-		\lambda_i(A_n)\leq\lambda_i(A_{n-1})\leq\lambda_{i+1}(A_n), 
+		\lambda_{i+1}(A_n)\leq\lambda_i(A_{n-1})\leq\lambda_i(A_n), 
 	\end{equation*}
 	for all $1\leq i < n$.
 \end{theorem}
 \begin{proof}
-Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in V : \|v\|=1}\langle Av,v\rangle$ and $\lambda_i(A)=\sup_{dim(V)=i}\inf_{v\in V : \|v\|=1}\langle Av,v\rangle$ respectively, c.f. \cite{TeschlQM} p.141) and writing $S_{n-i+1}$ for $\{v\in span\{a_i,\dots,a_n\}: \|v\|=1\}$, where $A_{n-1}a_j=\lambda_j a_j$ and $P:=diag(1,\dots,1,0)\in\mathbb R^{n^2}$ we have
+Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in V : \|v\|=1}\langle Av,v\rangle$ and $\lambda_i(A)=\sup_{dim(V)=i}\inf_{v\in V : \|v\|=1}\langle Av,v\rangle$ respectively, c.f. \cite{TeschlQM} p.141) and writing $S_{n-i+1}$ for $\{v\in span\{a_i,\dots,a_n\}: \|v\|=1\}$, where $A_{n-1}a_j=\lambda_j a_j$ and $P$ an orthogonal projection such that $P^*A_nP=A_{n-1}$ we have
 	\begin{equation*}
 		\lambda_i(A_{n-1}) =
 		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
@@ -122,10 +123,57 @@ Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in 
 		\inf_{dim(V)=n-i+1}\sup_{v\in V,\|v\|=1}v^*A_nv \geq
 		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv =
 		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
-		\lambda_i(A_{n-1}),
+		\lambda_i(A_{n-1}).%,
 	\end{equation*}
-	where $S_i:=span\{a_i,\dots,a_{n-1}\}$.
+	%where $S_i:=span\{a_i,\dots,a_{n-1}\}$. Note that we implicitly used the isometric embedding $\mathbb C^{n-1}\rightarrow\mathbb C^n$ given by $(x_1,\dots,x_{n-1})\mapsto(x_1,\dots,x_{n-1},0)$ to make sense of the equation $\langle \underbrace{P^*A_nP}_{n-1\times n-1}v,v\rangle = \langle \underbrace{A_n}_{n\times n}Pv,Pv\rangle$.
 \end{proof}
+
+Remembering the identity $Im(s_{\mu_n(a+ib)}=\pi\mu*P_b(a)$ and that $supp\mu_n$ consists of finitely many points, we have $Im(s_{\mu_n})=\pi\frac{1}{n}\sum_{\lambda_i}\frac{b}{(\lambda_i-a)^2+b^2}$ which suggests that it is important to take a closer look at the function $x\mapsto\frac{b}{(x-a)^2+b^2}$ to compare $s_{\mu_n}$ with $s_{\mu_{n-1}}$.
+
+\begin{lemma}
+	For fixed $z\in\mathbb C_+$ the Stieltjes transform is ``stable'' in $n$, i.e.
+	\begin{equation*}
+		s_n(z)=s_{n-1}(z)+\mathcal O\left(\frac{1}{n}\right)
+	\end{equation*}
+\end{lemma}
+\begin{proof}
+	The idea is to use the Cauchy interlacing law and apply it to the previously mentioned identity by seeing that
+	
+	$$\sum_{j=1}^{n-1}\frac{b}{\lambda_j(M_{n-1})/\sqrt{n}-a}-\sum_{j=1}^n\frac{b}{\lambda_j(M_n)/\sqrt{n}-a}$$
+	
+	Up to the dimensional factors these two sums correspond to $s_n$ and $s_{n-1}$ and because of Cauchy's interlacing law this is an alternating sum, giving
+	
+	$$\sqrt{n(n-1)}s_{n-1}(\sqrt{n/(n-1)}(a+ib))-ns_n(a+ib)=\mathcal O\left(\frac{1}{n}\right).$$
+	
+	Now using the fact that the Stieltjes transform $s_n$ is analytic away from the support of $\mu_n$ (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties2}) and using the bound for its derivatives (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties3}) we can approximate $s_{n-1}(.)$ by $s_{n-1}(\sqrt{n/(n-1) . )}$ and hence the statement holds.
+\end{proof}
+
+To show a concentration of measure result (i.e. $s_n(z)-\mathbb E[s_n(z)]\rightarrow 0$ almost surely) we will need the following two propositions:
+
+\begin{theorem}[McDiarmid's inequality]
+	Let $X_1,\dots,X_n$ be independent random variables taking values in ranges $R_1,\dots,R_n$ and let $F:R_1\times\dots\times R_n\rightarrow\mathbb C$, such that for every $1\leq i\leq n$ we have $|F(x_1,\dots,x_i,\dots,x_n)-F(x_1,\dots,x_i',\dots,x_n)|\leq c_i$. Then for any $\lambda>0$ one has $$\mathbb P(|F(X)-\mathbb EF(X)|>\lambda\sigma)\leq C\exp^{-c\lambda^2},$$ for some absolute\footnote{Constants that maintain the same value wherever they occur. In particular applying McDiarmid's inequality in different settings we do not need to consider $C_n, c_n$, but can still write $C,c$.} constants $c,C>0$ and $\sigma=\sum_{i=1}^n c_i^2$.
+\end{theorem}
+\todo{prove it}
+
+\begin{lemma}[Borel-Cantelli]
+	Given some random variables $(X_n)_{n=1}^\infty,X$ such that $\sum_n \mathbb P(d(X_n,X)\geq\varepsilon)<\infty$ for every $\varepsilon>0$, then $X_n$ converges almost surely to $X$ (in the topology induced by $d$).
+\end{lemma}
+\todo{prove it}
+
+Using McDiarmid's inequality one gets $$\mathbb P(|s_n(z)-\mathbb Es_n(z)|\geq\lambda/\sqrt n)\leq C\exp^{-c\lambda^2},$$ for all $\lambda>0$ and some constants $c,C>0$.
+
+From the Borel-Cantelli lemma we see that for every $z$ away from the real line $s_n(z)-\mathbb Es_n(z)$ converges almost surely to zero since, for some fixed $\varepsilon>0$, the sum $\sum_n \mathbb P(d(s_n-\mathbb Es_n,0)\geq\varepsilon) \leq C\sum_n\exp^{-cn\varepsilon^2}$ which is obtained by setting $\lambda=\varepsilon\sqrt n$.
+
+\subsection{Finding the Semicircle Law}
+
+We start off by using the following identity $$s_n(z) := \int_\mathbb{R}\frac{1}{x-z}d\mu_n(x) = \frac{1}{n}tr\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1},$$ which holds for every $z\in\mathbb C\setminus supp(\mu_n)$. Because of the linearity of the trace we also have $$\mathbb Es_n(z) = \frac{1}{n}\sum_{j=1}^n\mathbb E\left[\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1}\right]_{jj}=\mathbb E\left[\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1}\right]_{nn},$$ where the last equality holds because all of the random variables $\left[\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1}\right]_{jj}$ have the same distribution.
+
+To calculate one entry of an inverse of a matrix we use Schur's complement, which tells us that (under the assumptions that all the occurring inverse matrices exist) $$[(M_n/\sqrt n-zI_n)^{-1}]_{nn}=-\left(z+\frac{1}{n}X^*(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}X\right)^{-1},$$ where $X\in\mathbb C^{n-1}$ is the top right column of $M_n$ with the bottom entry removed and the diagonal elements have been set to zero as justified in \ref{ssec:prelimreduct}.\todo{yet to do}
+
+%This inverse exists because, for $z\in\mathbb C_+$ the imaginary part $Im\left(\frac{1}{n}X^*(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}X\right)$ is positive definite according to the spectral theorem. 
+
+
+
 
 
 
