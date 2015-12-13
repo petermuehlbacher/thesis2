@@ -7,7 +7,7 @@ The following section will follow \cite{TaoWSCL} quite closely while trying to b
 
 % GOE special case
 
-If $M_n$ is an $n$-dimensional Wigner matrix we know \todo{prove it}that the operator norm $\|M_n\|_{OP}$ is typically of size $\mathcal O(\sqrt n)$, so it natural to define the empirical spectral distribution (ESD) as follows:
+If $M_n$ is an $n$-dimensional Wigner matrix we know \todo{show the tracy widom law if it is needed and if it doesn't need the semicircle law}that the operator norm $\|M_n\|_{OP}$ is typically of size $O(\sqrt n)$, so it natural to define the empirical spectral distribution (ESD) as follows:
 
 \begin{definition}[ESD]
 	\begin{equation*}
@@ -26,7 +26,7 @@ Surprisingly such a limit $\mu$ exists and is even deterministic.
 		\mu_{sc}:=\begin{cases}
 						\frac{1}{2\pi}\sqrt{4-|x|^2}dx, &\mbox{if } |x|\leq 2 \\
 						0, &\mbox{else}
-					  \end{cases}=\frac{1}{2\pi}\sqrt{4-x^2}_+\diff x.
+					  \end{cases}=:\frac{1}{2\pi}\sqrt{4-x^2}_+\diff x.
 	\end{equation*}
 \end{theorem}
 
@@ -34,7 +34,7 @@ A rough outline of the proof is given by this list of intermediary results that 
 \begin{enumerate}
 	\item Show that without loss of generality we can set the diagonal elements to zero and bound all other entries by some constant. Additionally some classic concentration of measure results will be shown.
 	\item To show that $\mu_n\rightharpoonup\mu$ almost surely, it suffices to show that the respective Stieltjes transforms converge almost surely, pointwise in the upper half plane, i.e. $\mu_n\rightharpoonup\mu\Leftrightarrow\forall z\in\mathbb C:Im(z)>0 s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
-	\item The Stieltjes transform $s_n := s_{\mu_{M_n/\sqrt{n}}}$ is ``stable in $n$'', i.e. $s_n(z)=s_{n-1}(z)+\mathcal O(\frac{1}{n})$, where $\mathcal O$ can depend on $z$ and even $s_n(z)-\mathbb E s_n(z)\rightarrow 0$ almost surely.
+	\item The Stieltjes transform $s_n := s_{\mu_{M_n/\sqrt{n}}}$ is ``stable in $n$'', i.e. $s_n(z)=s_{n-1}(z)+O(\frac{1}{n})$, where $O$ can depend on $z$ and even $s_n(z)-\mathbb E s_n(z)\rightarrow 0$ almost surely.
 	\item Derive the semicircle law by deriving the recursion $\mathbb E s_n(z)=-\frac{1}{z+\mathbb E s_n(z)}+o(1)$, where, again, $o(1)$ will depend on $z$ and ``inverting'' the Stieltjes transform.
 \end{enumerate}
 \begin{remark}
@@ -48,14 +48,13 @@ A rough outline of the proof is given by this list of intermediary results that 
 	For the matrices $M_n$ as given in \ref{thm:semicircle} it can be assumed without loss of generality that the diagonal entries are zero and the absolute values $|[M_n]_{ij}|$ are bounded by some constant $C>0$ which does not depend on $i,j$ or $n$.
 \end{lemma}
 \begin{proof}
-%	For every $n$ define
+	For every $n$ define the normalized random variable $\overline X_n$ by setting the diagonal elements to zero and bounding every entry by zero\footnote{Since the distribution changes we also need to recenter them by subtracting its mean value.}, i.e.
 
-%$$\overline[X_n]_{ij}:=\begin{cases}
-%						[M_n]_{ij}/\sqrt n\mathbf 1_{|M_n|\leq C}-\mathbb E\left[[M_n]_{ij}\mathbf 1_{|M_n|\leq C}\right], &\mbox{if } i\neq j \\
-%						0, &\mbox{if } i=j
-%					  \end{cases}.$$
-					  
-\todo{decide whether to take more general approach (T.Tao) or the straightforward one (Feier)}
+	$$[\overline X_n]_{ij}:=\begin{cases}
+						[M_n]_{ij}/\sqrt n\mathbf 1_{|M_n|\leq C}-\mathbb E\left[[M_n]_{ij}\mathbf 1_{|M_n|\leq C}\right], &\mbox{if } i\neq j \\
+						0, &\mbox{if } i=j
+					  \end{cases}.$$
+	
 \end{proof}
 
 \begin{theorem}[McDiarmid's inequality]
@@ -93,7 +92,7 @@ In the following let $\mu$ be some probability measure.
 	\begin{enumerate}
 		\item For $z=a+ib$ we have $Im\frac{1}{x-z}=\frac{b}{(x-a)^2+b^2}>0$.\label{lm:stieltjesproperties1}
 		\item $s_\mu$ is analytic in $\mathbb C\setminus supp(\mu)\supset\mathbb C_+$.\label{lm:stieltjesproperties2}
-		\item We can bound the absolute value as well as the derivatives by $|\frac{d^j}{dz^j}s_\mu(z)|\leq \mathcal O(|Im(z)|^{-(j+1)})$ for all $j\in\mathbb \{0,1,\dots\}$.\label{lm:stieltjesproperties3}
+		\item We can bound the absolute value as well as the derivatives by $|\frac{d^j}{dz^j}s_\mu(z)|\leq O(|Im(z)|^{-(j+1)})$ for all $j\in\mathbb \{0,1,\dots\}$.\label{lm:stieltjesproperties3}
 	\end{enumerate}
 \end{lemma}
 
@@ -109,7 +108,7 @@ In the following let $\mu$ be some probability measure.
 		\frac{s_\mu(.+ib)-s_\mu(.-ib)}{2\pi i}\rightharpoonup\mu.
 	\end{equation}
 	Note that this can also be seen by writing $Im(s_\mu)$ as the convolution $\pi\mu * P_b(a)$ with the Poisson kernels $P_b(x):=\frac{1}{\pi}\frac{b}{x^2+b^2} = \frac{1}{b}P_1(\frac{x}{b})$ which form a family of approximations to the identity.
-	%This ``intuition'' will become important for the next proof and when applying Cauchy's interlacing law to show that $s_n(z)=s_{n-1}(z)+\mathcal O(\frac{1}{n})$.
+	%This ``intuition'' will become important for the next proof and when applying Cauchy's interlacing law to show that $s_n(z)=s_{n-1}(z)+O(\frac{1}{n})$.
 \end{corollary}
 
 \begin{theorem}[Stieltjes continuity theorem]
@@ -119,22 +118,22 @@ In the following let $\mu$ be some probability measure.
 \end{theorem}
 
 \begin{proof}
-	$$\mathbb P(\{\limsup_{n\rightarrow\infty}d_v(\mu_n,\mu)=0\})=1$$
-	$$\mathbb P(\{\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu\})=1$$
-	$$\forall z\in\mathbb C_+:\mathbb P(\{\lim_{n\rightarrow\infty} s_{\mu_n}(z)=s_\mu(z)\})=1$$
+%	$$\mathbb P(\{\limsup_{n\rightarrow\infty}d_v(\mu_n,\mu)=0\})=1$$
+%	$$\mathbb P(\{\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu\})=1$$
+%	$$\forall z\in\mathbb C_+:\mathbb P(\{\lim_{n\rightarrow\infty} s_{\mu_n}(z)=s_\mu(z)\})=1$$
 
 	``$\Rightarrow$'': If $\mu_n\rightharpoonup\mu$ in the vague topology almost surely against a deterministic limit $\mu$, then $\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu$ by definition and, by taking the completion\todo{not sure}, for all bounded, continuous functions vanishing at infinity. The function $x\mapsto \frac{1}{x-z}$ for some $z\in\mathbb C$ with $Im(z)>0$ is bounded and continuous on $\mathbb R$ and hence $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
 	
 	``$\Leftarrow$'': One can, up to an arbitrary small error $\varepsilon>0$, approximate $\int_\mathbb{R}\phi\diff\mu$ by $\int_\mathbb{R}\phi*P_b \diff\mu = \frac{1}{\pi}\int_\mathbb{R}\phi(a)s_\mu(a+ib)\diff a$ (and analogously for $\mu_n$).
 	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$.
 	
-	In order not to ``lose'' the almost sure convergence by integration\todo{not sure if that's the reason} (a summation over uncountable many summands) we approximate it by a Riemann sum (which is possible since we can choose the support $I$ of the test function $\phi$ as the boundaries of integration). The error for the middle sum is proportional to $\max_{x\in I}(|f''(x)|)|I|^3 n^{-2}$, which (for $f$ being the integrand), can be made arbitrarily small. (To be able to control the $\max_{x\in I}(|f''(x)|)$ one may have to approximate the continuous test functions $\phi$ by smooth (or at least twice differentiable) ones like in every partial differential course.)
+	In order not to ``lose'' the almost sure convergence by integration\todo{not sure if that's the reason} (a summation over uncountable many summands) we approximate it by a Riemann sum (which is possible since we can choose the support $I$ of the test function $\phi$ as the boundaries of integration). The error for the middle sum can be bounded by something proportional to $\max_{x\in I}(|f''(x)|)|I|^3 n^{-2}$, which (for $f$ being the integrand), can be made arbitrarily small. (To be able to control the $\max_{x\in I}(|f''(x)|)$ one may have to approximate the continuous test functions $\phi$ by smooth (or at least twice differentiable) ones like in every partial differential course.)
 	
 	This discretized sum now goes to zero almost surely.
 \end{proof}
 
 \subsection{Stableness and Concentration of Measure}
-In the following we keep using the notation as defined in \ref{thm:semicircle}. To show that $s_n(z)=s_{n-1}(z)+\mathcal O_z(1/n)$ we first need to prove the following theorem:
+In the following we keep using the notation as defined in \ref{thm:semicircle}. To show that $s_n(z)=s_{n-1}(z)+O_z(1/n)$ we first need to prove the following theorem:
 
 \begin{theorem}[Cauchy's interlacing theorem]
 	For any $n\times n$ Hermitian matrix $A_n$ with top left minor $A_{n-1}$ and eigenvalues of descending order ($\lambda_i\geq\lambda_{i+1}$) we have:
@@ -148,7 +147,7 @@ Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in 
 	\begin{equation*}
 		\lambda_i(A_{n-1}) =
 		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
-		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv \geq
+		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv\geq
 		\inf_{dim(V)=n-i}\sup_{v\in V,\|v\|=1}v^*A_nv =
 		\lambda_{i+1}(A_n),
 	\end{equation*}
@@ -168,7 +167,7 @@ Remembering the identity $Im(s_{\mu_n(a+ib)}=\pi\mu*P_b(a)$ and that $supp\mu_n$
 \begin{lemma}
 	For fixed $z\in\mathbb C_+$ the Stieltjes transform is ``stable'' in $n$, i.e.
 	\begin{equation*}
-		s_n(z)=s_{n-1}(z)+\mathcal O\left(\frac{1}{n}\right)
+		s_n(z)=s_{n-1}(z)+O\left(\frac{1}{n}\right)
 	\end{equation*}
 \end{lemma}
 \begin{proof}
@@ -178,7 +177,7 @@ Remembering the identity $Im(s_{\mu_n(a+ib)}=\pi\mu*P_b(a)$ and that $supp\mu_n$
 	
 	Up to the dimensional factors these two sums correspond to $s_n$ and $s_{n-1}$ and because of Cauchy's interlacing law this is an alternating sum, giving
 	
-	$$\sqrt{n(n-1)}s_{n-1}(\sqrt{n/(n-1)}(a+ib))-ns_n(a+ib)=\mathcal O\left(\frac{1}{n}\right).$$
+	$$\sqrt{n(n-1)}s_{n-1}(\sqrt{n/(n-1)}(a+ib))-ns_n(a+ib)=O\left(\frac{1}{n}\right).$$
 	
 	Now using the fact that the Stieltjes transform $s_n$ is analytic away from the support of $\mu_n$ (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties2}) and using the bound for its derivatives (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties3}) we can approximate $s_{n-1}(.)$ by $s_{n-1}(\sqrt{n/(n-1) . )}$ and hence the statement holds.
 \end{proof}
@@ -207,7 +206,7 @@ To calculate one entry of an inverse of a matrix we use Schur's complement, whic
 This inverse exists because, for $z\in\mathbb C_+$, the imaginary part $Q:=Im\left((\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}\right)$ is positive definite according to the spectral theorem. To see this notice that this holds for arbitrary Hermitian matrices $M$ (instead of $\frac{1}{\sqrt n}M_{n-1}$) since their spectrum is on the real line. Thus, by the spectral theorem, we can write $Q=Im\int\frac{1}{\mu_M-z}dM(\mu_M)$ for some projection valued measure $dM$ and since $x\mapsto\frac{1}{x-z}$ is a Herglotz function its imaginary part will be greater than zero for $z\in\mathbb C_+$. As a result the imaginary part of the integrand (which is the imaginary part of the eigenvalues) will be greater than zero.
 We conclude by noticing that $Im(z)>0$ plus something of the form $\langle Qx,x\rangle$ for $Q\geq 0$ will have imaginary part strictly greater than zero and hence the inverse exists.
 
-The next step is to get a better understanding of the resolvent $R:=(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}$ and its product $\langle RX,X\rangle$. Clearly $R$ and $X$ are independent, so we may treat $R$ almost like a deterministic matrix. Furthermore, again due to the spectral theorem, $\|R\|_{op}$ is at most $\mathcal O(1)$. By the strong law of large numbers $\|X\|=O(\sqrt n)$ almost surely. \todo{in Tao's notes it says with ``overwhelming'' probability - why does he use Chernoff/Hoeffding instead of the strong law of large numbers?}
+The next step is to get a better understanding of the resolvent $R:=(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}$ and its product $\langle RX,X\rangle$. Clearly $R$ and $X$ are independent, so we may treat $R$ almost like a deterministic matrix. Furthermore, again due to the spectral theorem, $\|R\|_{op}$ is at most $O(1)$. By the strong law of large numbers $\|X\|=O(\sqrt n)$ almost surely. \todo{in Tao's notes it says with ``overwhelming'' probability - why does he use Chernoff/Hoeffding instead of the strong law of large numbers?}
 
 In the following we will show some results for some deterministic matrix $A$ which has roughly the same properties as $R$ (i.e. $A\geq 0$ and $\|A\|_{OP}=O(1)$).
 
@@ -215,7 +214,7 @@ Noting that the function $X\mapsto \sqrt{\langle AX,X\rangle}$ is a Lipschitz fu
 
 $$\mathbb P(|\sqrt{\langle AX,X\rangle}-M\sqrt{\langle AX,X\rangle}|\geq\lambda)\leq C\exp^{-c\lambda^2}$$
 
-for any $\lambda>0$. On the other hand we have $\sqrt{\langle AX,X\rangle}=O(\|X\|)=O(\sqrt n)$ almost surely.\todo{same as above footnote, since it's using this result} Hence the median $M\sqrt{\langle AX,X\rangle}=O(\sqrt n)$ and considering the square $\langle AX,X\rangle$\todo{which amounts to multiplying $O(\sqrt n)$, so that's why it appears on the other side <-- how to make this formal?}, we conclude that
+for any $\lambda>0$. On the other hand we have $\sqrt{\langle AX,X\rangle}=O(\|X\|)=O(\sqrt n)$ with overwhelming probability (since the operator norm in the non-deterministic case is only controlled with overwhelming probability). Hence the median $M\sqrt{\langle AX,X\rangle}=O(\sqrt n)$ and considering the square $\langle AX,X\rangle$\todo{which amounts to multiplying $O(\sqrt n)$, so that's why it appears on the other side $\leftarrow$ how to make this formal?}, we conclude that
 
 $$\mathbb P(|\langle AX,X\rangle-M\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}$$
 
