@@ -21,7 +21,7 @@ Since we are considering random matrices the ESDs will be random as well and thu
 Surprisingly such a limit $\mu$ exists and is even deterministic.
 
 \begin{theorem}[Wigner's semicircle law]\label{thm:semicircle}
-	Let $M_n$ be the top left $n\times n$ minors of an infinite Wigner matrix, then the ESDs $\mu_{M_n/\sqrt{n}}$ converge almost surely (and thus in probability) to the Wigner semicircle distribution given by
+	Let $M_n$ be the top left $n\times n$ minors of an infinite Wigner matrix, then the ESDs $\mu_{M_n/\sqrt{n}}$ converge in probability\footnote{Even almost sure convergence can be shown, but we will not do so in this proof.} to the Wigner semicircle distribution given by
 	\begin{equation*}
 		\mu_{sc}:=\begin{cases}
 						\frac{1}{2\pi}\sqrt{4-|x|^2}dx, &\mbox{if } |x|\leq 2 \\
@@ -51,39 +51,114 @@ A rough outline of the proof is given by this list of intermediary results that 
 	For every $n$ define the normalized random variable $\overline X_n$ by setting the diagonal elements to zero and bounding every entry by zero\footnote{Since the distribution changes we also need to recenter them by subtracting its mean value.}, i.e.
 
 	$$[\overline X_n]_{ij}:=\begin{cases}
-						[M_n]_{ij}/\sqrt n\mathbf 1_{|M_n|\leq C}-\mathbb E\left[[M_n]_{ij}\mathbf 1_{|M_n|\leq C}\right], &\mbox{if } i\neq j \\
+						[M_n]_{ij}/\sqrt n\mathbf 1_{|[M_n]_{ij}|\leq C}-\mathbb E\left[[M_n]_{ij}\mathbf 1_{|[M_n]_{ij}|\leq C}\right], &\mbox{if } i\neq j \\
 						0, &\mbox{if } i=j
 					  \end{cases}.$$
 	
+	Now we want to show that convergence of $\mu_{\overline X_n}$ to $\mu$ implies convergence of $\mu_{X_n}$ to the same limit $\mu$. To do so it suffices to show that $|\int\varphi\diff\mu_{X_n}-\int\varphi\diff\mu_{\overline X_n}|\rightarrow 0$ for every smooth $\varphi$ with compact support. In particular every such $\varphi$ is a Lipschitz function with Lipschitz-constant $\|\varphi'\|_{L^\infty}$. By denoting the eigenvalues of $X_n,\overline X_n$ as $\lambda_i,\overline\lambda_i$ and invoking the Wielandt-Hoffmann inequality we get the following bound:
+	
+	$$|\int\varphi\diff\mu_{X_n}-\int\varphi\diff\mu_{\overline X_n}| \leq
+	\|\varphi'\|_{L^\infty}\frac{1}{n}\sum_{i=1}^n|\lambda_i-\overline\lambda_i| \leq$$
+	$$
+	\|\varphi'\|_{L^\infty}\left[\frac{1}{n}\sum_{i=1}^n|\lambda_i-\overline\lambda_i|^2\right]^{1/2} \leq
+	\|\varphi'\|_{L^\infty}\left[\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)\right]^{1/2}.$$
+	
+	Now we need to show that for every $\varepsilon,\delta > 0$ we can find a $C$ such that $\mathbb P\left(\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)>\varepsilon\right)<\delta$ for large enough $n$.
+	
+	Using the definitions one sees that
+	
+	$$\frac{1}{n}tr\left((X_n-\overline X_n)^2\right) \leq
+	\frac{1}{n^2}\sum_{i\neq j}\sqrt n\left[X_n-\overline X_n\right]_{ij}^2+\frac{1}{n}\sum_i [X_n]_{ii}^2,$$
+	
+	where the second term vanishes almost surely as $n\rightarrow\infty$ according to the strong law of large numbers. So we can use this to bound the probability of the event $\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)>\varepsilon$ by
+	
+	$$
+	\mathbb P\left(\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)\right)\leq
+	\frac{1}{n^2}\sum_{i\neq j}\mathbb P\left(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon\right).
+	$$
+	
+	To see that this goes to zero for large $C$ we apply Markov's inequality, yielding $$\mathbb P(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon)\leq
+	\frac{1}{\varepsilon}\mathbb E\left[[\sqrt n X_n-\overline X_n]_{ij}^2\right]\leq
+	\frac{\sqrt n}{\varepsilon}\left(\mathbb E[[X_n]_{ij}^2\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]+\mathbb E[[X_n]_{ij}\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]^2\right).$$
+	
+	Since the entries $\sqrt n [X_n]_{ij}=[M_n]_{ij}$ have finite variance the right hand side will go to zero as $C\rightarrow\infty$ which proves the claim.
 \end{proof}
-
-\begin{theorem}[McDiarmid's inequality]
-	Let $X_1,\dots,X_n$ be independent random variables taking values in ranges $R_1,\dots,R_n$ and let $F:R_1\times\dots\times R_n\rightarrow\mathbb C$, such that for every $1\leq i\leq n$ we have $|F(x_1,\dots,x_i,\dots,x_n)-F(x_1,\dots,x_i',\dots,x_n)|\leq c_i$. Then for any $\lambda>0$ one has $$\mathbb P(|F(X)-\mathbb EF(X)|>\lambda\sigma)\leq C\exp^{-c\lambda^2},$$ for some absolute\footnote{Constants that maintain the same value wherever they occur. In particular applying McDiarmid's inequality in different settings we do not need to consider $C_n, c_n$, but can still write $C,c$.} constants $c,C>0$ and $\sigma=\sum_{i=1}^n c_i^2$.
-\end{theorem}
-\todo{prove it}
-
-\begin{lemma}[Borel-Cantelli]
-	Given some random variables $(X_n)_{n=1}^\infty,X$ such that $\sum_n \mathbb P(d(X_n,X)\geq\varepsilon)<\infty$ for every $\varepsilon>0$, then $X_n$ converges almost surely to $X$ (in the topology induced by $d$).
-\end{lemma}
-\todo{prove it}
 
 \begin{theorem}[Talagrand's concentration inequality]
 	Let $K>0$ and $X_1,\dots,X_n$ be independent complex variables with $|X_i|<K$ for all $1\leq i\leq n$. Identifying $\mathbb C$ with $\mathbb R^2$, let $F:\mathbb C^n\rightarrow\mathbb R$ a $1$-Lipschitz, convex function. Then for every $\lambda>0$ one has
 	$$\mathbb P(|F(X)-MF(X)|\geq \lambda K)\leq C\exp^{-c\lambda^2}$$ and $$\mathbb P(|F(X)-\mathbb EF(X)|\geq \lambda K)\leq C\exp^{-c\lambda^2}$$
 	for some absolute constants $c,C>0$, where $MF(X)$ is the median of $F(X)$.
 \end{theorem}
-\todo{prove it}
+For the proof refer to \url{https://terrytao.wordpress.com/2010/01/03/254a-notes-1-concentration-of-measure/#boof0}.
 
-\begin{theorem}[Wielandt-Hoffmann inequality]
-	For Hermitian\footnote{The original Wielandt-Hoffmann inequality holds for normal operators, but we will restrict ourselves to Hermitian ones for simplicity's sake here.} $A,B$, where $\|B\|_F^2:=tr(B^2)^{\frac{1}{2}}$ is the Frobenius norm, we have
+\begin{theorem}[Weilandt-Hoffmann inequality]
+	For Hermitian\footnote{The original Weilandt-Hoffmann inequality holds for normal operators, but we will restrict ourselves to Hermitian ones for simplicity's sake here.} $A,B$, where $\|B\|_F^2:=tr(B^2)^{\frac{1}{2}}$ is the Frobenius norm, we have
 	$$\sum_{j=1}^n|\lambda_j(A+B)-\lambda_j(A)|^2\leq\|B\|_F^2.$$
 \end{theorem}
-\todo{prove it}
+
+\begin{proof}
+	We fix $B$ to be $B-A$ and show the equivalent statement $$\sum_{i=1}^n |\lambda_i(A)-\lambda_i(B)|^2\leq tr\left((A-B)^2\right)$$
+	
+	and denote by $D_M$ the diagonal matrix $\text{diag}(\lambda_1(M),\dots,\lambda_n(M))$ and $U$ the matrix that diagonalises $B=UD_BU^*$ in the basis of $A$, such that $tr(AB)=tr(D_A U D_B U^*)=\sum_{i,j}\lambda_i(A)\lambda_j(B)|[U]_{ij}|^2.$
+	
+	Now we have to get some bounds on the ``worst case'' scenario, that is when $tr(AB)$ is big. To do so we define $v_{ij}:=|[U]_{ij}|^2$ and notice that the above $tr(AB)$ is linear in $v_{ij}$. Due to the orthogonality of $U$ one has $\sum_i v_{ij}=\sum_j v_{ij}=1$ so we can bound $tr(AB)$ from above by $\sup_{v_{ij}\geq 0,\sum_i v_{ij}=\sum_j v_{ij}=1}\sum_{i,j}\lambda_i(A)\lambda_j(B)v_{ij}.$
+	
+	This is an optimization problem of a linear functional over a convex set of doubly stochastic matrices. Hence the maximum is attained at the extreme points which are exactly the permutations. Of all the permutations the identity gives the maximal value which, after writing out the first inequality proves the theorem.
+\end{proof}
+
+\begin{theorem}[Chernoff inequality]
+	Let $X_1,\dots,X_n$ be independent scalar random variables with $|X_i|\leq K$ almost surely, mean $\mu_i$ and variance $\sigma_i^2$. Then for any $\lambda>0$ there are absolute constants $c,C>0$ such that 
+	
+	$$\mathbb P(|S_n-\lambda|\geq\lambda\sigma)\leq C\max(e^{-c\lambda^2}, e^{-c\lambda\sigma/K}),$$
+	
+	where $\lambda:=\sum_i \lambda_i$ and $\sigma^2:=\sum_i \sigma_i^2$.
+\end{theorem}
+\begin{proof}
+	We begin with some preliminary reductions, namely that it is sufficient to assume $X_i$ to be real valued by taking real and imaginary parts. Furthermore without loss of generality we set $K=1$ by dividing $X_i$ through $K$, center $X_i$ (i.e. set $\mu_i$ to zero by subtracting its mean), and, by symmetry, only show the upper tail estimate $\mathbb P(S_n\geq\lambda\sigma)\leq C\max(e^{-c\lambda^2}, e^{-c\lambda\sigma})$ (with different constants $c,C$).
+	
+	To do so we compute the exponential moments $\mathbb E \exp(tS_n)$ for some $0\leq t\leq 1$. By independence of the $X_i$ we have $\mathbb E \exp(tS_n)=\prod_{i=1}^n \mathbb E \exp(tX_i)$. The $\exp(tX_i)$ can be expanded into a Taylor series $1+tX_i+O(t^2X_i^2\exp(O(t)))$ which, after taking expectation and noting that $|X_i|\leq 1$, yields
+	$$\mathbb E\exp(tX_i)=1+O(t^2\sigma_i^2\exp(O(t)))=\exp(O(t^2\sigma_i^2))$$
+	
+	and hence $\mathbb E\exp(tS_n)=\exp(O(t^2\sigma^2))$. By Markov's inequality we conclude with $$\mathbb P(S_n\geq\lambda\sigma)\leq\exp(O(t^2\sigma^2)-t\lambda\sigma),$$ which proves the claim after minimising the right hand side in $t\in[0,1]$.
+\end{proof}
+
+\begin{theorem}[McDiarmid's inequality]
+	Let $X_1,\dots,X_n$ be independent random variables taking values in ranges $R_1,\dots,R_n$ and let $F:R_1\times\dots\times R_n\rightarrow\mathbb C$, such that for every $1\leq i\leq n$ we have $|F(x_1,\dots,x_i,\dots,x_n)-F(x_1,\dots,x_i',\dots,x_n)|\leq c_i$. Then for any $\lambda>0$ one has $$\mathbb P(|F(X)-\mathbb EF(X)|>\lambda\sigma)\leq C\exp^{-c\lambda^2},$$ for some absolute\footnote{Constants that maintain the same value wherever they occur. In particular applying McDiarmid's inequality in different settings we do not need to consider $C_n, c_n$, but can still write $C,c$.} constants $c,C>0$ and $\sigma=\sum_{i=1}^n c_i^2$.
+\end{theorem}
+
+\begin{proof}
+	Similar as above we may assume that $F$ is real, it suffices to show the upper tail estimate $\mathbb P(F(X)-\mathbb EF(X)\geq\lambda\sigma^2)\leq Ce^{-c\lambda^2}$ and try to bound the exponential moment $\mathbb Ee^{tF(X)}$.
+	
+	To get a better idea how the exponential moment behaves we write it in such a way that we can use the fact that $F$ does not fluctuate ``too much'', i.e. we consider the conditional expectation $\mathbb E(e^{tF(X)}|X_1,\dots,X_{n-1})$ for $X_1,\dots,X_{n-1}$ fixed and write this as
+	
+	$$\mathbb E(e^{tF(X)}|X_1,\dots,X_{n-1}) = \mathbb E(e^{tY}|X_1,\dots,X_{n-1})e^{t\mathbb E(F(X)|X_1,\dots,X_{n-1})},$$
+	where $Y:=F(X)-\mathbb E(F(X)|X_1,\dots,X_{n-1})$.
+	
+	Now we want to control the first term on the right hand side.
+	Since $tY$ has mean zero and variance $t^2c_n^2$ we can (just in the proof of Chernoff's inequality) expand to get a Taylor series and take expectations to get
+	
+	$$\mathbb E(e^{tY}|X_1,\dots,X_{n-1}) \leq e^{O(t^2c_n^2)}.$$
+	
+	Integrating out the conditioning (note that $X_i$ are independent) we get the following bound on the exponential moment
+	
+	$$\mathbb Ee^{tF(X)} \leq e^{O(t^2c_n^2)}\mathbb E e^{t\mathbb E(F(X)|X_1,\dots,X_{n-1})}.$$
+	
+	Basically we reduced the problem by one dimension and noting that $\mathbb E(F(X)|X_1,\dots,X_{n-1})$ is a function $F_{n-1}(X_1,\dots,X_{n-1}$ with the same properties as in the theorem's assumptions on $F$ the above calculations can be performed iteratively $n$ times to get the upper bound
+	
+	$$\mathbb Ee^{tF(X)}\leq \exp(\sum_{i=1}^n O(t^2c_i^2) + t\mathbb EF(X)).$$
+	
+	Dividing by $\exp(t\mathbb EF(X)))$ and applying Markov's inequality yields
+	
+	$$\mathbb P(F(X)-\mathbb EF(X)\geq\lambda\sigma) \leq \exp(O(t^2\sigma^2)-t\lambda\sigma),$$
+	
+	which, after minimising the right hand side in $0\leq t\leq 1$, proves the claim.
+\end{proof}
+
 
 \subsection{Stieltjes Transform}
 
 \begin{definition}[Stieltjes transform]
-	For a probability measure $\mu$ we write $s_\mu$ for its Stieltjes transform $$\int_\mathbb{R} \frac{1}{x-z}d\mu(x).$$
+	For a probability measure $\mu$ we write $s_\mu$ for its Stieltjes transform $$\int_\mathbb{R} \frac{1}{x-z}\diff\mu(x).$$
 \end{definition}
 As mentioned above, $s_n$ will be a shorthand for $s_{\mu_{M_n/\sqrt{n}}}$.
 
@@ -112,7 +187,7 @@ In the following let $\mu$ be some probability measure.
 \end{corollary}
 
 \begin{theorem}[Stieltjes continuity theorem]
-	For $\mu_n$ random measures and $\mu$ a deterministic measure the following statement holds:
+	For $\mu_n$ (realisations of) random measures and $\mu$ a deterministic measure the following statement holds:
 	
 	$\mu_n\rightharpoonup\mu$ almost surely in the vague topology if and only if $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely for every $z\in\mathbb C_+$.
 \end{theorem}
@@ -122,14 +197,10 @@ In the following let $\mu$ be some probability measure.
 %	$$\mathbb P(\{\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu\})=1$$
 %	$$\forall z\in\mathbb C_+:\mathbb P(\{\lim_{n\rightarrow\infty} s_{\mu_n}(z)=s_\mu(z)\})=1$$
 
-	``$\Rightarrow$'': If $\mu_n\rightharpoonup\mu$ in the vague topology almost surely against a deterministic limit $\mu$, then $\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu$ by definition and, by taking the completion\todo{not sure}, for all bounded, continuous functions vanishing at infinity. The function $x\mapsto \frac{1}{x-z}$ for some $z\in\mathbb C$ with $Im(z)>0$ is bounded and continuous on $\mathbb R$ and hence $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
+	``$\Rightarrow$'': If $\mu_n\rightharpoonup\mu$ in the vague topology almost surely against a deterministic limit $\mu$, then $\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu$ by definition and, by taking the completion, for all bounded, continuous functions vanishing at infinity. The function $x\mapsto \frac{1}{x-z}$ for some $z\in\mathbb C$ with $Im(z)>0$ is bounded and continuous on $\mathbb R$ and hence $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
 	
 	``$\Leftarrow$'': One can, up to an arbitrary small error $\varepsilon>0$, approximate $\int_\mathbb{R}\phi\diff\mu$ by $\int_\mathbb{R}\phi*P_b \diff\mu = \frac{1}{\pi}\int_\mathbb{R}\phi(a)s_\mu(a+ib)\diff a$ (and analogously for $\mu_n$).
-	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$.
-	
-	In order not to ``lose'' the almost sure convergence by integration\todo{not sure if that's the reason} (a summation over uncountable many summands) we approximate it by a Riemann sum (which is possible since we can choose the support $I$ of the test function $\phi$ as the boundaries of integration). The error for the middle sum can be bounded by something proportional to $\max_{x\in I}(|f''(x)|)|I|^3 n^{-2}$, which (for $f$ being the integrand), can be made arbitrarily small. (To be able to control the $\max_{x\in I}(|f''(x)|)$ one may have to approximate the continuous test functions $\phi$ by smooth (or at least twice differentiable) ones like in every partial differential course.)
-	
-	This discretized sum now goes to zero almost surely.
+	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$ and by dominated convergence (the Stieltjes transform of a measure is bounded for every $z\in \mathbf C_+$ and vanishes outside some compact set) we have convergence in the vague topology.
 \end{proof}
 
 \subsection{Stableness and Concentration of Measure}
@@ -162,7 +233,7 @@ Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in 
 	%where $S_i:=span\{a_i,\dots,a_{n-1}\}$. Note that we implicitly used the isometric embedding $\mathbb C^{n-1}\rightarrow\mathbb C^n$ given by $(x_1,\dots,x_{n-1})\mapsto(x_1,\dots,x_{n-1},0)$ to make sense of the equation $\langle \underbrace{P^*A_nP}_{n-1\times n-1}v,v\rangle = \langle \underbrace{A_n}_{n\times n}Pv,Pv\rangle$.
 \end{proof}
 
-Remembering the identity $Im(s_{\mu_n(a+ib)}=\pi\mu*P_b(a)$ and that $supp\mu_n$ consists of finitely many points, we have $Im(s_{\mu_n})=\pi\frac{1}{n}\sum_{\lambda_i}\frac{b}{(\lambda_i-a)^2+b^2}$ which suggests that it is important to take a closer look at the function $x\mapsto\frac{b}{(x-a)^2+b^2}$ to compare $s_{\mu_n}$ with $s_{\mu_{n-1}}$.
+Remembering the identity $Im(s_{\mu_n(a+ib)})=\pi\mu*P_b(a)$ and that $supp\mu_n$ consists of finitely many points, we have $Im(s_{\mu_n})=\pi\frac{1}{n}\sum_{\lambda_i}\frac{b}{(\lambda_i-a)^2+b^2}$ which suggests that it is important to take a closer look at the function $x\mapsto\frac{b}{(x-a)^2+b^2}$ to compare $s_{\mu_n}$ with $s_{\mu_{n-1}}$.
 
 \begin{lemma}
 	For fixed $z\in\mathbb C_+$ the Stieltjes transform is ``stable'' in $n$, i.e.
@@ -206,19 +277,19 @@ To calculate one entry of an inverse of a matrix we use Schur's complement, whic
 This inverse exists because, for $z\in\mathbb C_+$, the imaginary part $Q:=Im\left((\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}\right)$ is positive definite according to the spectral theorem. To see this notice that this holds for arbitrary Hermitian matrices $M$ (instead of $\frac{1}{\sqrt n}M_{n-1}$) since their spectrum is on the real line. Thus, by the spectral theorem, we can write $Q=Im\int\frac{1}{\mu_M-z}dM(\mu_M)$ for some projection valued measure $dM$ and since $x\mapsto\frac{1}{x-z}$ is a Herglotz function its imaginary part will be greater than zero for $z\in\mathbb C_+$. As a result the imaginary part of the integrand (which is the imaginary part of the eigenvalues) will be greater than zero.
 We conclude by noticing that $Im(z)>0$ plus something of the form $\langle Qx,x\rangle$ for $Q\geq 0$ will have imaginary part strictly greater than zero and hence the inverse exists.
 
-The next step is to get a better understanding of the resolvent $R:=(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}$ and its product $\langle RX,X\rangle$. Clearly $R$ and $X$ are independent, so we may treat $R$ almost like a deterministic matrix. Furthermore, again due to the spectral theorem, $\|R\|_{op}$ is at most $O(1)$. By the strong law of large numbers $\|X\|=O(\sqrt n)$ almost surely. \todo{in Tao's notes it says with ``overwhelming'' probability - why does he use Chernoff/Hoeffding instead of the strong law of large numbers?}
+The next step is to get a better understanding of the resolvent $R:=(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}$ and its product $\langle RX,X\rangle$. Clearly $R$ and $X$ are independent, so we may treat $R$ almost like a deterministic matrix. Furthermore, again due to the spectral theorem, $\|R\|_{op}$ is at most $O(1)$. By the strong law of large numbers $\|X\|=O(\sqrt n)$ almost surely and by Chernoff's inequality this holds with overwhelming probability.
 
 In the following we will show some results for some deterministic matrix $A$ which has roughly the same properties as $R$ (i.e. $A\geq 0$ and $\|A\|_{OP}=O(1)$).
 
 Noting that the function $X\mapsto \sqrt{\langle AX,X\rangle}$ is a Lipschitz function with operator norm $O(1)$ and remembering from \ref{ssec:prelimreduct} that we can safely assume the entries to be bounded, we can invoke Talagrand's concentration inequality to get 
 
-$$\mathbb P(|\sqrt{\langle AX,X\rangle}-M\sqrt{\langle AX,X\rangle}|\geq\lambda)\leq C\exp^{-c\lambda^2}$$
+$$\mathbb P(|\sqrt{\langle AX,X\rangle}-\mathbb M\sqrt{\langle AX,X\rangle}|\geq\lambda)\leq C\exp^{-c\lambda^2}$$
 
-for any $\lambda>0$. On the other hand we have $\sqrt{\langle AX,X\rangle}=O(\|X\|)=O(\sqrt n)$ with overwhelming probability (since the operator norm in the non-deterministic case is only controlled with overwhelming probability). Hence the median $M\sqrt{\langle AX,X\rangle}=O(\sqrt n)$ and considering the square $\langle AX,X\rangle$\todo{which amounts to multiplying $O(\sqrt n)$, so that's why it appears on the other side $\leftarrow$ how to make this formal?}, we conclude that
+for any $\lambda>0$. On the other hand we have $\sqrt{\langle AX,X\rangle}=O(\|X\|)=O(\sqrt n)$ with overwhelming probability (since the operator norm in the non-deterministic case is only controlled with overwhelming probability). Hence the median $\mathbb M\sqrt{\langle AX,X\rangle}=O(\sqrt n)$ and considering the square $\langle AX,X\rangle$, we conclude that
 
-$$\mathbb P(|\langle AX,X\rangle-M\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}$$
+$$\mathbb P(|\langle AX,X\rangle-\mathbb M\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}$$
 
-with some (possibly different) $c,C>0$.
+with some (possibly different) $c,C>0$, since taking the square of $\sqrt{\langle AX,X\rangle}$ amounts to getting an additional factor $O(\sqrt n)$ and the median is of the same magnitude as the random variable.
 
 We may\todo{why?} replace the median with the expected value, yielding
 
@@ -226,7 +297,8 @@ We may\todo{why?} replace the median with the expected value, yielding
 	\mathbb P(|\langle AX,X\rangle-\mathbb E\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}
 \end{equation}
 
-for the the case where $A$ is deterministic and positive definite. One can extend this result to arbitrary matrices of operator norm $O(1)$ by noting that it holds for Hermitian matrices $M=M_+-M_-$ ($M_+\geq 0,M_-\geq 0,\|M\|_{OP}=O(1)$) by applying the triangle inequality and \dots\todo{how to get from Hermitian to arbitrary matrices? Would splitting up in Re and Im make sense?}
+for the the case where $A$ is deterministic and positive definite. One can extend this result to arbitrary matrices of operator norm $O(1)$ by noting that it holds for Hermitian matrices $M=M^*=M_+-M_-$ ($M_+\geq 0,M_-\geq 0,\|M\|_{OP}=O(1)$) by applying the triangle inequality and %for general matrices $M$ of of operator norm $\|M\|_{op}=O(1)$ by using their polar decomposition $M=UP$, $U$ unitary and $P\geq 0$ being unique if $M$ is invertible to get the bound $|X^*MX|=|X^*UPX|\leq||$
+\todo{polar decomposition doesn't seem to work, for diagonalisable matrices it's clear and the probability of coinciding eigenvalues should go to $0$, so maybe that suffices(?)}
 
 \begin{remark}\label{rem:conditionalExpectationForDeterministicResult}
 	By using conditional expectations the above results also hold true for random matrices $R$ with $R\geq 0$ and $\|R\|_{OP}=O(1)$ as long as it is independent of $X$. The idea is to write all the above statements as $\mathbb P(E|\{A=R\})=\frac{\mathbb P(E\cap\{A=R\})}{\mathbb P(\{A=R\})}=\mathbb P(E)$ for all events $E$.
@@ -256,14 +328,6 @@ We conclude the proof with the Stieltjes inversion formula, yielding the famous 
 $$\frac{s(.+ib)-s(.-ib)}{2\pi i}\rightharpoonup\frac{1}{2\pi}\sqrt{4-x^2}_+\diff x=\mu_{sc}$$
 
 as $b\rightarrow 0^+$, which can be verified by an application of the Cauchy integral formula.
-
-
-
-
-
-
-
-
 
 
 

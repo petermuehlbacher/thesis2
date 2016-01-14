@@ -12,19 +12,84 @@ To be able to prove the above results we first need to prove some other theorems
 \begin{definition}
 	Symmetric $N\times N$ matrices $H=H_N$ with $\mathbb E H_{ij}=0$ and $\mathbb E H_{ij}=1+\delta_{ij}$.
 \end{definition}
-\begin{remark}
+\begin{remark}[Density in the space of matrices]
 	Their density is given by the Gaussian measure
 	\begin{equation}
-		d\mathbb P(H)=Z_N^{-1}\exp\{-\frac{1}{4}tr H^2\}
+		d\mathbb P(H)=Z_N^{-1}\exp\left(-N\frac{1}{4}tr H^2\right)
 	\end{equation}
-	with normalization constant $Z_N=\int d\mathbb P(H)\prod_{1\leq i\leq j\leq N} dH_{ij}$ which is a shorter way of writing $Z_N^{-1}\exp\left\{-\frac{1}{4}\left(2\sum_{i<j}^N H_{ij}^2+\sum_{i=j}^N H_{ij}^2\right)\right\}$.
+	with normalization constant $Z_N=\int d\mathbb P(H)\prod_{1\leq i\leq j\leq N} dH_{ij}$ which is a shorter way of writing $Z_N^{-1}\exp\left\{-N\frac{1}{4}\left(2\sum_{i<j}^N H_{ij}^2+\sum_{i=j}^N H_{ij}^2\right)\right\}$.
 \end{remark}
-% definitions
-% Gaussian measure density and Z if necessary
+
+\begin{theorem}[Joint probability density of eigenvalues]
+	The joint probability density $Q_N$ of the unordered eigenvalues $\{\lambda_i\}_{i=1}^N$ of the GOE is given by
+	$$Q_N(\lambda_1,\dots,\lambda_N) = C_N\prod_{i<j}|\lambda_i-\lambda_j|\exp\left(-N\frac{1}{4}\sum_i \lambda_i^2\right),$$
+	
+	where, without loss of generality, we assumed the variances of the entries to be normalized to one and for some $C_N>0$ which is uniquely determined by normalisation.
+	
+	\todo{be careful, Cerny paper uses the convention with N in the exp function!}
+\end{theorem}
+\begin{proof}
+	This proof will follow the one given in \url{http://web.math.princeton.edu/mathlab/projects/ranmatrices/yl/randmtx.PDF}.
+	
+	Let $H$ be some element of the GOE. Since it is symmetric there is a decomposition in $H=UDU^T$ with $U$ orthogonal and $D=\text{diag}(\lambda_1,\dots,\lambda_N)$. Thus we can write 
+	\begin{equation}\label{eq:H_ijLinearityInEigenvalues}
+		H_{ij} = \sum_k \lambda_i U_{ik}U_{jk}
+	\end{equation}	
+	and, using the orthogonality of $U$: $\sum_k U_{ki}U_{kj}=\delta_{ij}$. Using those results one can infer that $\sum_{i,j}H_{ij}^2=\sum_i \lambda_i^2$.
+	
+	The key idea is to make use of the change of variables formula to go from $\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2})$ to $\mathbb P(H)$. One should think of the $\{\alpha_i\}_{i=1}^{N(N-1)/2}$ as the parameters that determine the matrix $U$, which, together with the eigenvalues, uniquely determines $H$.
+	
+	To do that we first need some information on the determinant of the Jacobian $J$ of the change of variables:
+	From equation \ref{eq:H_ijLinearityInEigenvalues} we see the linearity of $H_{ij}$ in the eigenvalues $\lambda_k$ which implies that every entry $\partial H_{ij}/\partial\alpha_k$ is linear in the eigenvalues. Hence, $|J|$ has to be a polynomial of degree $N(N-1)/2$ in each of the eigenvalues. If two eigenvalues coincide $U$ cannot be uniquely determined anymore and thus the inverse of the transformation is not unique, meaning that $|J|=0$. So the determinant of the Jacobian must vanish for all $\lambda_i=\lambda_j, i\neq j$, which is achieved if it contains a factor $\lambda_i-\lambda_j$. However, there are exactly $N(N-1)/2$ such factors and since that is just the degree of the polynomial it follows that we have completely accounted for $J$'s dependence on the eigenvalues by writing $$|J|=\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2}).$$
+	
+	Now we can write
+	$$\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2}) = $$
+	$$\mathbb P(H)|J|=Z_N^{-1}\exp\left(-N\frac{1}{4}\sum_i\lambda_i^2\right)|\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2})|.$$
+	
+	Integrating out the dependence on the $\alpha_k$ yields the desired result.
+\end{proof}
 
 \section{LDP}
-% definitions
-% rate function of smallest EV of GOE
+\begin{definition}[Large deviation principle]\label{def:LDP}
+	Given some separable completely metrizable topological space\footnote{Henceforth such a space will be referred to as Polish space.} $X$, a sequence of Borel probability measures $\{\mathbb P_n\}$ on $X$ is said to satisfy a \textbf{large deviation principle} with speed $\{a_n\}$ and rate $I:X\rightarrow [0,\infty]$ if $a_n$ goes to $+\infty$ and $I$ is some lower semi-continuous functional such that for each Borel measurable set $E\subseteq X$ we have
+	
+	$$\limsup_n a_n^{-1}\log(\mathbb P_n(E))\leq -\inf_{x\in \overline E}I(x)$$
+	and
+	$$\liminf_n a_n^{-1}\log(\mathbb P_n(E))\geq -\inf_{x\in E^\circ}I(x).$$
+	
+	The lower semi-continuity implies that the sets $\{x\in X: I(x)\leq c\}$ are closed in $X$ for all $c\geq 0$. If they are also compact for all $c\geq 0$, $I$ is called a \textbf{good rate function}.
+\end{definition}
+
+We are particularly interested in getting LDPs of the $k$-th largest eigenvalues of the GOE, but it turns out in order to get those we first need a LDP for the law of the empirical measure $\mu^N=\frac{1}{N}\sum_{i=1}^N\delta_{\lambda_i}$.
+
+\begin{theorem}[LDP of Wigner's semicircle law for the GOE]
+	Let $I(\mu):=\frac{1}{2}\left(\int x^2\diff\mu(x) - \Sigma(\mu) - \frac{3}{4}-\frac{1}{2}\log 2 \right)$, for $\Sigma(\mu):=\int\int\log|x-y|\diff\mu(x)\diff\mu(y)$. Then:
+	\begin{enumerate}
+		\item $I$ is well defined on the space of probability measures $\mathcal M(\mathbb{R})$ on $\mathbb{R}$ endowed with the weak topology and takes values in $[0,\infty]$.
+		\item $I(\mu)=\infty \Leftrightarrow \int x^2\diff\mu(x)=\infty$ or $\exists A\subseteq\mathbb R: \mu(A)>0 \land \exp\{-\inf_{\nu\in\mathcal M(A)}\int\int \log|x-y|^{-1}\diff\mu(x)\diff\mu(y)\}=0$, where the latter condition is usually referred to as the existence of a set of ``null logarithmic capacity''.
+		\item $I$ is a good rate function.
+		\item $I$ is a convex function.
+		\item $I$ achieves its unique minimum value at Wigner's semicircle law.
+	\end{enumerate}
+	In particular the law of the empirical measure $\mu^N$ satisfies a LDP with good rate function $I$ and speed $N^2$.
+\end{theorem}
+\begin{proof}
+	We will only give a very rough outline of the proof that can be found in \cite{ArousLDPforWSL}. \todo{should I skip this section?}
+	
+	%To prove that $I$ is we	ll defined one splits it up in $I(\mu)=H(\mu)+C$. 
+\end{proof}
+
+With this we can state the main result of this section. Note that without loss of generality we set the variances of the entries of the GOE to $1$.
+\begin{theorem}[LDP for the $k$-th largest eigenvalue of the GOE]
+	For each fixed $k\geq 1$, the $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE satisfies a LDP with speed $N$ and good rate function
+	$$I_k(x)=kI_1(x)=\begin{cases}
+						k\int_2^x\sqrt{\frac{z^2}{4}-1}\diff z, &\mbox{if } x\geq 2 \\
+						\infty, &\mbox{else.}
+					  \end{cases}$$
+\end{theorem}
+\begin{proof}
+	\todo{prove it}
+\end{proof}
 
 \section{Morse Theory}
 % definitions
