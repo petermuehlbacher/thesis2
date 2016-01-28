@@ -20,16 +20,14 @@ To be able to prove the above results we first need to prove some other theorems
 	with normalization constant $Z_N=\int d\mathbb P(H)\prod_{1\leq i\leq j\leq N} dH_{ij}$ which is a shorter way of writing $Z_N^{-1}\exp\left\{-N\frac{1}{4}\left(2\sum_{i<j}^N H_{ij}^2+\sum_{i=j}^N H_{ij}^2\right)\right\}$.
 \end{remark}
 
-\begin{theorem}[Joint probability density of eigenvalues]
+\begin{theorem}[Joint probability density of eigenvalues]\label{thm:probabilitydensityofEV}
 	The joint probability density $Q_N$ of the unordered eigenvalues $\{\lambda_i\}_{i=1}^N$ of the GOE is given by
-	$$Q_N(\lambda_1,\dots,\lambda_N) = C_N\prod_{i<j}|\lambda_i-\lambda_j|\exp\left(-N\frac{1}{4}\sum_i \lambda_i^2\right),$$
+	$$Q_N(\diff\lambda_1,\dots,\diff\lambda_N) = C_N\prod_{i<j}|\lambda_i-\lambda_j|\prod_i\exp(-N\lambda_i^2/4)\diff\lambda_i,$$
 	
-	where, without loss of generality, we assumed the variances of the entries to be normalized to one and for some $C_N>0$ which is uniquely determined by normalisation.
-	
-	\todo{be careful, Cerny paper uses the convention with N in the exp function!}
+	where, without loss of generality, we assumed the variances of the entries to be normalized to one and for some $C_N>0$ which is uniquely determined by normalization.
 \end{theorem}
 \begin{proof}
-	This proof will follow the one given in \url{http://web.math.princeton.edu/mathlab/projects/ranmatrices/yl/randmtx.PDF}.
+	This proof will follow the one given in \cite{LiuEigenvalues}.
 	
 	Let $H$ be some element of the GOE. Since it is symmetric there is a decomposition in $H=UDU^T$ with $U$ orthogonal and $D=\text{diag}(\lambda_1,\dots,\lambda_N)$. Thus we can write 
 	\begin{equation}\label{eq:H_ijLinearityInEigenvalues}
@@ -46,7 +44,7 @@ To be able to prove the above results we first need to prove some other theorems
 	$$\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2}) = $$
 	$$\mathbb P(H)|J|=Z_N^{-1}\exp\left(-N\frac{1}{4}\sum_i\lambda_i^2\right)|\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2})|.$$
 	
-	Integrating out the dependence on the $\alpha_k$ yields the desired result.
+	Integrating out the dependence on $\{\alpha_k\}_{k=1}^{N(N-1)/2}$ yields the desired result.
 \end{proof}
 
 \section{LDP}
@@ -60,9 +58,31 @@ To be able to prove the above results we first need to prove some other theorems
 	The lower semi-continuity implies that the sets $\{x\in X: I(x)\leq c\}$ are closed in $X$ for all $c\geq 0$. If they are also compact for all $c\geq 0$, $I$ is called a \textbf{good rate function}.
 \end{definition}
 
+The following definition and theorem are taken from \cite{Dembo2009LargeDeviations}:
+% https://books.google.at/books?id=iT9JRlGPx5gC&pg=PA130&dq=large+deviations+exponential+equivalent&hl=en&sa=X&ved=0ahUKEwj9zorh5MDKAhXns3IKHY12A9wQ6AEIHzAA#v=onepage&q&f=false
+
+\begin{definition}[Exponential equivalence]
+	Two families of probability measures $\{\mu_\varepsilon\}, \{\tilde \mu_\varepsilon\}$ on some metric space $(Y,d)$ are called exponentially equivalent if there exist probability spaces $\{\Omega, \mathcal B_\varepsilon,\mathbb P_\varepsilon\}$ and two families of $Y$-valued random variables $\{Z_\varepsilon\}, \{\tilde Z_\varepsilon\}$ with joint laws $\{\mathbb P_\varepsilon\}$ and marginals $\{\mu_\varepsilon\}, \{\tilde \mu_\varepsilon\}$, respectively, such that the following holds:
+	
+	For each $\delta>0$, the set $\{\omega : (Z_\varepsilon, \tilde Z_\varepsilon)\in\Gamma_\delta\}$ is $\mathcal B_\varepsilon$ measurable, and 
+	
+	$$\limsup_{\varepsilon\rightarrow 0}\varepsilon\log\mathbb P_\varepsilon(\Gamma_\delta)=-\infty,$$
+	
+	where $\Gamma_\delta = \{(y,\tilde y):d(y,\tilde y)>\delta\}\subseteq Y\times Y$.
+\end{definition}
+
+For instance, if the random variables are real valued and the rate of the LDP is $N$ (i.e. $\varepsilon = N^{-1}$), this asserts that the joint probability $\mathbb P_N$ of the two random variables of the area that is farther than $\delta$ away from the diagonal $x=y$ goes to zero like some $\exp(-cN^p)$ for some constants $c>0, p>1$. A quick sketch illustrates that the two probability measures have to be ``quite'' similar to satisfy the above definition -- this can be made precise by the following theorem:
+
+\begin{theorem}[Rate functions of exponentially equivalent measures]
+	If a LDP with good rate function $I$ holds for the probability measures $\{\mu_\varepsilon\}$, which are exponentially equivalent to $\{\tilde\mu_\varepsilon\}$, then the same LDP holds for $\{\tilde\mu_\varepsilon\}$.
+\end{theorem}
+\begin{proof}
+	In the general case this is a very technical result and hence we will refer the interested reader to \cite{Dembo2009LargeDeviations}, theorem 4.2.13.
+\end{proof}
+
 We are particularly interested in getting LDPs of the $k$-th largest eigenvalues of the GOE, but it turns out in order to get those we first need a LDP for the law of the empirical measure $\mu^N=\frac{1}{N}\sum_{i=1}^N\delta_{\lambda_i}$.
 
-\begin{theorem}[LDP of Wigner's semicircle law for the GOE]
+\begin{theorem}[LDP of Wigner's semicircle law for the GOE]\label{thm:LDPforWSCL}
 	Let $I(\mu):=\frac{1}{2}\left(\int x^2\diff\mu(x) - \Sigma(\mu) - \frac{3}{4}-\frac{1}{2}\log 2 \right)$, for $\Sigma(\mu):=\int\int\log|x-y|\diff\mu(x)\diff\mu(y)$. Then:
 	\begin{enumerate}
 		\item $I$ is well defined on the space of probability measures $\mathcal M(\mathbb{R})$ on $\mathbb{R}$ endowed with the weak topology and takes values in $[0,\infty]$.
@@ -74,7 +94,7 @@ We are particularly interested in getting LDPs of the $k$-th largest eigenvalues
 	In particular the law of the empirical measure $\mu^N$ satisfies a LDP with good rate function $I$ and speed $N^2$.
 \end{theorem}
 \begin{proof}
-	We will only give a very rough outline of the proof that can be found in \cite{ArousLDPforWSL}. \todo{should I skip this section?}
+	We will only give a very rough outline of the proof that can be found in \cite{ArousLDPforWSL}. \todo{give rough outline}
 	
 	%To prove that $I$ is we	ll defined one splits it up in $I(\mu)=H(\mu)+C$. 
 \end{proof}
@@ -88,35 +108,137 @@ With this we can state the main result of this section. Note that without loss o
 					  \end{cases}$$
 \end{theorem}
 \begin{proof}
-	\todo{prove it}
+	We will prove the two cases $x<2$ and $x\geq 2$ separately and start with the first one:
+	
+	Since $\lambda_{N-k+1}\leq x<2$ we have that the empirical spectral measure $\mu_N((x,2])\leq \frac{k-1}{N}$. However, Wigner's semicircle law implies that $\mu_{sc}((x,2])=\lim_{N\rightarrow\infty} \mu_N((x,2])>0$. So there exists a closed set $A\in\mathcal P(\mathbb R)$ such that $\mu_{sc}\notin A$, but the set of all empirical spectral distributions with $k$-th largest eigenvalue being smaller than $x$ being a subset of $A$, i.e. $\{\tilde \mu_N:\lambda_{N-k+1}\leq x\}\subseteq A$. Because of the exponential tightness with speed $N^2$ of $\{\mu_N\}_N$ we have $Q_N(A)\leq\exp(-cN^2)$ for some $c>0$ which concludes the case for $x<2$.
+	
+	The second part will be split up in showing the upper and lower bounds of the equation. We will start with the upper one
+	
+	\begin{equation}\label{eq:LDPlargestEVupperbound}
+		\limsup \frac{1}{N}\log Q_N(\lambda_{N-k+1}\geq x)\leq -I_k(x).
+	\end{equation}
+	
+	However, instead of showing this directly we will use the obvious\footnote{This is basically $\mathbb P(E)=\mathbb P(\neg F)+\mathbb P(E\land F)$.} upper bound
+	
+	$$Q_N(\lambda_{N-k+1}\geq x)\leq Q_N(\max_{i=1}^N |\lambda_i|\geq M)+ Q_N(\lambda_{N-k+1}\geq x,\max_{i=1}^N|\lambda_i|<M),$$
+	
+	which, together with the estimate (see \cite{ArousAging})
+	
+	$$Q_N(\max_{i=1}^N|\lambda_i|\geq M)\leq \exp(-NM^2/9)$$
+	
+	for $M$ large enough and all $N$\footnote{It follows by integrating the elementary estimate $|x-\lambda_i|e^{-\lambda_i^2/4}\leq (|x|+|\lambda_i|)e^{-\lambda_i^2/4}\leq 2|x|\leq e^{x^2/8}$ which holds for $|x|\geq M \geq 8$ and using the fact that $Z_{N-1}/Z_N\leq e^{CN}$ for some $C$ independent of $N$ (see Selberg's formula in \cite{Mehta2004random}).} lets us prove \ref{eq:LDPlargestEVupperbound} by showing
+	
+	$$\limsup\frac{1}{N}\log Q_N(\max_{i=1}^N|\lambda_i|\leq M, \lambda_{N-k+1}\geq x)\leq-I_k(x),$$
+	
+	for all $M>x>2$.
+	
+	\todo{get a copy of Mehta's book - the numbering of the theorems in my pdf doesn't coincide with the citations'}
+	
+	To that end let $\overline Q_{N-k}^N$ be a rescaled version of the joint law of unordered eigenvalues $\overline Q_{N-k}$, given by 
+	$$\overline Q_{N-k}^N(\lambda\in\cdot) = \overline Q_{N-k}(\sqrt{1-k/N}\lambda\in\cdot),$$ where the factor $\sqrt{1-k/N}=\sqrt{\frac{N-k}{N}}$ serves the purpose of ``changing the units'' of an eigenvalue $\lambda$ from an $(N-k)$-dimensional distribution (which is normalised by $(N-k)^{-1/2}$) to an $N$-dimensional one.
+	
+	Similar considerations apply for the new normalisation constant 
+	
+	$$C_N^k = (1-k/N)^{(N-k)(N-k+1)/4}\frac{\overline Z_{N-k}}{\overline Z_N},$$
+	
+	where $\overline Z_N$ is the normalization factor for $\overline Q_N$.
+	
+	For $x\in\mathbb R$ and $\mu\in\mathcal P(\mathbb R)$ we define
+	
+	$$\Phi(x,\mu)=\int_\mathbb{R}\log|x-y|\diff\mu(y)-\frac{x^2}{4},$$
+	
+	which can be shown (\cite{ArousAging}, p.50) to be upper semi-continuous on $[-M,M]\times\mathcal P([-M,M])$ and continuous on $[x,y]\times\mathcal P([-M,M])$ for $x,y,M$ such that $2<M<x<y$.
+	
+	Using \ref{thm:probabilitydensityofEV} we see that
+	
+	\begin{align*}
+		&Q_N(\max_{i=1}^N|\lambda_i|\leq M,\lambda_{N-k+1}\geq x)= \\ &N! Z_N^{-1}\int_{[x,M]^k}\int_{[-M,M]^{N-k}}\left(\prod_{1\leq i<j\leq N}|\lambda_i-\lambda_j|\prod_{i=1}^N \exp(-N\lambda_i^2/4)\right)\diff\lambda_1\dots\diff\lambda_{N-k}\diff\lambda_{N-k+1}\dots\diff\lambda_N,
+	\end{align*}
+	
+	where the $N!$ comes from dropping the $\mathbf 1_{\lambda_1\leq\dots\lambda_N}$ term. This can be bounded from above by
+	
+	\begin{align}\label{eq:upperbound1forQN}
+		C_N^k\frac{N!}{(N-k)!}&\int_{[x,M]^k}\prod_{N-k<i<j\leq N}|\lambda_i-\lambda_j| \int_{[-M,M]^{N-k}}e^{(N-k)\sum_{i=N-k+1}^N\Phi(\lambda_i,\mu_{N-k})}\nonumber\\
+		&\overline Q_{N-k}^N(\diff\lambda_1,\dots,\diff\lambda_{N-k})\diff\lambda_{N-k+1}\dots\diff\lambda_N,
+	\end{align}
+	
+	where $\mu_{N-k}$ is determined by the variables $\lambda_1,\dots,\lambda_{N-k}$ we are integrating against.
+	%For $k=1$ this inequality can be thought of as ``If I pick the largest EV lambda1 as some value between x and M, what is the probability of the other EVs being ...? basically Q_N-k^N(...) but you also have to account for the fact that they are repellent -> include this Phi'' - zeichnung! 
+	
+	We write $B(\rho,\delta)$ for the open ball with radius $\delta$ in $\mathcal P(\mathbb R)$ with center $\rho$ and let $B_M(\rho,\delta)=B(\rho,\delta)\cap\mathcal P([-M,M])$. Noting that $|\lambda_i-\lambda_j|\leq 2M$ on the domain of integration and $e^{(N-k)\Phi(\lambda_i,\mu_{N-k})}\leq (2M)^{N-k}$ we get the following upper bound on \ref{eq:upperbound1forQN}:
+	
+	\begin{align}\label{eq:upperbound2forQN}
+		C_N^k\frac{N!}{(N-k)!}(2M)^{k(k-1)/2}\Big\{
+			\Big(
+				&\int_x^M e^{(N-k)\sup_{\mu\in B_M(\mu_{sc},\delta)}\Phi(x,\mu)}\diff x
+			\Big)^k \nonumber\\
+			+&(2M)^{N-k}\overline Q_{N-k}^N(\mu_{N-k}\notin B(\mu_{sc},\delta))
+		\Big\}.
+	\end{align}
+	
+	This may be seen as a crude upper bound on some case detection whether or not $\mu_{N-k}$ is in some $\delta$-neighbourhood of the semicircle law $\mu_{sc}$. Intuitively the probability of the second case occuring should vanish as $N\rightarrow\infty$ and this can be made precise by showing that $\mu_{N-k}$ under $\overline Q_{N-k}^N$ satisfies the same LDP as under $\overline Q_{N-k}$ (where it is already known to vanish by \ref{thm:LDPforWSCL}). To do so we observe that for all Lipschitz functions $h:\mathbb R \rightarrow\mathbb R$ of norm at most $1$ and $N\geq 2k$ we have the following inequality:
+	
+	$$
+	\left|(N-k)^{-1}\sum_{i=1}^{N-k}h\left(\sqrt{1-kN^{-1}}\lambda_i\right)-h(\lambda_i)\right|\leq cN^{-1}\max_{i=k}^{N-k}|\lambda_i|,
+	$$
+	for some $c>0$ independent of $N$ and $k$. 
+	
+	The measure $\overline Q_{N-k}^N$ can be thought of describing the random variable that picks $N-k$ values as described by $\overline Q_{N-k}$ and then renormalizes them so that they on the same scale as the ones that would be picked by $\overline Q_N$ (so basically picking $N-k$ values from the distribution for $N$ values). Since the rate of convergence for the semicircular law is $N^2$ (see \ref{thm:LDPforWSCL}) the act of ``forgetting'' $k$ randomly picked terms out of $N$ ones does not matter on the logarithmic scale with rate $N$ as long as $d(\mu_N, \sqrt{1-k/N}\mu_{N-k})$ does not fluctuate on the scale as some $O(N)$ (which is guaranteed by the above bound on the sensitivity of the eigenvalues to Lipschitz functions) and hence the two measures $\overline Q_N$ and $\overline Q_{N-k}^N$ satisfy the same LDP.
+	\todo{what do I need this lemma with prob (max lambda i bigger than M) is less than exp-cN for?}
+	
+	Hence, the second term in \ref{eq:upperbound2forQN} is exponentially negligible for any $\delta >0$ and $M<\infty$, which, in turn, implies that
+	
+	\begin{align}
+		Q_N(\lambda_{N-k+1}\geq x,&\max_{i=1}^N|\lambda_i|\leq M)\leq \nonumber\\
+		&\limsup_{N\rightarrow\infty}\frac{1}{N}\log C_N^k + k\lim_{\delta\searrow 0}\sup_{z\in[x,M],\mu\in B_M(\mu_{sc},\delta)}\Phi(z,\mu).
+	\end{align}
+	
+	Since $\Phi$ is upper semi-continuous (notice that $\Phi(z,\mu)=\inf_{\eta>0}\Phi_{\eta}(z,\mu)$, where $\Phi_{\eta}(z,\mu) := \int \log(\max(|z-y|,\eta))\diff\mu(y)-z^2/4$ which is continuous on $[-M,M]\times\mathcal P([-M,M])$) the term $\lim_{\delta\searrow 0}\sup_{z\in[x,M],\mu\in B_M(\mu_{sc},\delta)}\Phi(z,\mu)$ simplifies to $\sup_{z\in[x,M]}\Phi(z,\mu_{sc})$.
+	
+	\todo{stuff with derivative}
+	
+	With Selberg's formula (\cite{Mehta2004random}) it can be shown that, in the LDP, the normalization constant $\lim_{N\rightarrow\infty}N^{-1}\log C_N^k = k/2$.
+	
+	Putting those logarithmic asymptotics together completes the proof of the upper bound.
+	
+	To prove the complementary lower bound we fix $y>x>r>2$ and $\delta>0$. Similarly to the steps \ref{eq:upperbound1forQN} and \ref{eq:upperbound2forQN} we get
+	
+	\begin{align*}
+		Q_N(&\lambda_{N-k+1}\geq x)\geq \\
+		&\overline Q_N(\lambda_N\in[x,y],\dots,\lambda_{N-k+1}\in[x,y]\max_{i=1}^{N-k}|\lambda_i|\leq r)\geq\\
+		&KC_N^k\exp\Big(k(N-k)\inf_{z\in[x,y],\mu\in B_r(\mu_{sc},\delta)}\Phi(z,\mu)\Big)\overline Q_{N-k}^N\big(\mu_{N-k}\in B_r(\mu_{sc},\delta)\big),
+	\end{align*}
+	for some $K=K(x,y,k)>0$. Again, by using the LDP of $\mu_{N-k}$ under $\overline Q_{N-k}^N$ we see that $\lim_{N\rightarrow\infty}Q_{N-k}^N(\mu_{N-k}\notin B_r(\mu_{sc},\delta))=0$.
+	
+	Using the behaviour of $C_N^k$ we get
+	
+	\begin{equation*}
+		\liminf_{N\rightarrow\infty}N^{-1}\log Q_N(\lambda_{N-k+1}\geq x)\geq k(2^{-1} + \inf_{z\in[x,y],\mu\in B_r(\mu_{sc},\delta)}\Phi(z,\mu)),
+	\end{equation*}
+	which, after letting $\delta\searrow 0$ and $y\searrow x$ (note the continuity of $\Phi$ in the used range of parameters), yields the desired result.
 \end{proof}
 
 \section{Morse Theory}
 % definitions
 % morse functions dense in C2
 
-\section{Spin Glass Models}
-% definitions
-% applications: physics, neural networks, etc.
-
 \section{Intermediary Results}
 To prove our main results we first need some refinements for the expected values of critical values.
 
-\todo{define E\_GOE, rho and B Borel sets}
 \begin{theorem}[Refinement of ${\mathbb E[Crt_{N,k}(B)]}$]
-	For all $N$, $p\geq 2$ and $k\in\{0,\dots,N-1\}$ we have
-	\todo{Kac-Rice formulae, AT07}
+	For all $B$ Borel sets, $N$, $p\geq 2$ and $k\in\{0,\dots,N-1\}$ we have
+
 	\begin{equation}\label{thm:2.1}
 		\mathbb E[Crt_{N,k}(B)]=2\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\mathbb E_{GOE}^N\left[e^{-N\frac{p-2}{2p}(\lambda_k^N)^2}\bm 1\left\{\lambda_k^N\in\sqrt{\frac{p}{2(p-1)}}B \right\}\right]
 	\end{equation} and
-	\todo{sum up previous eq.}
+	
 	\begin{equation}\label{thm:2.2}
 		\mathbb E[Crt_N(B)]=2N\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\int_{\sqrt{\frac{p}{2(p-1)}}B}exp\left\{-\frac{N(p-2)x^2}{2p}\right\}\rho_N(x)dx
 	\end{equation}
 \end{theorem}
 
 \begin{theorem}[LDP for $k$-th largest eigenvalue]
-	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ \todo{define GOE} satisfies an LDP with speed $N$ and a good rate function\todo{define good rate function} 
+	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ satisfies an LDP with speed $N$ and a good rate function
 	\begin{equation}\label{thm:A.1}
 		I_k(x;\sigma)=k I_1(x;\sigma)=\begin{cases}
 						k\int_{2\sigma}^x \sigma^{-1}\sqrt{(\frac{z}{2\sigma})^2-1}\diff z, &\mbox{if } x\geq 2\sigma \\

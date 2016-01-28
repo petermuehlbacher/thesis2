@@ -1,6 +1,8 @@
 \section{Motivation}
 Given some Hamiltonian $H_{N,p}: S^{N-1}\rightarrow\mathbb R$ given by $$H_{N,p}(\bm\sigma)=\frac{1}{N^{(p-1)/2}}\sum_{i_1,\dots,i_p=1}^N J_{i_1,\dots,i_p}\sigma_{i_1}\dots\sigma_{i_p},$$ where the $J_{i_1,\dots,i_p}$ are independent centered standard Gaussian random variables and $\bm\sigma=(\sigma_1,\dots,\sigma_N)$ referred to as states, one is interested in finding the expected number of critical points $Crt_N(u)$ and the restriction to some index $k$, denoted by $Crt_{N,k}(u)$, in some region in $(-\infty,Nu]$.
 
+For practical applications like neural networks it may be nice to know how the critical points are distributed, but there is still the open question whether local minima that are close to the global minimum will also yield ``good results''. From a practical point of view this has been empirically confirmed (\cite{LeCun2014loss}), however, it can also be shown theoretically like in \cite{loh2013regularized} for a far more general class of problems.
+
 \section{Main Results}
 \begin{theorem}[Large deviations for ${\mathbb E[\text{Crt}_{N,k}(u)]}$]
 	\begin{equation}\label{thm:2.5}

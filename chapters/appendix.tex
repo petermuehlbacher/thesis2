@@ -5,9 +5,7 @@ The following section will follow \cite{TaoWSCL} quite closely while trying to b
 	A Wigner matrix $M$ is a complex, Hermitian matrix with independent and identically distributed entries $M_{ij}$ for $i\geq j$ and with mean $0$ and variance $1$ for $i>j$. The diagonal entries $M_{ii}$ have bounded mean and variance.
 \end{definition}
 
-% GOE special case
-
-If $M_n$ is an $n$-dimensional Wigner matrix we know \todo{show the tracy widom law if it is needed and if it doesn't need the semicircle law}that the operator norm $\|M_n\|_{OP}$ is typically of size $O(\sqrt n)$, so it natural to define the empirical spectral distribution (ESD) as follows:
+If $M_n$ is an $n$-dimensional Wigner matrix we know that the operator norm $\|M_n\|_{OP}$ is typically of size $O(\sqrt n)$, so it is natural to define the empirical spectral distribution (ESD) as follows:
 
 \begin{definition}[ESD]
 	\begin{equation*}
@@ -77,9 +75,13 @@ A rough outline of the proof is given by this list of intermediary results that 
 	\frac{1}{n^2}\sum_{i\neq j}\mathbb P\left(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon\right).
 	$$
 	
-	To see that this goes to zero for large $C$ we apply Markov's inequality, yielding $$\mathbb P(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon)\leq
-	\frac{1}{\varepsilon}\mathbb E\left[[\sqrt n X_n-\overline X_n]_{ij}^2\right]\leq
-	\frac{\sqrt n}{\varepsilon}\left(\mathbb E[[X_n]_{ij}^2\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]+\mathbb E[[X_n]_{ij}\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]^2\right).$$
+	To see that this goes to zero for large $C$ we apply Markov's inequality, yielding 
+	
+	\begin{align*}
+		&\mathbb P(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon)\leq
+	\frac{1}{\varepsilon}\mathbb E\left[[\sqrt n X_n-\overline X_n]_{ij}^2\right]\leq\\
+	&\frac{\sqrt n}{\varepsilon}\left(\mathbb E[[X_n]_{ij}^2\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]+\mathbb E[[X_n]_{ij}\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]^2\right).
+	\end{align*}
 	
 	Since the entries $\sqrt n [X_n]_{ij}=[M_n]_{ij}$ have finite variance the right hand side will go to zero as $C\rightarrow\infty$ which proves the claim.
 \end{proof}
@@ -200,7 +202,7 @@ In the following let $\mu$ be some probability measure.
 	``$\Rightarrow$'': If $\mu_n\rightharpoonup\mu$ in the vague topology almost surely against a deterministic limit $\mu$, then $\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu$ by definition and, by taking the completion, for all bounded, continuous functions vanishing at infinity. The function $x\mapsto \frac{1}{x-z}$ for some $z\in\mathbb C$ with $Im(z)>0$ is bounded and continuous on $\mathbb R$ and hence $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
 	
 	``$\Leftarrow$'': One can, up to an arbitrary small error $\varepsilon>0$, approximate $\int_\mathbb{R}\phi\diff\mu$ by $\int_\mathbb{R}\phi*P_b \diff\mu = \frac{1}{\pi}\int_\mathbb{R}\phi(a)s_\mu(a+ib)\diff a$ (and analogously for $\mu_n$).
-	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$ and by dominated convergence (the Stieltjes transform of a measure is bounded for every $z\in \mathbf C_+$ and vanishes outside some compact set) we have convergence in the vague topology.
+	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$ and by dominated convergence (the Stieltjes transform of a measure is bounded for every $z\in \mathbb C_+$ and vanishes outside some compact set) we have convergence in the vague topology.
 \end{proof}
 
 \subsection{Stableness and Concentration of Measure}
@@ -215,21 +217,21 @@ In the following we keep using the notation as defined in \ref{thm:semicircle}. 
 \end{theorem}
 \begin{proof}
 Using the min-max/max-min theorems ($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in V : \|v\|=1}\langle Av,v\rangle$ and $\lambda_i(A)=\sup_{dim(V)=i}\inf_{v\in V : \|v\|=1}\langle Av,v\rangle$ respectively, c.f. \cite{TeschlQM} p.141) and writing $S_{n-i+1}$ for $\{v\in span\{a_i,\dots,a_n\}: \|v\|=1\}$, where $A_{n-1}a_j=\lambda_j a_j$ and $P$ an orthogonal projection such that $P^*A_nP=A_{n-1}$ we have
-	\begin{equation*}
+	\begin{align*}
 		\lambda_i(A_{n-1}) =
-		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
-		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv\geq
-		\inf_{dim(V)=n-i}\sup_{v\in V,\|v\|=1}v^*A_nv =
+		&\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =\\
+		&\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv\geq\\
+		&\inf_{dim(V)=n-i}\sup_{v\in V,\|v\|=1}v^*A_nv =
 		\lambda_{i+1}(A_n),
-	\end{equation*}
+	\end{align*}
 	and
-	\begin{equation*}
+	\begin{align*}
 		\lambda_i(A_n) =
-		\inf_{dim(V)=n-i+1}\sup_{v\in V,\|v\|=1}v^*A_nv \geq
-		\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv =
-		\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
+		&\inf_{dim(V)=n-i+1}\sup_{v\in V,\|v\|=1}v^*A_nv \geq\\
+		&\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv =\\
+		&\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
 		\lambda_i(A_{n-1}).%,
-	\end{equation*}
+	\end{align*}
 	%where $S_i:=span\{a_i,\dots,a_{n-1}\}$. Note that we implicitly used the isometric embedding $\mathbb C^{n-1}\rightarrow\mathbb C^n$ given by $(x_1,\dots,x_{n-1})\mapsto(x_1,\dots,x_{n-1},0)$ to make sense of the equation $\langle \underbrace{P^*A_nP}_{n-1\times n-1}v,v\rangle = \langle \underbrace{A_n}_{n\times n}Pv,Pv\rangle$.
 \end{proof}
 
@@ -250,7 +252,7 @@ Remembering the identity $Im(s_{\mu_n(a+ib)})=\pi\mu*P_b(a)$ and that $supp\mu_n
 	
 	$$\sqrt{n(n-1)}s_{n-1}(\sqrt{n/(n-1)}(a+ib))-ns_n(a+ib)=O\left(\frac{1}{n}\right).$$
 	
-	Now using the fact that the Stieltjes transform $s_n$ is analytic away from the support of $\mu_n$ (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties2}) and using the bound for its derivatives (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties3}) we can approximate $s_{n-1}(.)$ by $s_{n-1}(\sqrt{n/(n-1) . )}$ and hence the statement holds.
+	Now using the fact that the Stieltjes transform $s_n$ is analytic away from the support of $\mu_n$ (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties2}) and using the bound for its derivatives (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties3}) we can approximate $s_{n-1}(\cdot)$ by $s_{n-1}(\sqrt{n/(n-1) \;\cdot\; )}$ and hence the statement holds.
 \end{proof}
 
 Using McDiarmid's inequality one gets 
@@ -297,8 +299,8 @@ We may\todo{why?} replace the median with the expected value, yielding
 	\mathbb P(|\langle AX,X\rangle-\mathbb E\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}
 \end{equation}
 
-for the the case where $A$ is deterministic and positive definite. One can extend this result to arbitrary matrices of operator norm $O(1)$ by noting that it holds for Hermitian matrices $M=M^*=M_+-M_-$ ($M_+\geq 0,M_-\geq 0,\|M\|_{OP}=O(1)$) by applying the triangle inequality and %for general matrices $M$ of of operator norm $\|M\|_{op}=O(1)$ by using their polar decomposition $M=UP$, $U$ unitary and $P\geq 0$ being unique if $M$ is invertible to get the bound $|X^*MX|=|X^*UPX|\leq||$
-\todo{polar decomposition doesn't seem to work, for diagonalisable matrices it's clear and the probability of coinciding eigenvalues should go to $0$, so maybe that suffices(?)}
+for the the case where $A$ is deterministic and positive definite. One can extend this result to arbitrary matrices of operator norm $O(1)$ by noting that it holds for Hermitian matrices $M=M^*=M_+-M_-$ ($M_+\geq 0,M_-\geq 0,\|M\|_{OP}=O(1)$) by applying the triangle inequality and for general matrices $M$ (which are diagonalizable almost surely) of operator norm $\|M\|_{op}=O(1)$ by using their diagonalization $M=U^*DU=U^*D_+U-U^*D_-U$, $U$ unitary and $U_+,U_-\geq 0$, to get the bound $|X^*MX|\leq|X^*U^*D_+UX|+|X^*U^*D_-UX|$.
+\todo{a.s. diagonalizable justified?}
 
 \begin{remark}\label{rem:conditionalExpectationForDeterministicResult}
 	By using conditional expectations the above results also hold true for random matrices $R$ with $R\geq 0$ and $\|R\|_{OP}=O(1)$ as long as it is independent of $X$. The idea is to write all the above statements as $\mathbb P(E|\{A=R\})=\frac{\mathbb P(E\cap\{A=R\})}{\mathbb P(\{A=R\})}=\mathbb P(E)$ for all events $E$.
