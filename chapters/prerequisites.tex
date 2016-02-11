@@ -1,4 +1,4 @@
-To be able to prove the above results we first need to prove some other theorems which require some 
+To be able to prove the above results we first need to prove some other theorems which require some prerequisites from the following fields:
 
 \section{Gaussian Random Fields}
 % motivation
@@ -10,7 +10,7 @@ To be able to prove the above results we first need to prove some other theorems
 
 \section{GOE}
 \begin{definition}
-	Symmetric $N\times N$ matrices $H=H_N$ with $\mathbb E H_{ij}=0$ and $\mathbb E H_{ij}=1+\delta_{ij}$.
+	Symmetric $N\times N$ matrices $H=H_N$ with $\mathbb E H_{ij}=0$ and $\mathbb E H_{ij}^2=1+\delta_{ij}$.
 \end{definition}
 \begin{remark}[Density in the space of matrices]
 	Their density is given by the Gaussian measure
@@ -31,18 +31,18 @@ To be able to prove the above results we first need to prove some other theorems
 	
 	Let $H$ be some element of the GOE. Since it is symmetric there is a decomposition in $H=UDU^T$ with $U$ orthogonal and $D=\text{diag}(\lambda_1,\dots,\lambda_N)$. Thus we can write 
 	\begin{equation}\label{eq:H_ijLinearityInEigenvalues}
-		H_{ij} = \sum_k \lambda_i U_{ik}U_{jk}
+		H_{ij} = \sum_k \lambda_k U_{ik}U_{jk}
 	\end{equation}	
 	and, using the orthogonality of $U$: $\sum_k U_{ki}U_{kj}=\delta_{ij}$. Using those results one can infer that $\sum_{i,j}H_{ij}^2=\sum_i \lambda_i^2$.
 	
 	The key idea is to make use of the change of variables formula to go from $\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2})$ to $\mathbb P(H)$. One should think of the $\{\alpha_i\}_{i=1}^{N(N-1)/2}$ as the parameters that determine the matrix $U$, which, together with the eigenvalues, uniquely determines $H$.
 	
 	To do that we first need some information on the determinant of the Jacobian $J$ of the change of variables:
-	From equation \ref{eq:H_ijLinearityInEigenvalues} we see the linearity of $H_{ij}$ in the eigenvalues $\lambda_k$ which implies that every entry $\partial H_{ij}/\partial\alpha_k$ is linear in the eigenvalues. Hence, $|J|$ has to be a polynomial of degree $N(N-1)/2$ in each of the eigenvalues. If two eigenvalues coincide $U$ cannot be uniquely determined anymore and thus the inverse of the transformation is not unique, meaning that $|J|=0$. So the determinant of the Jacobian must vanish for all $\lambda_i=\lambda_j, i\neq j$, which is achieved if it contains a factor $\lambda_i-\lambda_j$. However, there are exactly $N(N-1)/2$ such factors and since that is just the degree of the polynomial it follows that we have completely accounted for $J$'s dependence on the eigenvalues by writing $$|J|=\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2}).$$
+	From equation \ref{eq:H_ijLinearityInEigenvalues} we see the linearity of $H_{ij}$ in the eigenvalues $\lambda_k$ which implies that $\partial H_{ij}/\partial\alpha$ is linear in the eigenvalues\footnote{To be precise, it is linear in the \textit{vector} $(\lambda_i)_{i=1}^N$.}. Hence, $\det J$ has to be a polynomial of degree $N(N-1)/2$ in the eigenvalues. If two eigenvalues coincide $U$ cannot be uniquely determined anymore and thus the inverse of the transformation is not unique, meaning that $\det J=0$. So the determinant of the Jacobian must vanish for all $\lambda_i=\lambda_j, i\neq j$, which is achieved if it contains a factor $\lambda_i-\lambda_j$. However, there are exactly $N(N-1)/2$ such factors and since that is just the degree of the polynomial it follows that we have completely accounted for $J$'s dependence on the eigenvalues by writing $$\det J=\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2}).$$
 	
 	Now we can write
 	$$\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2}) = $$
-	$$\mathbb P(H)|J|=Z_N^{-1}\exp\left(-N\frac{1}{4}\sum_i\lambda_i^2\right)|\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2})|.$$
+	$$\mathbb P(H)|\det J|=Z_N^{-1}\exp\left(-N\frac{1}{4}\sum_i\lambda_i^2\right)|\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2})|.$$
 	
 	Integrating out the dependence on $\{\alpha_k\}_{k=1}^{N(N-1)/2}$ yields the desired result.
 \end{proof}
@@ -124,15 +124,15 @@ With this we can state the main result of this section. Note that without loss o
 	
 	which, together with the estimate (see \cite{ArousAging})
 	
-	$$Q_N(\max_{i=1}^N|\lambda_i|\geq M)\leq \exp(-NM^2/9)$$
+	\begin{equation}\label{eq:maxEVinequality}
+		Q_N(\max_{i=1}^N|\lambda_i|\geq M)\leq \exp(-NM^2/9)
+	\end{equation}
 	
 	for $M$ large enough and all $N$\footnote{It follows by integrating the elementary estimate $|x-\lambda_i|e^{-\lambda_i^2/4}\leq (|x|+|\lambda_i|)e^{-\lambda_i^2/4}\leq 2|x|\leq e^{x^2/8}$ which holds for $|x|\geq M \geq 8$ and using the fact that $Z_{N-1}/Z_N\leq e^{CN}$ for some $C$ independent of $N$ (see Selberg's formula in \cite{Mehta2004random}).} lets us prove \ref{eq:LDPlargestEVupperbound} by showing
 	
 	$$\limsup\frac{1}{N}\log Q_N(\max_{i=1}^N|\lambda_i|\leq M, \lambda_{N-k+1}\geq x)\leq-I_k(x),$$
 	
 	for all $M>x>2$.
-	
-	\todo{get a copy of Mehta's book - the numbering of the theorems in my pdf doesn't coincide with the citations'}
 	
 	To that end let $\overline Q_{N-k}^N$ be a rescaled version of the joint law of unordered eigenvalues $\overline Q_{N-k}$, given by 
 	$$\overline Q_{N-k}^N(\lambda\in\cdot) = \overline Q_{N-k}(\sqrt{1-k/N}\lambda\in\cdot),$$ where the factor $\sqrt{1-k/N}=\sqrt{\frac{N-k}{N}}$ serves the purpose of ``changing the units'' of an eigenvalue $\lambda$ from an $(N-k)$-dimensional distribution (which is normalised by $(N-k)^{-1/2}$) to an $N$-dimensional one.
@@ -152,7 +152,8 @@ With this we can state the main result of this section. Note that without loss o
 	Using \ref{thm:probabilitydensityofEV} we see that
 	
 	\begin{align*}
-		&Q_N(\max_{i=1}^N|\lambda_i|\leq M,\lambda_{N-k+1}\geq x)= \\ &N! Z_N^{-1}\int_{[x,M]^k}\int_{[-M,M]^{N-k}}\left(\prod_{1\leq i<j\leq N}|\lambda_i-\lambda_j|\prod_{i=1}^N \exp(-N\lambda_i^2/4)\right)\diff\lambda_1\dots\diff\lambda_{N-k}\diff\lambda_{N-k+1}\dots\diff\lambda_N,
+		Q_N(\max_{i=1}^N&|\lambda_i|\leq M,\lambda_{N-k+1}\geq x)= \\ N! Z_N^{-1}&\int_{[x,M]^k}\int_{[-M,M]^{N-k}}\left(\prod_{1\leq i<j\leq N}|\lambda_i-\lambda_j|\prod_{i=1}^N \exp(-N\lambda_i^2/4)\right)\\
+		&\diff\lambda_1\dots\diff\lambda_{N-k}\diff\lambda_{N-k+1}\dots\diff\lambda_N,
 	\end{align*}
 	
 	where the $N!$ comes from dropping the $\mathbf 1_{\lambda_1\leq\dots\lambda_N}$ term. This can be bounded from above by
@@ -183,7 +184,7 @@ With this we can state the main result of this section. Note that without loss o
 	$$
 	for some $c>0$ independent of $N$ and $k$. 
 	
-	The measure $\overline Q_{N-k}^N$ can be thought of describing the random variable that picks $N-k$ values as described by $\overline Q_{N-k}$ and then renormalizes them so that they on the same scale as the ones that would be picked by $\overline Q_N$ (so basically picking $N-k$ values from the distribution for $N$ values). Since the rate of convergence for the semicircular law is $N^2$ (see \ref{thm:LDPforWSCL}) the act of ``forgetting'' $k$ randomly picked terms out of $N$ ones does not matter on the logarithmic scale with rate $N$ as long as $d(\mu_N, \sqrt{1-k/N}\mu_{N-k})$ does not fluctuate on the scale as some $O(N)$ (which is guaranteed by the above bound on the sensitivity of the eigenvalues to Lipschitz functions) and hence the two measures $\overline Q_N$ and $\overline Q_{N-k}^N$ satisfy the same LDP.
+	The measure $\overline Q_{N-k}^N$ can be thought of describing the random variable that picks $N-k$ values as described by $\overline Q_{N-k}$ and then renormalizes them so that they on the same scale as the ones that would be picked by $\overline Q_N$ (so basically picking $N-k$ values from the distribution for $N$ values). Bounding the metric $d$ from the definition of the exponential equivalence (inducing the weak topology on  Using inequality \ref{eq:maxEVinequality} for $M=$ and hence the two measures $\overline Q_N$ and $\overline Q_{N-k}^N$ satisfy the same LDP.
 	\todo{what do I need this lemma with prob (max lambda i bigger than M) is less than exp-cN for?}
 	
 	Hence, the second term in \ref{eq:upperbound2forQN} is exponentially negligible for any $\delta >0$ and $M<\infty$, which, in turn, implies that
@@ -219,8 +220,9 @@ With this we can state the main result of this section. Note that without loss o
 \end{proof}
 
 \section{Morse Theory}
-% definitions
-% morse functions dense in C2
+% definition
+% corollary 11.2.5 (Adler)
+% result about E(N_u) for Morse functions
 
 \section{Intermediary Results}
 To prove our main results we first need some refinements for the expected values of critical values.
@@ -233,19 +235,19 @@ To prove our main results we first need some refinements for the expected values
 	\end{equation} and
 	
 	\begin{equation}\label{thm:2.2}
-		\mathbb E[Crt_N(B)]=2N\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\int_{\sqrt{\frac{p}{2(p-1)}}B}exp\left\{-\frac{N(p-2)x^2}{2p}\right\}\rho_N(x)dx
+		\mathbb E[Crt_N(B)]=2N\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\int_{\sqrt{\frac{p}{2(p-1)}}B}exp\left\{-\frac{N(p-2)x^2}{2p}\right\}\rho_N(x)dx.
 	\end{equation}
 \end{theorem}
 
-\begin{theorem}[LDP for $k$-th largest eigenvalue]
-	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ satisfies an LDP with speed $N$ and a good rate function
-	\begin{equation}\label{thm:A.1}
-		I_k(x;\sigma)=k I_1(x;\sigma)=\begin{cases}
-						k\int_{2\sigma}^x \sigma^{-1}\sqrt{(\frac{z}{2\sigma})^2-1}\diff z, &\mbox{if } x\geq 2\sigma \\
-						\infty, &\mbox{otherwise}
-					  \end{cases}.
-	\end{equation}
-\end{theorem}
+%\begin{theorem}[LDP for $k$-th largest eigenvalue]
+%	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ satisfies an LDP with speed $N$ and a good rate function
+%	\begin{equation}\label{thm:A.1}
+%		I_k(x;\sigma)=k I_1(x;\sigma)=\begin{cases}
+%						k\int_{2\sigma}^x \sigma^{-1}\sqrt{(\frac{z}{2\sigma})^2-1}\diff z, &\mbox{if } x\geq 2\sigma \\
+%						\infty, &\mbox{otherwise}
+%					  \end{cases}.
+%	\end{equation}
+%\end{theorem}
 
 
 

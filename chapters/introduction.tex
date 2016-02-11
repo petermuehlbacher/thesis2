@@ -3,6 +3,9 @@ Given some Hamiltonian $H_{N,p}: S^{N-1}\rightarrow\mathbb R$ given by $$H_{N,p}
 
 For practical applications like neural networks it may be nice to know how the critical points are distributed, but there is still the open question whether local minima that are close to the global minimum will also yield ``good results''. From a practical point of view this has been empirically confirmed (\cite{LeCun2014loss}), however, it can also be shown theoretically like in \cite{loh2013regularized} for a far more general class of problems.
 
+\section{Outlook}
+According to \cite{LeCun2014lossvariance} there is empirical evidence that the energy of critical points concentrates around the limiting floor value, however, up to now and to the best of my knowledge there is no proof for this theoretical statement and in particular (from a theoretical point of view) nothing is known about the speed of convergence to the expected value that is presented here.
+
 \section{Main Results}
 \begin{theorem}[Large deviations for ${\mathbb E[\text{Crt}_{N,k}(u)]}$]
 	\begin{equation}\label{thm:2.5}
