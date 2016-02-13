@@ -38,28 +38,35 @@ The formulation and proofs of the following two lemmata will closely follow \cit
 \end{lemma}
 
 \begin{proof}
+	Because of the rotational symmetry we may assume without loss of generality that $\sigma$ is the north pole $n=(0,\dots,0,1)$. We define the projection $\Psi:S^{N-1}\rightarrow\mathbb R^{N-1}, (x_1,\dots,x_{N-1},x_N)\mapsto(x_1,\dots,x_{N-1})$ which is a chart for some neighbourhood $U$ of $n$ and set $\overline f = f\circ\Psi^{-1}$ which is a Gaussian process on $\Psi(U)$, satisfying $$C(x,y)=Cov(\overline f(x),\overline f(y))=\left(\sum_{i=1}^{N-1}x_iy_i + \sqrt{(1-\textstyle\sum_{i=1}^{N-1}x_i^2)(1-\textstyle\sum_{i=1}^{N-1}y_i^2)}\right)^p.$$
 	
+	Choosing an orthonormal frame field $(E_i)$ such that it satisfies $E_i(n)=\partial/\partial x_i$ with respect to the chart $\Psi$ the Christoffel symbols vanish and hence the covariant Hessian $(f_{ij}(n))$ agrees with the usual Hessian of $\overline f$ at $0$.
+	
+	Thus it suffices to prove the analogous identities for $\overline f(0),\frac{\partial}{\partial x_i}\overline f(0),\frac{\partial^2}{\partial x_i\partial x_j}\overline f(0)$.
+	Differentiation under the integral sign yields 
+	\begin{equation}
+	\mathbb E\left\{\frac{\partial^k \overline f(s)}{\partial s_{i_1}\dots\partial s_{i_k}} \frac{\partial^l \overline f(t)}{\partial t_{i_1}\dots\partial t_{i_l}}\right\}=\frac{\partial^{k+l} C(s,t)}{\partial s_{i_1}\dots\partial s_{i_k}\partial t_{i_1}\dots\partial t_{i_l}},
+	\end{equation}
+	which, in turn, after some simple algebra gives \ref{eq:covariancesoff}.
 \end{proof}
 
 Now we can formulate one of the central identities that allow us to use methods from random matrix theory to study the Hamiltonian of interest.
 
 \begin{lemma}[Moments under conditioning]
 	Using the same assumptions as in the previous lemma and under the conditional distribution $\mathbb P[\cdot|f(\sigma)=x], x\in\mathbb R$ the random variables $f_{ij}(\sigma)$ are independent Gaussian variables satisfying
-	\begin{align}
-		\mathbb E[f_{ij}(\sigma)]&=-xp\delta_{ij},\nonumber\\
-		\mathbb E[f_{ij}(\sigma)^2]&=(1+\delta_{ij})p(p-1).
+	\begin{align}\label{eq:momentsUnderConditioning}
+		\mathbb E[f_{ij}(\sigma)|f(\sigma)=x]&=-xp\delta_{ij},\nonumber\\
+		\mathbb E[f_{ij}(\sigma)^2|f(\sigma)=x]&=(1+\delta_{ij})p(p-1).
 	\end{align}
 	
-	Alternatively, the random matrix $(f_{ij}(\sigma))$ has the same distribution as $$M^{N-1}\sqrt{2(N-1)p(p-1)}-xpI,$$
+	Alternatively, the random matrix $(f_{ij}(\sigma))$ (under the conditional distribution $\mathbb P[\cdot|f(\sigma)=x], x\in\mathbb R$) has the same distribution as $$M^{N-1}\sqrt{2(N-1)p(p-1)}-xpI,$$
 	
-	where $M^{N-1}$ is a $(N-1)\times(N-1)$ GOE matrix as defined in \ref{def:GOE} and $I$ is the identity matrix.
+	where $M^{N-1}$ is a $(N-1)\times(N-1)$ GOE matrix as defined in \ref{def:GOE} and $I$ is the identity matrix. The second statement follows by plugging in the definitions.
 \end{lemma}
+\begin{proof}
+	Equations \ref{eq:momentsUnderConditioning} can be seen from the last two equations of \ref{eq:covariancesoff}.
+\end{proof}
 
-
-% results for the isotropic/stationary case
-\cite{Adler07} p.121 for \begin{equation}
-	\mathbb E\left\{\frac{\partial^k f(s)}{\partial s_{i_1}\dots\partial s_{i_k}} \frac{\partial^k f(t)}{\partial t_{i_1}\dots\partial t_{i_k}}\right\}=\frac{\partial^{2k} C(s,t)}{\partial s_{i_1}t_{i_1}\dots\partial s_{i_k}t_{i_k}}
-\end{equation}
 
 \section{GOE}
 \begin{definition}\label{def:GOE}
@@ -85,7 +92,7 @@ Now we can formulate one of the central identities that allow us to use methods 
 	Let $H$ be some element of the GOE. Since it is symmetric there is a decomposition in $H=UDU^T$ with $U$ orthogonal and $D=\text{diag}(\lambda_1,\dots,\lambda_N)$. Thus we can write 
 	\begin{equation}\label{eq:H_ijLinearityInEigenvalues}
 		H_{ij} = \sum_k \lambda_k U_{ik}U_{jk}
-	\end{equation}	
+	\end{equation}
 	and, using the orthogonality of $U$: $\sum_k U_{ki}U_{kj}=\delta_{ij}$. Using those results one can infer that $\sum_{i,j}H_{ij}^2=\sum_i \lambda_i^2$.
 	
 	The key idea is to make use of the change of variables formula to go from $\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2})$ to $\mathbb P(H)$. One should think of the $\{\alpha_i\}_{i=1}^{N(N-1)/2}$ as the parameters that determine the matrix $U$, which, together with the eigenvalues, uniquely determines $H$.
