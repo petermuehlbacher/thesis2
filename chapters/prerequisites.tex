@@ -170,7 +170,7 @@ A proof can be found in \cite{ArousLDPforWSL}.
 %\end{proof}
 
 With this we can state the main result of this section. Note that without loss of generality we set the variances of the entries of the GOE to $1$.
-\begin{theorem}[LDP for the $k$-th largest eigenvalue of the GOE]
+\begin{theorem}[LDP for the $k$-th largest eigenvalue of the GOE]\label{thm:A1}
 	For each fixed $k\geq 1$, the $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE satisfies a LDP with speed $N$ and good rate function
 	$$I_k(x)=kI_1(x)=\begin{cases}
 						k\int_2^x\sqrt{\frac{z^2}{4}-1}\diff z, &\mbox{if } x\geq 2 \\
@@ -293,16 +293,76 @@ With this we can state the main result of this section. Note that without loss o
 
 Another result that will be used later on is Varadhan's lemma which can be viewed as the LDP equivalent of Laplace's principle which states that $\lim_{\varepsilon\rightarrow 0} \varepsilon \int_A \exp(-\phi(x)/\varepsilon)\diff x = -\inf_{x\in A} \phi(x)$ or more loosely $\int_A \exp(-\phi(x)/\varepsilon)\diff x\approx\exp(-\inf_{x\in A}\phi(x)/\varepsilon)$.
 \begin{lemma}[Varadhan]
-	\todo{state Varadhan's lemma}
-	% take http://www.stat.cmu.edu/~cshalizi/754/2006/notes/lecture-30.pdf if level of generality is sufficient
+	Let $X_\varepsilon$ be random variables in a metric space $M$ that satisfy a LDP with rate $1/\varepsilon$ and rate function $J$, and $\phi:M\rightarrow\mathbb R$ be continuous and bounded from above. Then 
+	
+	$$\lim_{\varepsilon\rightarrow 0}\varepsilon\log\mathbb E[\exp(\phi(X_\varepsilon)/\varepsilon)]=\sup_{x\in M}\phi(x)-J(x).$$
 \end{lemma}
+\begin{proof}
+	This proof follows \cite{scLDP}. We will show that $\limsup$ and $\liminf$ are both equal to 	$\sup_x \phi(x)-J(x)$ and start with the $\limsup$:
+	To that end pick an arbitrary positive $n$. Since $\phi$ is continuous and bounded from above, there exists a finite family of closed sets $\{B_i\}_{i=1}^{m_n}$, such that $\phi(x)\leq -n$ on the complement of their union and that within each $B_i$ $\phi$ varies only by at most $1/n$.
+	Using those definitions we get
+	\begin{align*}
+		\limsup\varepsilon\log\mathbb E[\exp(\phi(X_\varepsilon)/\varepsilon)]
+		&\leq(-n)\lor\max_{i=1}^m \limsup\varepsilon\log\mathbb E[\exp(\phi(X_\varepsilon)/\varepsilon)\mathbf 1\{X_\varepsilon\in B_i\}]\\
+		&\leq(-n)\lor\max_{i=1}^m\sup_{x\in B_i}\phi(x)-\inf_{x\in B_i} J(x)\\
+		&\leq(-n)\lor\max_{i=1}^m\sup_{x\in B_i}\phi(x)-J(x)+1/n\\
+		&\leq(-n)\lor\sup_{x\in M}\phi(x)-J(x)+1/n
+	\end{align*}
+	
+	Letting $n\rightarrow\infty$ we get $\limsup\varepsilon\log\mathbb E[\phi(X_\varepsilon)/\varepsilon]=\sup \phi(x)-J(x)$.
+	To get the $\liminf$, pick any $x\in M$ and let $B_{\delta}(x)$ be a ball of arbitrary radius $\delta$ centered at $x$.
+	We have
+	
+	\begin{align*}
+		\liminf\varepsilon\log\mathbb E[\phi(X_\varepsilon)/\varepsilon]
+		&\geq\liminf\varepsilon\log\mathbb E[\phi(X_\varepsilon)/\varepsilon\mathbf 1\{X_\varepsilon\in B_\delta(x)\}]\\
+		&\geq\inf_{y\in B_\delta(x)}\phi(x)-\inf_{y\in B_\delta(x)}J(x)\\
+		&\geq\inf_{y\in B_\delta(x)}\phi(x)-J(x).
+	\end{align*}
+	Since $\delta$ was arbitrary we can let it go to zero, yielding $\inf_{y\in B_\delta(x)}\phi(x)=\phi(x)$ by continuity of $\phi$. This holds for arbitrary $x$ so we can take the supremum over $x$ which proves the claim.
+\end{proof}
 
-\section{Morse Theory}
-\todo{motivate kac rice formula}
-% definition
-% corollary 11.2.5 (Adler)
-% result about E(N_u) for Morse functions
+\section{Kac-Rice formula}
+To count zeros of a ``sufficiently well-behaved'' function $f:I\rightarrow\mathbb R$ one could try to write it as some kind of convolution. To that end we define a kernel $\varphi_\varepsilon:\mathbb R\rightarrow\mathbb R$, such that
 
+$$
+\varphi_\varepsilon(x) = \begin{cases}
+	\frac{1}{2\varepsilon}, &\mbox{if } |x|<\varepsilon \\
+		0, &\mbox{else.}
+\end{cases}$$
+
+Clearly $\lim_{\varepsilon\rightarrow 0}\int_\mathbb{R}\varphi_\varepsilon(x)f(x)=f(0)$ and 
+
+\begin{equation}\label{eq:KacRice1D}
+	\int_I \varphi_\varepsilon(f(x))|f'(x)|\diff x = \frac{1}{2\varepsilon}\int_{x:|f(x)|<\varepsilon}|f'(x)|\diff x,
+\end{equation}
+
+for $\varepsilon$ small enough. Now let $x_0\in f^{-1}(0)$, $x_+=\min\{x>x_0: |f(x)|=\varepsilon\}$ and $x_-=\max\{x<x_0: |f(x)|=\varepsilon\}$, then we get
+
+$$\int_{x_-}^{x_+}|f'(x)|\diff x = |f(x_+)-f(x_-)|=2\varepsilon,$$
+
+which motivates using \ref{eq:KacRice1D} to count zeros of a function $f$ which satisfies the following definition:
+\begin{definition}[Convenient functions]
+	A $\mathcal C^1$ function $f:[a,b]\rightarrow\mathbb R$ is called convenient if $f(a),f(b)\neq 0$ and all zeros are nondegenerate, i.e. $f(x)=0\implies f'(x)\neq 0$.
+\end{definition}
+
+To generalize this intuition to higher dimensions it is useful to think of the derivative factor as some kind of normalisation of the ``volume'' around the root ($f$ has the same number of zeros as $cf$ for $c\in\mathbb R\setminus\{0\}$). Thus, if we want to count critical points (i.e. substitute $f$ by $\nabla f$ and $f'$ by $\nabla^2 f$ in the above considerations), it is natural to take the determinant of the Hessian $\nabla^2 f$. Indeed this turns out to be true; however, going back to our rescaled Hamiltonian $f$, as defined in \ref{sec:GRF} we claim that
+
+\begin{equation}\label{eq:KacRiceSN}
+	\mathbb E Crt_N^f = \int_{S^{N-1}}\mathbb E[|\det\nabla^2f(\sigma)|\mathbf 1\{f(\sigma)\in B\}|\nabla f(\sigma)=0]\diff\mathbb P(\nabla f(\sigma)=0)\diff\sigma.
+\end{equation}
+
+While the above considerations motivate the choice of this integrand, it still remains to be checked what kind of criteria we have to impose on a random $f$ for this formula to hold. We will formulate these conditions in the following lemma:
+
+\begin{theorem}[Kac-Rice formula for centered Gaussian fields]\label{thm:KacRice}
+	Let $f$ be a centered Gaussian field on $S^{N-1}$ and let $\mathcal A=(U_\alpha,\Psi_\alpha)_{\alpha\in I}$ be a finite atlas on $S^{N-1}$. Set $f^\alpha = f\circ\Psi^{-1}_\alpha$ and denote the derivatives analogously to \ref{sec:GRF}. Assume that for all $\alpha\in I$ and all $x,y\in \Psi_\alpha(U_\alpha)$ the joint distribution of $(f_i^\alpha(x),f_{ij}^\alpha(x))_{1\leq i,j<N}$ is nondegenerate, and 
+	
+	$$\max_{i,j}|\text{Var}(f_{ij}^\alpha(x)+\text{Var}(f_{ij}^\alpha(y)-2\text{Cov}(f_{ij}^\alpha(x),f_{ij}^\alpha(y))|\leq K_\alpha|\log|x-y||^{-1-\beta}$$
+	
+	for some $K_\alpha,\beta>0$. Then equation \ref{eq:KacRiceSN} holds.
+\end{theorem}
+
+A proof can be found in \cite{Adler07}.
 
 
 

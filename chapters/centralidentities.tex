@@ -1,4 +1,3 @@
-\section{Intermediary Results}
 To prove our main results we first need some refinements for the expected values of critical values.
 
 \begin{theorem}[Express ${\mathbb E[Crt_{N,k}(B)]}$ in terms of the GOE]
@@ -14,13 +13,7 @@ To prove our main results we first need some refinements for the expected values
 \end{theorem}
 
 \begin{proof}
-	\todo{prove that Gaussian + nondegenerate implies Morse function}
-%	rough outline of the proof:
-%	* show that f is Morse function and thus Kac-Rice formula holds
-%	* some algebra with Kac-Rice formula to rewrite it in terms of GOE
-%   * use GOE symmetries to get the more concrete result
-
-First of all let us show that we can apply lemma \ref{thm:KacRice}\todo{formulate it!}. To do so we use the same notation as in section \ref{sec:GRF}. Because of the rotational symmetry and since $S^{N-1}$ can be covered by a finite number of copies of an open neighbourhood of some point it suffices to investigate only one point. We will choose the north-pole $n$ and see that $(f_i(n),f_{ij}(n))$ is not degenerate. Since the covariances are continuous this is also true for some neighbourhood $U$. Hence the conditions of lemma \ref{thm:KacRice} are satisfied. Again due to the rotational symmetry the integrand does not depend on $\sigma$, so we get
+First of all let us show that we can apply lemma \ref{thm:KacRice}. To do so we use the same notation as in section \ref{sec:GRF}. Because of the rotational symmetry and since $S^{N-1}$ can be covered by a finite number of copies of an open neighbourhood of some point it suffices to investigate only one point. We will choose the north-pole $n$ and see that $(f_i(n),f_{ij}(n))$ is not degenerate. Since the covariances are continuous this is also true for some neighbourhood $U$. Hence the conditions of lemma \ref{thm:KacRice} are satisfied. Again due to the rotational symmetry the integrand does not depend on $\sigma$, so we get
 
 \begin{align*}
 	&\mathbb E Crt_{N,k}(B)=\\
@@ -71,12 +64,24 @@ The second one is obtained by summing over $k\in\{0,\dots,N-1\}$.
 %\frac{\Gamma(N/2)(N-1)^{-N/2}}{\sqrt{\pi t^2}}\mathbb E_{GOE}^{N}\Bigg[\exp\Big(\frac{N(\lambda_k^N)^2}{2}-\frac{\frac{N}{N-1}(\lambda_k^N)^2}{2t^2}\Big)\mathbf 1\{\lambda_k^N\in\sqrt{\frac{N-1}{N}}G\}\Bigg]
 \end{proof}
 
-%\begin{theorem}[LDP for $k$-th largest eigenvalue]
-%	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ satisfies an LDP with speed $N$ and a good rate function
-%	\begin{equation}\label{thm:A.1}
-%		I_k(x;\sigma)=k I_1(x;\sigma)=\begin{cases}
-%						k\int_{2\sigma}^x \sigma^{-1}\sqrt{(\frac{z}{2\sigma})^2-1}\diff z, &\mbox{if } x\geq 2\sigma \\
-%						\infty, &\mbox{otherwise}
-%					  \end{cases}.
-%	\end{equation}
-%\end{theorem}
+Now we are ready to give a sketch of the proof of theorem \ref{thm:2.5}:
+
+\begin{proof}
+	For simplicity's sake we fix $B$ in $\mathbb E Crt_{N,k}(B)$ to be $(-\infty,u)$. The proof naturally extends to arbitrary Borel sets $B$.
+	
+	To declutter notation we set $t=u\sqrt{\frac{p}{2(p-1)}}$, $\phi(x)=-\frac{p-2}{2p}x^2$ and $J_k(u)=(k+1)I_1(-u;2^{-1/2})$, where the additional argument $2^{-1/2}$ indicates some normalisation factor that we get since we are not dealing with random variables with variance one in this setting.
+	
+	Now by theorem \ref{thm:2.1},
+	
+	$$\lim_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E Crt_{N,k}(u) = 
+	\frac{1}{2}\log(p-1) + \lim_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E_{GOE}^N[\exp(N\phi(\lambda_k^2)\mathbf 1_{\lambda_k\leq t}].$$
+	
+	Since $\phi$ is bounded from above we can apply Varadhan's lemma to obtain
+	
+	$$\sup_{x\in(-\infty,t)}(\phi(x)-J_k(x))\leq\liminf_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E_{GOE}^N[\exp(N\phi(\lambda_k^2)\mathbf 1_{\lambda_k<t}]$$
+	$$\leq\limsup_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E_{GOE}^N[\exp(N\phi(\lambda_k^2)\mathbf 1_{\lambda_k\leq t}]\leq\sup_{x\in(-\infty,t]}(\phi(x)-J_k(x)).$$
+	
+	For $t\leq-\sqrt 2$ both suprema equal $\phi(t)-J_k(t)$ and if $t>-\sqrt 2$ they equal $\phi(\sqrt 2)$. The claim essentially follows after appropriate rescaling of the rate function $I_1$ (cf. \cite{Cerny10}).
+\end{proof}
+
+Applying Markov's inequality to theorem \ref{thm:2.5} (as in \cite{Cerny10} proof of theorem 2.14) then yields \ref{thm:2.15}.
