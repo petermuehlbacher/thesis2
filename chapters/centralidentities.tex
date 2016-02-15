@@ -1,0 +1,82 @@
+\section{Intermediary Results}
+To prove our main results we first need some refinements for the expected values of critical values.
+
+\begin{theorem}[Express ${\mathbb E[Crt_{N,k}(B)]}$ in terms of the GOE]
+	For all $B$ Borel sets, $N$, $p\geq 2$ and $k\in\{0,\dots,N-1\}$ we have
+
+	\begin{equation}\label{thm:2.1}
+		\mathbb E[Crt_{N,k}(B)]=2\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\mathbb E_{GOE}^N\left[e^{-N\frac{p-2}{2p}(\lambda_k^N)^2}\bm 1\left\{\lambda_k^N\in\sqrt{\frac{p}{2(p-1)}}B \right\}\right]
+	\end{equation} and
+	
+	\begin{equation}\label{thm:2.2}
+		\mathbb E[Crt_N(B)]=2N\sqrt{\frac{2}{p}}(p-1)^{\frac{N}{2}}\int_{\sqrt{\frac{p}{2(p-1)}}B}exp\left\{-\frac{N(p-2)x^2}{2p}\right\}\rho_N(x)dx.
+	\end{equation}
+\end{theorem}
+
+\begin{proof}
+	\todo{prove that Gaussian + nondegenerate implies Morse function}
+%	rough outline of the proof:
+%	* show that f is Morse function and thus Kac-Rice formula holds
+%	* some algebra with Kac-Rice formula to rewrite it in terms of GOE
+%   * use GOE symmetries to get the more concrete result
+
+First of all let us show that we can apply lemma \ref{thm:KacRice}\todo{formulate it!}. To do so we use the same notation as in section \ref{sec:GRF}. Because of the rotational symmetry and since $S^{N-1}$ can be covered by a finite number of copies of an open neighbourhood of some point it suffices to investigate only one point. We will choose the north-pole $n$ and see that $(f_i(n),f_{ij}(n))$ is not degenerate. Since the covariances are continuous this is also true for some neighbourhood $U$. Hence the conditions of lemma \ref{thm:KacRice} are satisfied. Again due to the rotational symmetry the integrand does not depend on $\sigma$, so we get
+
+\begin{align*}
+	&\mathbb E Crt_{N,k}(B)=\\
+	&\text{vol}(S^{N-1})\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k, f(n)\in\sqrt NB\}|\nabla f(n)=0]d\mathbb P(\nabla f(n)=0)
+\end{align*}
+
+To compute this expectation we condition on $f(n)$
+\begin{align*}
+	&\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k, f(n)\in\sqrt NB\}|\nabla f(n)=0]=\\
+	&\mathbb E\left[\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k,f(n)\in\sqrt NB\}|f(n)]\right]
+\end{align*}
+
+By lemma the following equality for the interior expectation
+
+\begin{align*}
+	&\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k,f(n)\in\sqrt NB\}|f(n)]=\\
+	&(2(N-1)p(p-1))^{(N-1)/2}\mathbb E_{GOE}^{N-1}\Big[|\det(M^{N-1}-\sqrt{p/(2(N-1)(p-1))}f(n)I)|\\&\times\mathbf 1\{i(M^{N-1}-\sqrt{p/(2(N-1)(p-1))}f(n)I)=k,f(n)\in\sqrt NB\}\Big].
+\end{align*}
+
+Substituting back, writing $t^2$ for $p/(2(N-1)(p-1))$ as well as $G$ for $\sqrt{Np/(2(N-1)(p-1))}B$ and setting $X$ to be a real valued Gaussian random variable with zero mean and variance $t^2$ we get 
+
+\begin{align}\label{eq:expressEintermsofEGOE}
+	&\mathbb E\Big[|\det(M^{N-1}-XI)\mathbf 1\{i(M^{N-1}-XI)=k,X\in G\}\Big]=\nonumber\\
+	&(2\pi t^2)^{-1/2}\int_G\exp(-\frac{x^2}{2t^2})\mathbb E_{GOE}^{N-1}\Big[|\det(M-xI)|\mathbf 1\{i(M-xI)=k\}\Big]\diff x.
+\end{align}
+
+Now observe that the event $\{i(M-xI)=k\}$ is equal to the event $\{A_k^N(x)\}$, where $A_k^N(x) = \{\lambda^{N-1}: \lambda_0^{N-1}\leq\dots\leq\lambda_{k-1}^{N-1}<x\leq\lambda_k^{N-1}\leq\dots\leq\lambda_{N-2}^{N-1}\}$.
+
+Using \ref{thm:probabilitydensityofEV} we get
+
+\begin{equation*}
+	\mathbb E_{GOE}^{N-1}\left[|\det(M-xI)|\mathbf 1\{i(M-xI)=k\}\right]=\int_{A_k^N(x)}\prod_{i=1}^{N-2}|\lambda_i^{N-1}-x|Q_{N-1}(\diff\lambda^{N-1}).
+\end{equation*}
+
+The definition of $A_k^N(x)$ and the determinant in the equation above suggests considering $x$ as the $k+1$-th smallest eigenvalue of a $N\times N$ GOE matrix. Performing the corresponding rescaling, that is, change of variables given by $\lambda_i^{N-1}=\sqrt{N/(N-1)}\lambda_i^N$ for $i\in\{0,\dots,k-1\}$, $\lambda_i^{N-1}=\sqrt{N(/(N-1)}\lambda_{i+1}^N$ for $i\in\{k,\dots,N-2\}$ and $x=\sqrt{N/(N-1)\lambda_k^N}$, writing out $Q_N$ and substituting back in equation \ref{eq:expressEintermsofEGOE} we obtain
+
+\begin{align*}
+	&\frac{Z_N}{Z_{N-1}\sqrt{2\pi t^2}}(N/(N-1))^{(N+2)(N+1)/4}\\
+	&\times\mathbb E_{GOE}^N\Big[\exp\Big(\frac{N(\lambda_k^N)^2}{2}-\frac{\frac{N}{N-1}(\lambda_k^N)^2}{2t^2}\Big)\mathbf 1\{\lambda_k^N\in\sqrt{(N-1)/N)}G\}\Big],
+\end{align*}
+
+where the constants $Z_N$ is given by $$\frac{1}{N!}(2\sqrt 2)^N N^{-N(N+1)/4}\prod_{i=1}^N \Gamma(1+i/2)$$ which can be computed from Selberg's integral (cf. \cite{Mehta2004random}).
+
+Some straightforward algebra then yields the first claim.
+
+The second one is obtained by summing over $k\in\{0,\dots,N-1\}$.
+
+%\frac{\Gamma(N/2)(N-1)^{-N/2}}{\sqrt{\pi t^2}}\mathbb E_{GOE}^{N}\Bigg[\exp\Big(\frac{N(\lambda_k^N)^2}{2}-\frac{\frac{N}{N-1}(\lambda_k^N)^2}{2t^2}\Big)\mathbf 1\{\lambda_k^N\in\sqrt{\frac{N-1}{N}}G\}\Bigg]
+\end{proof}
+
+%\begin{theorem}[LDP for $k$-th largest eigenvalue]
+%	The $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE of dimension $N$ with variance $\sigma^2 N^{-1}(1+\delta_{ij})$ satisfies an LDP with speed $N$ and a good rate function
+%	\begin{equation}\label{thm:A.1}
+%		I_k(x;\sigma)=k I_1(x;\sigma)=\begin{cases}
+%						k\int_{2\sigma}^x \sigma^{-1}\sqrt{(\frac{z}{2\sigma})^2-1}\diff z, &\mbox{if } x\geq 2\sigma \\
+%						\infty, &\mbox{otherwise}
+%					  \end{cases}.
+%	\end{equation}
+%\end{theorem}
