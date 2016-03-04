@@ -68,7 +68,7 @@ Note that this definitions yields the usual definition for a multivariate Gaussi
 
 The formulation and proofs of the following two lemmata will closely follow \cite{Cerny10} (and \cite{Adler07} for the proofs).
 
-\begin{lemma}[Covariances of $f$]
+\begin{lemma}[Covariances of $f$]\label{thm:covarianceStructure}
 	Let $f$ be as defined in \ref{def:rescaledHamiltonian}, then $f(\sigma),f_i(\sigma),f_{ij}(\sigma)$ are centered Gaussian random variables for all $1\leq i,j,k,l<N$ and $\sigma\in S^{N-1}$ whose joint distribution is determined by
 	
 	\begin{align}\label{eq:covariancesoff}
@@ -106,7 +106,8 @@ Now we can formulate one of the central identities that allow us to use methods 
 	where $M^{N-1}$ is a $(N-1)\times(N-1)$ GOE matrix as defined in \ref{def:GOE} and $I$ is the identity matrix.
 \end{lemma}
 \begin{proof}
-	Equations \ref{eq:momentsUnderConditioning} can be seen from the last two equations of \ref{eq:covariancesoff}.
+	Equations \ref{eq:momentsUnderConditioning} can be seen from the last two equations of \ref{eq:covariancesoff} and by using $\mu_{Y|X} = \mu_Y + \Sigma_{YX}\Sigma^{-1}_{XX}(x-\mu_X)$ for $(X,Y)\sim\mathcal N(\mu;\Sigma)$ and setting $X$ to be $f(\sigma)$ and $Y$ to be $f_{ij}(\sigma)$.
+	
 	The second statement follows by plugging in the definitions.
 \end{proof}
 

@@ -17,19 +17,19 @@ First of all let us show that we can apply lemma \ref{thm:KacRice}. To do so we 
 
 \begin{align*}
 	&\mathbb E Crt_{N,k}(B)=\\
-	&\text{vol}(S^{N-1})\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k, f(n)\in\sqrt NB\}|\nabla f(n)=0]d\mathbb P(\nabla f(n)=0)
+	&\text{vol}(S^{N-1})\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(n))=k, f(n)\in\sqrt NB\}|\nabla f(n)=0]d\mathbb P(\nabla f(n)=0)
 \end{align*}
 
 To compute this expectation we condition on $f(n)$
 \begin{align*}
-	&\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k, f(n)\in\sqrt NB\}|\nabla f(n)=0]=\\
-	&\mathbb E\left[\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k,f(n)\in\sqrt NB\}|f(n)]\right]
+	&\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(n))=k, f(n)\in\sqrt NB\}|\nabla f(n)=0]=\\
+	&\mathbb E\left[\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(n))=k,f(n)\in\sqrt NB\}|f(n)]\right]
 \end{align*}
 
-By lemma the following equality for the interior expectation
+By lemma \ref{thm:covarianceStructure} we get the following equality for the interior expectation
 
 \begin{align*}
-	&\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(\sigma))=k,f(n)\in\sqrt NB\}|f(n)]=\\
+	&\mathbb E[|\det\nabla^2 f(n)|\mathbf 1\{i(\nabla^2 f(n))=k,f(n)\in\sqrt NB\}|f(n)]=\\
 	&(2(N-1)p(p-1))^{(N-1)/2}\mathbb E_{GOE}^{N-1}\Big[|\det(M^{N-1}-\sqrt{p/(2(N-1)(p-1))}f(n)I)|\\&\times\mathbf 1\{i(M^{N-1}-\sqrt{p/(2(N-1)(p-1))}f(n)I)=k,f(n)\in\sqrt NB\}\Big].
 \end{align*}
 
@@ -57,9 +57,7 @@ The definition of $A_k^N(x)$ and the determinant in the equation above suggests 
 
 where the constants $Z_N$ is given by $$\frac{1}{N!}(2\sqrt 2)^N N^{-N(N+1)/4}\prod_{i=1}^N \Gamma(1+i/2)$$ which can be computed from Selberg's integral (cf. \cite{Mehta2004random}).
 
-Some straightforward algebra then yields the first claim.
-
-The second one is obtained by summing over $k\in\{0,\dots,N-1\}$.
+Some algebra then yields the first claim, the second one is obtained by summing over $k\in\{0,\dots,N-1\}$.
 
 %\frac{\Gamma(N/2)(N-1)^{-N/2}}{\sqrt{\pi t^2}}\mathbb E_{GOE}^{N}\Bigg[\exp\Big(\frac{N(\lambda_k^N)^2}{2}-\frac{\frac{N}{N-1}(\lambda_k^N)^2}{2t^2}\Big)\mathbf 1\{\lambda_k^N\in\sqrt{\frac{N-1}{N}}G\}\Bigg]
 \end{proof}
