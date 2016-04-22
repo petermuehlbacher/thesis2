@@ -1,75 +1,394 @@
-To be able to show the previously mentioned results we first need to prove some other theorems which require prerequisites from various other fields.
-
-\section{GOE}
+\section{Gaussian Orthogonal Ensemble}
 \begin{definition}\label{def:GOE}
-	Symmetric $N\times N$ matrices $H=H_N$ with $\mathbb E H_{ij}=0$ and $\mathbb E H_{ij}^2=1+\delta_{ij}$.
+	The Gaussian Orthogonal Ensemble (henceforth referred to as GOE) is an ensemble of symmetric $N\times N$ matrices $H=H_N$ with centered Gaussian entries $H_{ij}$, normalized in the following way: $\mathbb E H_{ij}^2=1+\delta_{ij}$.
 \end{definition}
 \begin{remark}[Density in the space of matrices]
 	Their density is given by the Gaussian measure
 	\begin{equation}
 		d\mathbb P(H)=Z_N^{-1}\exp\left(-N\frac{1}{4}tr H^2\right)
 	\end{equation}
-	with normalization constant $Z_N=\int d\mathbb P(H)\prod_{1\leq i\leq j\leq N} dH_{ij}$ which is a shorter way of writing $Z_N^{-1}\exp\left\{-N\frac{1}{4}\left(2\sum_{i<j}^N H_{ij}^2+\sum_{i=j}^N H_{ij}^2\right)\right\}$.
+	with normalization constant $Z_N=\int d\mathbb P(H)\prod_{1\leq i\leq j\leq N} dH_{ij}$ which is a shorter way of writing $Z_N^{-1}\exp\left\{-N\frac{1}{4}\left(2\sum_{i<j}^N H_{ij}^2+\sum_{i=j}^N H_{ij}^2\right)\right\}$.\footnote{Note that $tr H^2 = \sum_i [H^2]_{ii}$ and $[H^2]_{ii}=\sum_j H_{ij}H_{ji}=\sum_j |H_{ij}|^2$ by hermiticity.}
 \end{remark}
 
 \begin{theorem}[Joint probability density of eigenvalues]\label{thm:probabilitydensityofEV}
 	The joint probability density $Q_N$ of the unordered eigenvalues $\{\lambda_i\}_{i=1}^N$ of the GOE is given by
 	$$Q_N(\diff\lambda_1,\dots,\diff\lambda_N) = C_N\prod_{i<j}|\lambda_i-\lambda_j|\prod_i\exp(-N\lambda_i^2/4)\diff\lambda_i,$$
-	
-	where, without loss of generality, we assumed the variances of the entries to be normalized to one and for some $C_N>0$ which is uniquely determined by normalization.
+	for some $C_N>0$ which is uniquely determined for normalization.
 \end{theorem}
 \begin{proof}
-	This proof will follow the one given in \cite{LiuEigenvalues}.
-	
+	We follow \cite{LiuEigenvalues}.
 	Let $H$ be some element of the GOE. Since it is symmetric there is a decomposition in $H=UDU^T$ with $U$ orthogonal and $D=\text{diag}(\lambda_1,\dots,\lambda_N)$. Thus we can write 
 	\begin{equation}\label{eq:H_ijLinearityInEigenvalues}
-		H_{ij} = \sum_k \lambda_k U_{ik}U_{jk}
+		H_{ij} = \sum_k \lambda_k U_{ik}U_{jk}.
 	\end{equation}
-	and, using the orthogonality of $U$: $\sum_k U_{ki}U_{kj}=\delta_{ij}$. Using those results one can infer that $\sum_{i,j}H_{ij}^2=\sum_i \lambda_i^2$.
+	Using the orthogonality of $U$, $\sum_k U_{ki}U_{kj}=\delta_{ij}$, one can infer that $\sum_{i,j}H_{ij}^2=\sum_i \lambda_i^2$.
 	
 	The key idea is to make use of the change of variables formula to go from $\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2})$ to $\mathbb P(H)$. One should think of the $\{\alpha_i\}_{i=1}^{N(N-1)/2}$ as the parameters that determine the matrix $U$, which, together with the eigenvalues, uniquely determines $H$.
 	
 	To do that we first need some information on the determinant of the Jacobian $J$ of the change of variables:
-	From equation \ref{eq:H_ijLinearityInEigenvalues} we see the linearity of $H_{ij}$ in the eigenvalues $\lambda_k$ which implies that $\partial H_{ij}/\partial\alpha$ is linear in the eigenvalues\footnote{To be precise, it is linear in the \textit{vector} $(\lambda_i)_{i=1}^N$.}. Hence, $\det J$ has to be a polynomial of degree $N(N-1)/2$ in the eigenvalues. If two eigenvalues coincide $U$ cannot be uniquely determined anymore and thus the inverse of the transformation is not unique, meaning that $\det J=0$. So the determinant of the Jacobian must vanish for all $\lambda_i=\lambda_j, i\neq j$, which is achieved if it contains a factor $\lambda_i-\lambda_j$. However, there are exactly $N(N-1)/2$ such factors and since that is just the degree of the polynomial it follows that we have completely accounted for $J$'s dependence on the eigenvalues by writing $$\det J=\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2}).$$
-	
+	From equation \eqref{eq:H_ijLinearityInEigenvalues} we see the linearity of $H_{ij}$ in the eigenvalues $\lambda_k$ which implies that $\partial H_{ij}/\partial\alpha$ is linear in the eigenvalues\footnote{To be precise, it is linear in the \textit{vector}.}. Hence, $\det J$ has to be a polynomial of degree $N(N-1)/2$ in the eigenvalues. If two eigenvalues coincide $U$ cannot be uniquely determined anymore and thus the inverse of the transformation is not unique, meaning that $\det J=0$. So the determinant of the Jacobian must vanish for all $\lambda_i=\lambda_j, i\neq j$, which is achieved if it contains a factor $\lambda_i-\lambda_j$. However, there are exactly $N(N-1)/2$ such factors and since that is just the degree of the polynomial it follows that we have completely accounted for $J$'s dependence on the eigenvalues by writing $$\det J=\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2}).$$
 	Now we can write
 	$$\mathbb P(\lambda_1,\dots,\lambda_N,\alpha_1,\dots,\alpha_{N(N-1)/2}) = $$
 	$$\mathbb P(H)|\det J|=Z_N^{-1}\exp\left(-N\frac{1}{4}\sum_i\lambda_i^2\right)|\prod_{i<j}(\lambda_i-\lambda_j) h(\alpha_1,\dots,\alpha_{N(N-1)/2})|.$$
-	
 	Integrating out the dependence on $\{\alpha_k\}_{k=1}^{N(N-1)/2}$ yields the desired result.
 \end{proof}
 
 
-\section{Gaussian Random Fields}\label{sec:GRF}
-For what follows it we shall fix some notations like in \cite{Cerny10}:
+%%%%%%%%%%%%%%%% WCSL %%%%%%%%%%%%%%%%%%%%%
 
-First of all, instead of working with $H_{N,p}$ it is convenient to define
 
-\begin{equation}\label{def:rescaledHamiltonian}
-	f(\sigma)\equiv f_{N,p}(\sigma)=N^{-1/2}H_{N,p}(N^{1/2}\sigma),
+\section{Wigner's Semicircle Law}
+This section will follow \cite{TaoWSCL} quite closely while trying to be as self-contained as possible.
+
+\begin{definition}[Wigner matrix]
+	A Wigner matrix $M$ is a complex, Hermitian matrix with independent and identically distributed entries $M_{ij}$ for $i\geq j$ and with mean $0$ and variance $1$ for $i>j$. The diagonal entries $M_{ii}$ have bounded mean and variance.
+\end{definition}
+
+If $M_n$ is an $n$-dimensional Wigner matrix we know that the operator norm $\|M_n\|_{OP}$ is typically of size $O(\sqrt n)$, so it is natural to define the empirical spectral distribution (ESD) as follows:
+
+\begin{definition}[ESD]
+	\begin{equation*}
+		\mu_{\frac{1}{\sqrt{n}}M_n}:=\frac{1}{n}\sum_{j=1}^n \delta_{\lambda_j(M_n)/\sqrt{n}},
+	\end{equation*}
+	where $\lambda_1(M_n)\leq\dots\leq\lambda_n(M_n)$ are the ordered, real eigenvalues of $M_n$.
+\end{definition}
+
+Since we are considering random matrices the ESDs will be random as well and thus it is interesting to ask if there is a measure on the real line $\mu$ such that it is the weak limit $\mu_{M_n/\sqrt{n}}\rightharpoonup\mu$ of $\mu_{M_n/\sqrt{n}}$, that is $\int_\mathbb{R} \varphi d\mu_{M_n/\sqrt{n}}$ converges in almost surely against $\int_\mathbb{R} \varphi d\mu$ for all $\varphi\in C_c(\mathbb R)$. This can also be derived from the more general definition of convergence in probability or almost surely, but we will not do that here.
+
+Surprisingly such a limit $\mu$ exists and is even deterministic.
+
+\begin{theorem}[Wigner's semicircle law]\label{thm:semicircle}
+	Let $M_n$ be the top left $n\times n$ minors of an infinite Wigner matrix, then the ESDs $\mu_{M_n/\sqrt{n}}$ converge in probability\footnote{Even almost sure convergence can be shown, but we will not do so in this proof.} to the Wigner semicircle distribution given by
+	\begin{equation*}
+		\mu_{sc}:=\begin{cases}
+						\frac{1}{2\pi}\sqrt{4-|x|^2}dx, &\mbox{if } |x|\leq 2 \\
+						0, &\mbox{else}
+					  \end{cases}=:\frac{1}{2\pi}\sqrt{4-x^2}_+\diff x.
+	\end{equation*}
+\end{theorem}
+A rough outline of the proof is given by this list of intermediary results that will be shown:
+\begin{enumerate}
+	\item Show that without loss of generality we can set the diagonal elements to zero and bound all other entries by some constant. Additionally some classic concentration of measure results will be shown.
+	\item To show that $\mu_n\rightharpoonup\mu$ almost surely, it suffices to show that the respective Stieltjes transforms converge almost surely, pointwise in the upper half plane, i.e. $\mu_n\rightharpoonup\mu\Leftrightarrow\forall z\in\mathbb C:Im(z)>0 s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
+	\item The Stieltjes transform $s_n := s_{\mu_{M_n/\sqrt{n}}}$ is ``stable in $n$'', i.e. $s_n(z)=s_{n-1}(z)+O(\frac{1}{n})$, where $O$ can depend on $z$ and even $s_n(z)-\mathbb E s_n(z)\rightarrow 0$ almost surely.
+	\item Derive the semicircle law by deriving the recursion $\mathbb E s_n(z)=-\frac{1}{z+\mathbb E s_n(z)}+o(1)$, where, again, $o(1)$ will depend on $z$ and ``inverting'' the Stieltjes transform.
+\end{enumerate}
+\begin{remark}
+	Note that instead of step 4 one could have plugged in the semicircle distribution and simplified the proof by just checking that this is indeed the limit. This is not done here because we want to see how the Stieltjes transform method can be used to derive such a conclusion without knowing about it beforehand.
+	
+	Also, there are other proofs (e.g. \cite{scGOE}) specifically for the GOE/GUE (instead of the more general Wigner matrices) which exploit their symmetries to shorten the proof considerably.
+\end{remark}
+
+\subsection{Preliminary Reductions}\label{ssec:prelimreduct}
+\begin{lemma}
+	For the matrices $M_n$ as given in \ref{thm:semicircle} it can be assumed without loss of generality that the diagonal entries are zero and the absolute values $|[M_n]_{ij}|$ are bounded by some constant $C>0$ which does not depend on $i,j$ or $n$.
+\end{lemma}
+\begin{proof}
+	For every $n$ define the normalized random variable $\overline X_n$ by setting the diagonal elements to zero and bounding every entry by zero\footnote{Since the distribution changes we also need to recenter them by subtracting its mean value.}, i.e.
+
+	$$[\overline X_n]_{ij}:=\begin{cases}
+						[M_n]_{ij}/\sqrt n\mathbf 1_{|[M_n]_{ij}|\leq C}-\mathbb E\left[[M_n]_{ij}\mathbf 1_{|[M_n]_{ij}|\leq C}\right], &\mbox{if } i\neq j \\
+						0, &\mbox{if } i=j
+					  \end{cases}.$$
+	Now we want to show that convergence of $\mu_{\overline X_n}$ to $\mu$ implies convergence of $\mu_{X_n}$ to the same limit $\mu$. To do so it suffices to show that $|\int\varphi\diff\mu_{X_n}-\int\varphi\diff\mu_{\overline X_n}|\rightarrow 0$ for every smooth $\varphi$ with compact support. In particular every such $\varphi$ is a Lipschitz function with Lipschitz-constant $\|\varphi'\|_{L^\infty}$. By denoting the eigenvalues of $X_n,\overline X_n$ as $\lambda_i,\overline\lambda_i$ and invoking the Wielandt-Hoffmann inequality we get the following bound:
+	
+	$$|\int\varphi\diff\mu_{X_n}-\int\varphi\diff\mu_{\overline X_n}| \leq
+	\|\varphi'\|_{L^\infty}\frac{1}{n}\sum_{i=1}^n|\lambda_i-\overline\lambda_i| \leq$$
+	$$
+	\|\varphi'\|_{L^\infty}\left[\frac{1}{n}\sum_{i=1}^n|\lambda_i-\overline\lambda_i|^2\right]^{1/2} \leq
+	\|\varphi'\|_{L^\infty}\left[\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)\right]^{1/2}.$$
+	Now we need to show that for every $\varepsilon,\delta > 0$ we can find a $C$ such that $\mathbb P\left(\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)>\varepsilon\right)<\delta$ for large enough $n$.
+	
+	Using the definitions one sees that
+	
+	$$\frac{1}{n}tr\left((X_n-\overline X_n)^2\right) \leq
+	\frac{1}{n^2}\sum_{i\neq j}\sqrt n\left[X_n-\overline X_n\right]_{ij}^2+\frac{1}{n}\sum_i [X_n]_{ii}^2,$$
+	where the second term vanishes almost surely as $n\rightarrow\infty$ according to the strong law of large numbers. So we can use this to bound the probability of the event $\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)>\varepsilon$ by
+	
+	$$
+	\mathbb P\left(\frac{1}{n}tr\left((X_n-\overline X_n)^2\right)\right)\leq
+	\frac{1}{n^2}\sum_{i\neq j}\mathbb P\left(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon\right).
+	$$
+	To see that this goes to zero for large $C$ we apply Markov's inequality, yielding 
+	
+	\begin{align*}
+		&\mathbb P(\sqrt n[X_n-\overline X_n]_{ij}^2>\varepsilon)\leq
+	\frac{1}{\varepsilon}\mathbb E\left[[\sqrt n X_n-\overline X_n]_{ij}^2\right]\leq\\
+	&\frac{\sqrt n}{\varepsilon}\left(\mathbb E[[X_n]_{ij}^2\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]+\mathbb E[[X_n]_{ij}\mathbf 1_{\sqrt n |[X_n]_{ij}|>C}]^2\right).
+	\end{align*}
+	Since the entries $\sqrt n [X_n]_{ij}=[M_n]_{ij}$ have finite variance the right hand side will go to zero as $C\rightarrow\infty$ which proves the claim.
+\end{proof}
+
+\begin{theorem}[Talagrand's concentration inequality]
+	Let $K>0$ and $X_1,\dots,X_n$ be independent complex variables with $|X_i|<K$ for all $1\leq i\leq n$. Identifying $\mathbb C$ with $\mathbb R^2$, let $F:\mathbb C^n\rightarrow\mathbb R$ a $1$-Lipschitz, convex function. Then for every $\lambda>0$ one has
+	$$\mathbb P(|F(X)-MF(X)|\geq \lambda K)\leq C\exp^{-c\lambda^2}$$ and $$\mathbb P(|F(X)-\mathbb EF(X)|\geq \lambda K)\leq C\exp^{-c\lambda^2}$$
+	for some absolute constants $c,C>0$, where $MF(X)$ is the median of $F(X)$.
+\end{theorem}
+For the proof refer to \url{https://terrytao.wordpress.com/2010/01/03/254a-notes-1-concentration-of-measure/#boof0}.
+
+\begin{theorem}[Weilandt-Hoffmann inequality]
+	For Hermitian\footnote{The original Weilandt-Hoffmann inequality holds for normal operators, but we will restrict ourselves to Hermitian ones for simplicity's sake here.} $A,B$, where $\|B\|_F^2:=tr(B^2)^{\frac{1}{2}}$ is the Frobenius norm, we have
+	$$\sum_{j=1}^n|\lambda_j(A+B)-\lambda_j(A)|^2\leq\|B\|_F^2.$$
+\end{theorem}
+
+\begin{proof}
+	We fix $B$ to be $B-A$ and show the equivalent statement $$\sum_{i=1}^n |\lambda_i(A)-\lambda_i(B)|^2\leq tr\left((A-B)^2\right)$$
+	and denote by $D_M$ the diagonal matrix $\text{diag}(\lambda_1(M),\dots,\lambda_n(M))$ and $U$ the matrix that diagonalises $B=UD_BU^*$ in the basis of $A$, such that $tr(AB)=tr(D_A U D_B U^*)=\sum_{i,j}\lambda_i(A)\lambda_j(B)|[U]_{ij}|^2.$
+	
+	Now we have to get some bounds on the ``worst case'' scenario, that is when $tr(AB)$ is big. To do so we define $v_{ij}:=|[U]_{ij}|^2$ and notice that the above $tr(AB)$ is linear in $v_{ij}$. Due to the orthogonality of $U$ one has $\sum_i v_{ij}=\sum_j v_{ij}=1$ so we can bound $tr(AB)$ from above by $\sup_{v_{ij}\geq 0,\sum_i v_{ij}=\sum_j v_{ij}=1}\sum_{i,j}\lambda_i(A)\lambda_j(B)v_{ij}.$
+	
+	This is an optimization problem of a linear functional over a convex set of doubly stochastic matrices. Hence the maximum is attained at the extreme points which are exactly the permutations. Of all the permutations the identity gives the maximal value which, after writing out the first inequality proves the theorem.
+\end{proof}
+
+\begin{theorem}[Chernoff inequality]
+	Let $X_1,\dots,X_n$ be independent scalar random variables with $|X_i|\leq K$ almost surely, mean $\mu_i$ and variance $\sigma_i^2$. Then for any $\lambda>0$ there are absolute constants $c,C>0$ such that 
+	
+	$$\mathbb P(|S_n-\lambda|\geq\lambda\sigma)\leq C\max(e^{-c\lambda^2}, e^{-c\lambda\sigma/K}),$$
+	where $\lambda:=\sum_i \lambda_i$ and $\sigma^2:=\sum_i \sigma_i^2$.
+\end{theorem}
+\begin{proof}
+	We begin with some preliminary reductions, namely that it is sufficient to assume $X_i$ to be real valued by taking real and imaginary parts. Furthermore without loss of generality we set $K=1$ by dividing $X_i$ through $K$, center $X_i$ (i.e. set $\mu_i$ to zero by subtracting its mean), and, by symmetry, only show the upper tail estimate $\mathbb P(S_n\geq\lambda\sigma)\leq C\max(e^{-c\lambda^2}, e^{-c\lambda\sigma})$ (with different constants $c,C$).
+	
+	To do so we compute the exponential moments $\mathbb E \exp(tS_n)$ for some $0\leq t\leq 1$. By independence of the $X_i$ we have $\mathbb E \exp(tS_n)=\prod_{i=1}^n \mathbb E \exp(tX_i)$. The $\exp(tX_i)$ can be expanded into a Taylor series $1+tX_i+O(t^2X_i^2\exp(O(t)))$ which, after taking expectation and noting that $|X_i|\leq 1$, yields
+	$$\mathbb E\exp(tX_i)=1+O(t^2\sigma_i^2\exp(O(t)))=\exp(O(t^2\sigma_i^2))$$
+	and hence $\mathbb E\exp(tS_n)=\exp(O(t^2\sigma^2))$. By Markov's inequality we conclude with $$\mathbb P(S_n\geq\lambda\sigma)\leq\exp(O(t^2\sigma^2)-t\lambda\sigma),$$ which proves the claim after minimising the right hand side in $t\in[0,1]$.
+\end{proof}
+
+\begin{theorem}[McDiarmid's inequality]
+	Let $X_1,\dots,X_n$ be independent random variables taking values in ranges $R_1,\dots,R_n$ and let $F:R_1\times\dots\times R_n\rightarrow\mathbb C$, such that for every $1\leq i\leq n$ we have $|F(x_1,\dots,x_i,\dots,x_n)-F(x_1,\dots,x_i',\dots,x_n)|\leq c_i$. Then for any $\lambda>0$ one has $$\mathbb P(|F(X)-\mathbb EF(X)|>\lambda\sigma)\leq C\exp^{-c\lambda^2},$$ for some absolute\footnote{Constants that maintain the same value wherever they occur. In particular applying McDiarmid's inequality in different settings we do not need to consider $C_n, c_n$, but can still write $C,c$.} constants $c,C>0$ and $\sigma=\sum_{i=1}^n c_i^2$.
+\end{theorem}
+
+\begin{proof}
+	Similar as above we may assume that $F$ is real, it suffices to show the upper tail estimate $\mathbb P(F(X)-\mathbb EF(X)\geq\lambda\sigma^2)\leq Ce^{-c\lambda^2}$ and try to bound the exponential moment $\mathbb Ee^{tF(X)}$.
+	
+	To get a better idea how the exponential moment behaves we write it in such a way that we can use the fact that $F$ does not fluctuate ``too much'', i.e. we consider the conditional expectation $\mathbb E(e^{tF(X)}|X_1,\dots,X_{n-1})$ for $X_1,\dots,X_{n-1}$ fixed and write this as
+	
+	$$\mathbb E(e^{tF(X)}|X_1,\dots,X_{n-1}) = \mathbb E(e^{tY}|X_1,\dots,X_{n-1})e^{t\mathbb E(F(X)|X_1,\dots,X_{n-1})},$$
+	where $Y:=F(X)-\mathbb E(F(X)|X_1,\dots,X_{n-1})$.
+	
+	Now we want to control the first term on the right hand side.
+	Since $tY$ has mean zero and variance $t^2c_n^2$ we can (just in the proof of Chernoff's inequality) expand to get a Taylor series and take expectations to get
+	
+	$$\mathbb E(e^{tY}|X_1,\dots,X_{n-1}) \leq e^{O(t^2c_n^2)}.$$
+	Integrating out the conditioning (note that $X_i$ are independent) we get the following bound on the exponential moment
+	
+	$$\mathbb Ee^{tF(X)} \leq e^{O(t^2c_n^2)}\mathbb E e^{t\mathbb E(F(X)|X_1,\dots,X_{n-1})}.$$
+	Basically we reduced the problem by one dimension and noting that \newline$\mathbb E(F(X)|X_1,\dots,X_{n-1})$ is a function $F_{n-1}(X_1,\dots,X_{n-1}$ with the same properties as in the theorem's assumptions on $F$ the above calculations can be performed iteratively $n$ times to get the upper bound
+	
+	$$\mathbb Ee^{tF(X)}\leq \exp(\sum_{i=1}^n O(t^2c_i^2) + t\mathbb EF(X)).$$
+	Dividing by $\exp(t\mathbb EF(X)))$ and applying Markov's inequality yields
+	
+	$$\mathbb P(F(X)-\mathbb EF(X)\geq\lambda\sigma) \leq \exp(O(t^2\sigma^2)-t\lambda\sigma),$$
+	which, after minimising the right hand side in $0\leq t\leq 1$, proves the claim.
+\end{proof}
+
+
+\subsection{Stieltjes Transform}
+
+\begin{definition}[Stieltjes transform]
+	For a probability measure $\mu$ we write $s_\mu$ for its Stieltjes transform $$\int_\mathbb{R} \frac{1}{x-z}\diff\mu(x).$$
+\end{definition}
+As mentioned above, $s_n$ will be a shorthand for $s_{\mu_{M_n/\sqrt{n}}}$.
+
+\begin{lemma}[Properties of the Stieltjes transform]\label{lm:stieltjesproperties}
+In the following let $\mu$ be some probability measure.
+	\begin{enumerate}
+		\item For $z=a+ib$ we have $Im\frac{1}{x-z}=\frac{b}{(x-a)^2+b^2}>0$.\label{lm:stieltjesproperties1}
+		\item $s_\mu$ is analytic in $\mathbb C\setminus supp(\mu)\supset\mathbb C_+$.\label{lm:stieltjesproperties2}
+		\item We can bound the absolute value as well as the derivatives by $|\frac{d^j}{dz^j}s_\mu(z)|\leq O(|Im(z)|^{-(j+1)})$ for all $j\in\mathbb \{0,1,\dots\}$.\label{lm:stieltjesproperties3}
+	\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+	The first property is trivial, the second one can be seen by integrating $s_\mu$ over any contour not containing the support of $\mu$, interchanging the order of integration and noting that integrating $\frac{1}{x-z}$ gives $0$ by Cauchy's integral formula ($\frac{1}{x-z}$ being holomorphic outside the support of $\mu$). The Stieltjes transform being holomorphic (and thus analytic) follows by Morera's theorem.
+	
+	The third property can be obtained by using $\frac{1}{x-z}\leq \frac{1}{Im(z)}$ and using Cauchy's integral formula integrating this inequality.
+\end{proof}
+
+\begin{corollary}
+	From \ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties1} it follows that $s_\mu$ is a Herglotz function and thus (e.g. \cite{TeschlQM}) $Im(s_\mu(.+ib))\rightharpoonup\pi\mu$ as $b\rightarrow 0^+$ in the vague topology or equivalently (by $\overline{s_\mu(z)}=s_\mu(\overline z)$)
+	\begin{equation}
+		\frac{s_\mu(.+ib)-s_\mu(.-ib)}{2\pi i}\rightharpoonup\mu.
+	\end{equation}
+	Note that this can also be seen by writing $Im(s_\mu)$ as the convolution $\pi\mu * P_b(a)$ with the Poisson kernels $P_b(x):=\frac{1}{\pi}\frac{b}{x^2+b^2} = \frac{1}{b}P_1(\frac{x}{b})$ which form a family of approximations to the identity.
+	%This ``intuition'' will become important for the next proof and when applying Cauchy's interlacing law to show that $s_n(z)=s_{n-1}(z)+O(\frac{1}{n})$.
+\end{corollary}
+
+\begin{theorem}[Stieltjes continuity theorem]
+	For $\mu_n$ (realisations of) random measures and $\mu$ a deterministic measure the following statement holds:
+	
+	$\mu_n\rightharpoonup\mu$ almost surely in the vague topology if and only if $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely for every $z\in\mathbb C_+$.
+\end{theorem}
+
+\begin{proof}
+%	$$\mathbb P(\{\limsup_{n\rightarrow\infty}d_v(\mu_n,\mu)=0\})=1$$
+%	$$\mathbb P(\{\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu\})=1$$
+%	$$\forall z\in\mathbb C_+:\mathbb P(\{\lim_{n\rightarrow\infty} s_{\mu_n}(z)=s_\mu(z)\})=1$$
+
+	``$\Rightarrow$'': If $\mu_n\rightharpoonup\mu$ in the vague topology almost surely against a deterministic limit $\mu$, then $\forall \phi\in C_c(\mathbb R): \lim_{n\rightarrow\infty}\int_\mathbb{R}\phi \diff\mu_n=\int_\mathbb{R}\phi \diff\mu$ by definition and, by taking the completion, for all bounded, continuous functions vanishing at infinity. The function $x\mapsto \frac{1}{x-z}$ for some $z\in\mathbb C$ with $Im(z)>0$ is bounded and continuous on $\mathbb R$ and hence $s_{\mu_n}(z)\rightarrow s_\mu(z)$ almost surely.
+	
+	``$\Leftarrow$'': One can, up to an arbitrary small error $\varepsilon>0$, approximate $\int_\mathbb{R}\phi\diff\mu$ by $\int_\mathbb{R}\phi*P_b \diff\mu = \frac{1}{\pi}\int_\mathbb{R}\phi(a)s_\mu(a+ib)\diff a$ (and analogously for $\mu_n$).
+	Thus we have $\frac{1}{\pi}\int_\mathbb{R}\phi(a)(s_\mu(a+ib)-s_{\mu_n}(a+ib))\diff a$ being equal to the difference (we are interested in) $\int_\mathbb{R}\phi\diff\mu - \int_\mathbb{R}\phi\diff\mu_n$ up to an error $\varepsilon$ and by dominated convergence (the Stieltjes transform of a measure is bounded for every $z\in \mathbb C_+$ and vanishes outside some compact set) we have convergence in the vague topology.
+\end{proof}
+
+\subsection{Stableness and Concentration of Measure}
+In the following we keep using the notation as defined in \ref{thm:semicircle}. To show that $s_n(z)=s_{n-1}(z)+O_z(1/n)$ we first need to prove the following theorem:
+
+\begin{theorem}[Cauchy's interlacing theorem]
+	For any $n\times n$ Hermitian matrix $A_n$ with top left minor $A_{n-1}$ and eigenvalues of descending order ($\lambda_i\geq\lambda_{i+1}$) we have:
+	\begin{equation*}
+		\lambda_{i+1}(A_n)\leq\lambda_i(A_{n-1})\leq\lambda_i(A_n), 
+	\end{equation*}
+	for all $1\leq i < n$.
+\end{theorem}
+\begin{proof}
+Using the min-max/max-min theorems \newline($\lambda_i(A)=\inf_{dim(V)=n-i+1}\sup_{v\in V : \|v\|=1}\langle Av,v\rangle$ and \newline$\lambda_i(A)=\sup_{dim(V)=i}\inf_{v\in V : \|v\|=1}\langle Av,v\rangle$ respectively, c.f. \cite{TeschlQM} p.141) and writing $S_{n-i+1}$ for $\{v\in span\{a_i,\dots,a_n\}: \|v\|=1\}$, where $A_{n-1}a_j=\lambda_j a_j$ and $P$ an orthogonal projection such that $P^*A_nP=A_{n-1}$ we have
+	\begin{align*}
+		\lambda_i(A_{n-1}) =
+		&\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =\\
+		&\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv\geq\\
+		&\inf_{dim(V)=n-i}\sup_{v\in V,\|v\|=1}v^*A_nv =
+		\lambda_{i+1}(A_n),
+	\end{align*}
+	and
+	\begin{align*}
+		\lambda_i(A_n) =
+		&\inf_{dim(V)=n-i+1}\sup_{v\in V,\|v\|=1}v^*A_nv \geq\\
+		&\sup_{v\in S_i,\|v\|=1}v^*P^*A_nPv =\\
+		&\sup_{v\in S_i,\|v\|=1}v^*A_{n-1}v =
+		\lambda_i(A_{n-1}).%,
+	\end{align*}
+	%where $S_i:=span\{a_i,\dots,a_{n-1}\}$. Note that we implicitly used the isometric embedding $\mathbb C^{n-1}\rightarrow\mathbb C^n$ given by $(x_1,\dots,x_{n-1})\mapsto(x_1,\dots,x_{n-1},0)$ to make sense of the equation $\langle \underbrace{P^*A_nP}_{n-1\times n-1}v,v\rangle = \langle \underbrace{A_n}_{n\times n}Pv,Pv\rangle$.
+\end{proof}
+
+Remembering the identity $Im(s_{\mu_n(a+ib)})=\pi\mu*P_b(a)$ and that $supp\mu_n$ consists of finitely many points, we have $Im(s_{\mu_n})=\pi\frac{1}{n}\sum_{\lambda_i}\frac{b}{(\lambda_i-a)^2+b^2}$ which suggests that it is important to take a closer look at the function $x\mapsto\frac{b}{(x-a)^2+b^2}$ to compare $s_{\mu_n}$ with $s_{\mu_{n-1}}$.
+
+\begin{lemma}
+	For fixed $z\in\mathbb C_+$ the Stieltjes transform is ``stable'' in $n$, i.e.
+	\begin{equation*}
+		s_n(z)=s_{n-1}(z)+O\left(\frac{1}{n}\right)
+	\end{equation*}
+\end{lemma}
+\begin{proof}
+	The idea is to use the Cauchy interlacing law and apply it to the previously mentioned identity by seeing that
+	
+	$$\sum_{j=1}^{n-1}\frac{b}{\lambda_j(M_{n-1})/\sqrt{n}-a}-\sum_{j=1}^n\frac{b}{\lambda_j(M_n)/\sqrt{n}-a}.$$
+	Up to the dimensional factors these two sums correspond to $s_n$ and $s_{n-1}$ and because of Cauchy's interlacing law this is an alternating sum, giving
+	
+	$$\sqrt{n(n-1)}s_{n-1}(\sqrt{n/(n-1)}(a+ib))-ns_n(a+ib)=O(1).$$
+	Now using the fact that the Stieltjes transform $s_n$ is analytic away from the support of $\mu_n$ (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties2}) and using the bound for its derivatives (\ref{lm:stieltjesproperties}.\ref{lm:stieltjesproperties3}) we can approximate $s_{n-1}(\cdot)$ by $s_{n-1}(\sqrt{n/(n-1) \;\cdot\; )}$ and hence the statement holds.
+\end{proof}
+
+Using McDiarmid's inequality one gets 
+
+\begin{equation}\label{eq:concentrationOfStieltjesTransform}
+	\mathbb P(|s_n(z)-\mathbb Es_n(z)|\geq\lambda/\sqrt n)\leq C\exp^{-c\lambda^2},
 \end{equation}
+ for all $\lambda>0$ and some constants $c,C>0$.
+
+From the Borel-Cantelli lemma we see that for every $z$ away from the real line $s_n(z)-\mathbb Es_n(z)$ converges almost surely to zero since, for every fixed $\varepsilon>0$, the sum $\sum_n \mathbb P(d(s_n-\mathbb Es_n,0)\geq\varepsilon) \leq C\sum_n\exp^{-cn\varepsilon^2}<\infty$ which is obtained by setting $\lambda=\varepsilon\sqrt n$.
+
+\subsection{Finding the Semicircle Law}
+
+We start off by using the following identity $$s_n(z) := \int_\mathbb{R}\frac{1}{x-z}d\mu_n(x) = \frac{1}{n}tr\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1},$$ which holds for every $z\in\mathbb C\setminus supp(\mu_n)$. Because of the linearity of the trace we also have
+
+\begin{equation}\label{eq:schursComplementForEs}
+	\mathbb Es_n(z) = \frac{1}{n}\sum_{j=1}^n\mathbb E\left[\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1}\right]_{jj}=\mathbb E\left[\left(\frac{1}{\sqrt n}M_n-zI_n\right)^{-1}\right]_{nn},
+\end{equation}
+where the last equality holds because all of the random variables \newline$\left[(M_n/\sqrt n-zI_n)^{-1}\right]_{jj}$ have the same distribution.
+
+To calculate one entry of an inverse of a matrix we use Schur's complement, which tells us that (under the assumptions that all the occurring inverse matrices exist) $$[(M_n/\sqrt n-zI_n)^{-1}]_{nn}=-\left(z+\frac{1}{n}X^*(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}X\right)^{-1},$$ where $X\in\mathbb C^{n-1}$ is the top right column of $M_n$ with the bottom entry removed and the diagonal elements have been set to zero as justified in \ref{ssec:prelimreduct}.
+
+This inverse exists because, for $z\in\mathbb C_+$, the imaginary part $Q:=Im\left((\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}\right)$ is positive definite according to the spectral theorem. To see this notice that this holds for arbitrary Hermitian matrices $M$ (instead of $\frac{1}{\sqrt n}M_{n-1}$) since their spectrum is on the real line. Thus, by the spectral theorem, we can write $Q=Im\int\frac{1}{\mu_M-z}dM(\mu_M)$ for some projection valued measure $dM$ and since $x\mapsto\frac{1}{x-z}$ is a Herglotz function its imaginary part will be greater than zero for $z\in\mathbb C_+$. As a result the imaginary part of the integrand (which is the imaginary part of the eigenvalues) will be greater than zero.
+We conclude by noticing that $Im(z)>0$ plus something of the form $\langle Qx,x\rangle$ for $Q\geq 0$ will have imaginary part strictly greater than zero and hence the inverse exists.
+
+The next step is to get a better understanding of the resolvent $R:=(\frac{1}{\sqrt n}M_{n-1}-zI_{n-1})^{-1}$ and its product $\langle RX,X\rangle$. Clearly $R$ and $X$ are independent, so we may treat $R$ almost like a deterministic matrix. Furthermore, again due to the spectral theorem, $\|R\|_{op}$ is at most $O(1)$. By the strong law of large numbers $\|X\|=O(\sqrt n)$ almost surely and by Chernoff's inequality this holds with overwhelming probability.
+
+In the following we will show some results for some deterministic matrix $A$ which has roughly the same properties as $R$ (i.e. $A\geq 0$ and $\|A\|_{OP}=O(1)$).
+
+Noting that the function $X\mapsto \sqrt{\langle AX,X\rangle}$ is a Lipschitz function with operator norm $O(1)$ and remembering from \ref{ssec:prelimreduct} that we can safely assume the entries to be bounded, we can invoke Talagrand's concentration inequality to get 
+
+$$\mathbb P(|\sqrt{\langle AX,X\rangle}-\mathbb M\sqrt{\langle AX,X\rangle}|\geq\lambda)\leq C\exp^{-c\lambda^2}$$
+for any $\lambda>0$. On the other hand we have $\sqrt{\langle AX,X\rangle}=O(\|X\|)=O(\sqrt n)$ with overwhelming probability (since the operator norm in the non-deterministic case is only controlled with overwhelming probability). Hence the median $\mathbb M\sqrt{\langle AX,X\rangle}=O(\sqrt n)$ and considering the square $\langle AX,X\rangle$, we conclude that
+
+$$\mathbb P(|\langle AX,X\rangle-\mathbb M\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}$$
+
+with some (possibly different) $c,C>0$, since taking the square of \newline$\sqrt{\langle AX,X\rangle}$ amounts to getting an additional factor $O(\sqrt n)$ and the median is of the same magnitude as the random variable.
+
+Because of this concentration of measure result we may replace the median with the expected value, yielding
+
+\begin{equation}\label{eq:concentrationOfXRXAroundTrR}
+	\mathbb P(|\langle AX,X\rangle-\mathbb E\langle AX,X\rangle|\geq\lambda\sqrt n)\leq C\exp^{-c\lambda^2}
+\end{equation}
+for the the case where $A$ is deterministic and positive definite. One can extend this result to arbitrary matrices of operator norm $O(1)$ by noting that it holds for Hermitian matrices $M=M^*=M_+-M_-$ ($M_+\geq 0,M_-\geq 0,\|M\|_{OP}=O(1)$) by applying the triangle inequality and for general matrices $M$ (which are diagonalizable almost surely) of operator norm $\|M\|_{op}=O(1)$ by using their diagonalization $M=U^*DU=U^*D_+U-U^*D_-U$, $U$ unitary and $D_+,D_-\geq 0$, to get the bound $|X^*MX|\leq|X^*U^*D_+UX|+|X^*U^*D_-UX|$.
+
+\begin{remark}\label{rem:conditionalExpectationForDeterministicResult}
+	By using conditional expectations the above results also hold true for random matrices $R$ with $R\geq 0$ and $\|R\|_{OP}=O(1)$ as long as it is independent of $X$. The idea is to write all the above statements as $\mathbb P(E|\{A=R\})=\frac{\mathbb P(E\cap\{A=R\})}{\mathbb P(\{A=R\})}=\mathbb P(E)$ for all events $E$.
+\end{remark}
+
+Now we want to know what $\mathbb E\langle RX,X\rangle$ actually is. Because of the linearity of the expectation we write it as $\sum_{i,j=1}^{n-1}\mathbb E[\overline{X_i}R_{ij}X_j]$. Since the $X_i$ and $R_{ij}$ are independent we can write that as $\sum_{i,j=1}^{n-1}\mathbb E[\overline{X_i}X_j]\mathbb E[R_{ij}]$, but as the $X_i$ are iid with mean zero and variance one this double sum simplifies to the expectation of the trace of $R$ $$\sum_{i=1}^{n-1}\mathbb ER_{ii}.$$
+Noticing that, up to some ``almost correct'' normalization factors, $tr(R)=tr\left((M_{n-1}/\sqrt n-zI_{n-1})^{-1}\right)$ is the Stieltjes transform $s_{n-1}(z)$. To be more precise we have $$tr(R)=n\sqrt{\frac{n}{n-1}}s_{n-1}\left(\sqrt{\frac{n}{n-1}}z\right),$$
+but because of the smoothness of the Stieltjes transform for $z\in\mathbb C_+$ these factors do not play a role in the limit $n\rightarrow\infty$, i.e. $tr(R)=n(s_{n-1}(z)+o(1))$.
+
+So using the concentration of measure results for the Stieltjes transform (\eqref{eq:concentrationOfStieltjesTransform}) and for $\langle AX,X\rangle$(\eqref{eq:concentrationOfXRXAroundTrR}), remembering that latter also holds for random matrices as long as they are independent (\ref{rem:conditionalExpectationForDeterministicResult}), we see that
+
+$$\langle RX,X\rangle=n(s_{n-1}(z)+o(1))$$
+with overwhelming probability. Substituting back in Schur's complement (\eqref{eq:schursComplementForEs}) we get\footnote{Note that we need the concentration of measure results from above to justify ``interchanging'' expectation and taking the resolvent!} $$\mathbb Es_n(z)=-(z+\mathbb Es_n(z))^{-1}+o(1).$$
+To say something about the limit we first need to ensure $\lim_{n\rightarrow\infty}\mathbb Es_n$ exists. This is indeed the case since $\mathbb Es_n$ is locally equicontinuous and locally uniformly bounded away from the real line. Applying the Arzel\'{a}-Ascoli theorem we get the existence of a subsequence that converges locally uniformly to a limit $s$, which is again a Herglotz function. Note that, by the concentration of measure for Stieltjes transforms, there is only one possible limit (so $\lim_{n\rightarrow\infty}\mathbb Es_n$ is well defined) and $s_n(z)$ even converges almost surely to $s(z)$. As a further result we get
+
+$$s(z)=-(z+s(z))^{-1},$$
+where the quadratic formula gives $$s(z)=-\frac{z\pm\sqrt{z^2-4}}{2}.$$
+From $\lim_{a\rightarrow\infty}s_\mu(a+ib)=0$ for every Stieltjes transform of a fixed measure $\mu$ we see that we need to take $s(z)=\frac{-z+\sqrt{z^2-4}}{2}$.
+
+We conclude the proof with the Stieltjes inversion formula, yielding the famous result
+
+$$\frac{s(.+ib)-s(.-ib)}{2\pi i}\rightharpoonup\frac{1}{2\pi}\sqrt{4-x^2}_+\diff x=\mu_{sc}$$
+as $b\rightarrow 0^+$, which can be verified by an application of the Cauchy integral formula.
 
 
-which has variance one on the unit sphere. We use $\langle\cdot,\cdot\rangle$ to denote the usual Euclidean scalar product, as well as the scalar product on any tangent space $T_\sigma S^{N-1}$ and $(E_i)_{1\leq i<N}$ to denote an arbitrary orthonormal frame field, that is a set of $N-1$ vector fields $E_i$ on $S^{N-1}$ such that $\{E_i(\sigma)\}$ is an orthonormal basis of $T_\sigma S^{N-1}$. Furthermore we write $\nabla f(\sigma)=(f_i(\sigma))_{1\leq i<N}$ for the gradient $(E_i f(\sigma))_{1\leq i<N}$, $\nabla^2 f = (f_{ij})_{1\leq i,j<N}$ for the covariant Hessian of $f$ on $S^{N-1}$ and $\det\nabla^2 f(\sigma)$ for the determinant of the matrix $(\nabla^2 f(E_i,E_j)(\sigma))_{1\leq i,j<N}$.
+%%%%%%%%%%%%% END OF WCSL %%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+\section{Gaussian Random Fields}\label{sec:GRF}
+It turns out that our (random) Hamiltonian of interest $H_{N,p}$ belongs to a much more general class of random variables, namely Gaussian random fields. In order to simplify expressions like the expected number of critical points we need to know more about how functions of $H_{N,p}$ ``interact'' with each other and how they behave under conditioning.
 
 \begin{definition}[Real valued random fields]
 	Let $(\Omega,\mathcal F, \mathbb P)$ be a complete probability space and $T$ a topological space. Then a measurable mapping $f:\Omega\rightarrow\mathbb R^T$ is called a real valued random field.
 	
-	In what follows we will not distinguish between $f(\omega)(t)$ and $f(t)$.
+	%In what follows we will not distinguish between $f(\omega)(t)$ and $f(t)$.
 \end{definition}
+
 In other words, a random field $f$ is a collection $\{f(t):t\in T\}$ where every $f(t)$ is a real valued random variable.
 
 \begin{definition}[Real valued Gaussian fields]
 	Let $f$ be a real valued random field with some parameter set $T$ as before. Then $f$ is a real valued Gaussian field if for every $(t_1,\dots,t_n)\in T^n$ ($1\leq n <\infty$) the distributions $(f(t_1),\dots,f(t_n))$ are multivariate Gaussian.
 	
-	Furthermore the functions $m(t)=\mathbb E[f(t)]$ and $C(t,t')=\mathbb E[(f(t)-m(t))(f(t')-m(t'))]$ are called the mean and covariance functions of $f$, respectively.
+	Furthermore the functions $m(t)=\mathbb E[f(t)]$ and \newline$C(t,t')=\mathbb E[(f(t)-m(t))(f(t')-m(t'))]$ are called the mean and covariance functions of $f$, respectively.
 \end{definition}
 Note that this definitions yields the usual definition for a multivariate Gaussian $\mathbb R^d$-valued random variable in case $|T|=d$ is finite.
 
-The formulation and proofs of the following two lemmata will closely follow \cite{Cerny10} (and \cite{Adler07} for the proofs).
+The formulation and proofs of the following two lemmata will closely follow \cite{Cerny10} (and \cite{Adler07} for the proofs). For what follows we shall fix some notations like in \cite{Cerny10}:
+First of all, instead of working with $H_{N,p}$ it is convenient to define
+
+\begin{equation}\label{def:rescaledHamiltonian}
+	f(\sigma)\equiv f_{N,p}(\sigma)=N^{-1/2}H_{N,p}(N^{1/2}\sigma),
+\end{equation}
+which has variance one on the unit sphere. We use $\langle\cdot,\cdot\rangle$ to denote the usual Euclidean scalar product, as well as the scalar product on any tangent space $T_\sigma S^{N-1}$ and $(E_i)_{1\leq i<N}$ to denote an arbitrary orthonormal frame field, that is a set of $N-1$ vector fields $E_i$ on $S^{N-1}$ such that $\{E_i(\sigma)\}$ is an orthonormal basis of $T_\sigma S^{N-1}$. Furthermore we write $\nabla f(\sigma)=(f_i(\sigma))_{1\leq i<N}$ for the gradient $(E_i f(\sigma))_{1\leq i<N}$, $\nabla^2 f = (f_{ij})_{1\leq i,j<N}$ for the covariant Hessian of $f$ on $S^{N-1}$ and $\det\nabla^2 f(\sigma)$ for the determinant of the matrix \newline$(\nabla^2 f(E_i,E_j)(\sigma))_{1\leq i,j<N}$.
+
+At this point it should be noted that, a priori, it is not obvious that derivatives such as $\nabla f$ or $\nabla^2 f$ exist and if so in which sense. We will quickly sketch the existence in the $L^2$ sense and skip the question of being almost surely continuously differentiable. To that end let us define the symmetrized difference
+$$F(t,t') = \frac{1}{\prod_{i=1}^k |t_i'|}\sum_{s\in\{0,1\}^k}(-1)^{k-\sum_{i=1}^k s_i}f\left(t+\sum_{i=1}^k s_i t_i'\right),$$
+which is related to the $k$-th $L^2$ derivative $D_{L^2}^k f(t,t')$ in direction $t'$ at point $t$ by
+$$D_{L^2}^k f(t,t') = \lim_{h\rightarrow 0} F(t,ht').$$
+Now a sufficient condition for $L^2$ differentiability of order $k$ is that the limit $$\lim_{|t'|,|s'|\rightarrow 0}\mathbb E[F(t,t')F(s,s')]$$
+exists, since a sequence $X_n$ of random variables converges in $L^2$ if and only if $\mathbb E[X_nX_m]$ converges to a constant as $n,m\rightarrow\infty$ which is clearly the case for a polynomial in Gaussian random variables.
 
 \begin{lemma}[Covariances of $f$]\label{thm:covarianceStructure}
-	Let $f$ be as defined in \ref{def:rescaledHamiltonian}, then $f(\sigma),f_i(\sigma),f_{ij}(\sigma)$ are centered Gaussian random variables for all $1\leq i,j,k,l<N$ and $\sigma\in S^{N-1}$ whose joint distribution is determined by
+	Let $f$ be as defined in \ref{def:rescaledHamiltonian}, then $f(\sigma)$, $f_i(\sigma)$, $f_{ij}(\sigma)$ are centered Gaussian random variables for all $1\leq i,j,k,l<N$ and $\sigma\in S^{N-1}$ whose joint distribution is determined by
 	
 	\begin{align}\label{eq:covariancesoff}
 		\mathbb E[f(\sigma)^2]&=1,\nonumber\\
@@ -81,15 +400,22 @@ The formulation and proofs of the following two lemmata will closely follow \cit
 
 \begin{proof}
 	Because of the rotational symmetry we may assume without loss of generality that $\sigma$ is the north pole $n=(0,\dots,0,1)$. We define the projection $\Psi:S^{N-1}\rightarrow\mathbb R^{N-1}, (x_1,\dots,x_{N-1},x_N)\mapsto(x_1,\dots,x_{N-1})$ which is a chart for some neighbourhood $U$ of $n$ and set $\overline f = f\circ\Psi^{-1}$ which is a Gaussian process on $\Psi(U)$, satisfying $$C(x,y)=Cov(\overline f(x),\overline f(y))=\left(\sum_{i=1}^{N-1}x_iy_i + \sqrt{(1-\textstyle\sum_{i=1}^{N-1}x_i^2)(1-\textstyle\sum_{i=1}^{N-1}y_i^2)}\right)^p.$$
-	
 	Choosing an orthonormal frame field $(E_i)$ such that it satisfies $E_i(n)=\partial/\partial x_i$ with respect to the chart $\Psi$ the Christoffel symbols vanish and hence the covariant Hessian $(f_{ij}(n))$ agrees with the usual Hessian of $\overline f$ at $0$.
 	
-	Thus it suffices to prove the analogous identities for $\overline f(0),\frac{\partial}{\partial x_i}\overline f(0),\frac{\partial^2}{\partial x_i\partial x_j}\overline f(0)$.
-	Differentiation under the integral sign yields 
+	Thus it suffices to prove the analogous identities for $\overline f(0)$, $\frac{\partial}{\partial x_i}\overline f(0)$ and $\frac{\partial^2}{\partial x_i\partial x_j}\overline f(0)$.
+	
+	For the sake of clarity let us show $\mathbb E[f_i(s)f_j(t)]=\frac{\partial^2 C(s,t)}{\partial s_it_j}$, the result for higher orders follows analogously. We have that $$\mathbb E[f_i(s)f_j(t)] = \int \lim_{h\rightarrow 0} \frac{f(\omega)(s+he_i)-f(\omega)(s)}{h}\frac{f(\omega)(t+he_j)-f(\omega)(t)}{h}\phi(\omega)\diff\omega,$$ for some Gaussian density $\phi$. Note that$f(\cdot)(s)$ (as a sum of Gaussians) is Gaussian and almost surely continuously differentiable\footnote{We didn't show that, but conditions for almost sure continuous differentiability can be found (and checked) in \cite{Adler07}.}; hence the integrand, as a product of difference quotients times some exponentially decaying weight $\phi$, is uniformly (in $h$) bounded by $f_i(\cdot)(s)f_j(\cdot)(t)\phi(\cdot)$ which is again Gaussian and integrable. As a result we can apply the dominated convergence theorem which gives us the following equality 
+	\begin{align*}
+		\mathbb E[f_i(s)&f_j(t)]=\\
+		&\lim_{h\rightarrow 0}\int\frac{(f(\omega)(s+he_i)-f(\omega)(s))(f(\omega)(t+he_j)-f(\omega)(t))}{h^2}\phi(\omega)\diff\omega.
+	\end{align*}
+	Multiplying it out and using the linearity of the integral yields the claim.
+	
+	More generally we have that
 	\begin{equation}
 	\mathbb E\left\{\frac{\partial^k \overline f(s)}{\partial s_{i_1}\dots\partial s_{i_k}} \frac{\partial^l \overline f(t)}{\partial t_{i_1}\dots\partial t_{i_l}}\right\}=\frac{\partial^{k+l} C(s,t)}{\partial s_{i_1}\dots\partial s_{i_k}\partial t_{i_1}\dots\partial t_{i_l}},
 	\end{equation}
-	which, in turn, after some simple algebra gives \ref{eq:covariancesoff}.
+	which, in turn, after some simple algebra gives \eqref{eq:covariancesoff}.
 \end{proof}
 
 Now we can formulate one of the central identities that allow us to use methods from random matrix theory to study the Hamiltonian of interest.
@@ -100,13 +426,13 @@ Now we can formulate one of the central identities that allow us to use methods 
 		\mathbb E[f_{ij}(\sigma)|f(\sigma)=x]&=-xp\delta_{ij},\nonumber\\
 		\mathbb E[f_{ij}(\sigma)^2|f(\sigma)=x]&=(1+\delta_{ij})p(p-1).
 	\end{align}
-	
 	Alternatively, the random matrix $(f_{ij}(\sigma))$ (under the conditional distribution $\mathbb P[\cdot|f(\sigma)=x], x\in\mathbb R$) has the same distribution as $$M^{N-1}\sqrt{2(N-1)p(p-1)}-xpI,$$
-	
 	where $M^{N-1}$ is a $(N-1)\times(N-1)$ GOE matrix as defined in \ref{def:GOE} and $I$ is the identity matrix.
 \end{lemma}
 \begin{proof}
-	Equations \ref{eq:momentsUnderConditioning} can be seen from the last two equations of \ref{eq:covariancesoff} and by using $\mu_{Y|X} = \mu_Y + \Sigma_{YX}\Sigma^{-1}_{XX}(x-\mu_X)$ for $(X,Y)\sim\mathcal N(\mu;\Sigma)$ and setting $X$ to be $f(\sigma)$ and $Y$ to be $f_{ij}(\sigma)$.
+	Equations \eqref{eq:momentsUnderConditioning} can be seen from the last two equations of \eqref{eq:covariancesoff} and by using the identity $\mathbb E[Y|X=x] = \mathbb E[Y] + \Sigma_{YX}\Sigma^{-1}_{XX}(x-\mathbb E[X])$ which holds for $(X,Y)\in\mathbb R^n$ normally distributed with covariance matrix $\Sigma = (\Sigma_{ij})_{i,j=1}^n$, and setting $X$ to be $f(\sigma)$ and $Y$ to be $f_{ij}(\sigma)$.
+	
+	%Equations \eqref{eq:momentsUnderConditioning} can be seen from the last two equations of \eqref{eq:covariancesoff} and by using $\mathbb E[Y|X] = \mathbb E[Y] + \text{Cov}[YX]\text{Cov}[XX]^{-1}(x-\mathbb E[X])$ for $(X,Y)\sim\mathcal N(\mu;\Sigma)$\todo{clarify notation} and setting $X$ to be $f(\sigma)$ and $Y$ to be $f_{ij}(\sigma)$.
 	
 	The second statement follows by plugging in the definitions.
 \end{proof}
@@ -114,63 +440,59 @@ Now we can formulate one of the central identities that allow us to use methods 
 
 
 
-\section{LDP}
-Note that some theorems in this section will not be proven because their proofs are rather technical in nature and do not contribute very much to a better understanding of the subject.
+\section{Large Deviation Principles}
+%Note that some theorems in this section will not be proven because their proofs are rather technical in nature and do not contribute much to a better understanding of the subject.
 
 \begin{definition}[Large deviation principle]\label{def:LDP}
-	Given some separable completely metrizable topological space\footnote{Henceforth such a space will be referred to as Polish space.} $X$, a sequence of Borel probability measures $\{\mathbb P_n\}$ on $X$ is said to satisfy a \textbf{large deviation principle} with speed $\{a_n\}$ and rate $I:X\rightarrow [0,\infty]$ if $a_n$ goes to $+\infty$ and $I$ is some lower semi-continuous functional such that for each Borel measurable set $E\subseteq X$ we have
+	Given some separable completely metrizable topological space
+	%\footnote{Henceforth such a space will be referred to as Polish space.}
+	$X$, a sequence of Borel probability measures $\{\mathbb P_n\}$ on $X$ is said to satisfy a \textbf{large deviation principle} with speed $\{a_n\}$ and rate $I:X\rightarrow [0,\infty]$ if $a_n$ goes to $+\infty$ and $I$ is a lower semi-continuous functional such that for each Borel measurable set $E\subseteq X$ we have
 	
 	$$\limsup_n a_n^{-1}\log(\mathbb P_n(E))\leq -\inf_{x\in \overline E}I(x)$$
 	and
 	$$\liminf_n a_n^{-1}\log(\mathbb P_n(E))\geq -\inf_{x\in E^\circ}I(x).$$
-	
 	The lower semi-continuity implies that the sets $\{x\in X: I(x)\leq c\}$ are closed in $X$ for all $c\geq 0$. If they are also compact for all $c\geq 0$, $I$ is called a \textbf{good rate function}.
 \end{definition}
 
-The following definition and theorem are taken from \cite{Dembo2009LargeDeviations}:
+%The following definition and theorem are taken from \cite{Dembo2009LargeDeviations}:
 % https://books.google.at/books?id=iT9JRlGPx5gC&pg=PA130&dq=large+deviations+exponential+equivalent&hl=en&sa=X&ved=0ahUKEwj9zorh5MDKAhXns3IKHY12A9wQ6AEIHzAA#v=onepage&q&f=false
 
-\begin{definition}[Exponential equivalence]\label{def:exponentialequivalence}
-	Two families of probability measures $\{\mu_\varepsilon\}, \{\tilde \mu_\varepsilon\}$ on some metric space $(Y,d)$ are called exponentially equivalent if there exist probability spaces $\{\Omega, \mathcal B_\varepsilon,\mathbb P_\varepsilon\}$ and two families of $Y$-valued random variables $\{Z_\varepsilon\}, \{\tilde Z_\varepsilon\}$ with joint laws $\{\mathbb P_\varepsilon\}$ and marginals $\{\mu_\varepsilon\}, \{\tilde \mu_\varepsilon\}$, respectively, such that the following holds:
+%\begin{definition}[Exponential equivalence]\label{def:exponentialequivalence}
+%	Two families of probability measures $\{\mu_\varepsilon\}, \{\tilde \mu_\varepsilon\}$ on some metric space $(Y,d)$ are called exponentially equivalent if there exist probability spaces $\{\Omega, \mathcal B_\varepsilon,\mathbb P_\varepsilon\}$ and two families of $Y$-valued random variables $\{Z_\varepsilon\}, \{\tilde Z_\varepsilon\}$ with joint laws $\{\mathbb P_\varepsilon\}$ and marginals $\{\mu_\varepsilon\}, \{\tilde \mu_\varepsilon\}$, respectively, such that the following holds:
 	
-	For each $\delta>0$, the set $\{\omega : (Z_\varepsilon, \tilde Z_\varepsilon)\in\Gamma_\delta\}$ is $\mathcal B_\varepsilon$ measurable, and 
+%	For each $\delta>0$, the set $\{\omega : (Z_\varepsilon, \tilde Z_\varepsilon)\in\Gamma_\delta\}$ is $\mathcal B_\varepsilon$ measurable, and 
 	
-	$$\limsup_{\varepsilon\rightarrow 0}\varepsilon\log\mathbb P_\varepsilon(\Gamma_\delta)=-\infty,$$
-	
-	where $\Gamma_\delta = \{(y,\tilde y):d(y,\tilde y)>\delta\}\subseteq Y\times Y$.
-\end{definition}
+%	$$\limsup_{\varepsilon\rightarrow 0}\varepsilon\log\mathbb P_\varepsilon(\Gamma_\delta)=-\infty,$$
+%	where $\Gamma_\delta = \{(y,\tilde y):d(y,\tilde y)>\delta\}\subseteq Y\times Y$.
+%\end{definition}
 
-For instance, if the random variables are real valued and the rate of the LDP is $N$ (i.e. $\varepsilon = N^{-1}$), this asserts that the joint probability $\mathbb P_N$ of the two random variables of the area that is farther than $\delta$ away from the diagonal $x=y$ goes to zero like some $\exp(-cN^p)$ for some constants $c>0, p>1$. A quick sketch illustrates that the two probability measures have to be ``quite'' similar to satisfy the above definition -- this can be made precise by the following theorem:
+%For instance, if the random variables are real valued and the rate of the LDP is $N$ (i.e. $\varepsilon = N^{-1}$), this asserts that the joint probability $\mathbb P_N$ of the two random variables of the area that is farther than $\delta$ away from the diagonal $x=y$ goes to zero like some $\exp(-cN^p)$ for some constants $c>0, p>1$. A quick sketch illustrates that the two probability measures have to be ``quite'' similar to satisfy the above definition -- this can be made precise by the following theorem:
 
-\begin{theorem}[Rate functions of exponentially equivalent measures]
-	If a LDP with good rate function $I$ holds for the probability measures $\{\mu_\varepsilon\}$, which are exponentially equivalent to $\{\tilde\mu_\varepsilon\}$, then the same LDP holds for $\{\tilde\mu_\varepsilon\}$.
-\end{theorem}
-\begin{proof}
-	In the general case this is a very technical result and hence we will refer the interested reader to \cite{Dembo2009LargeDeviations}, theorem 4.2.13.
-\end{proof}
+%\begin{theorem}[Rate functions of exponentially equivalent measures]
+%	If a LDP with good rate function $I$ holds for the probability measures $\{\mu_\varepsilon\}$, which are exponentially equivalent to $\{\tilde\mu_\varepsilon\}$, then the same LDP holds for $\{\tilde\mu_\varepsilon\}$.
+%\end{theorem}
+%\begin{proof}
+%	In the general case this is a very technical result and hence we will refer the interested reader to \cite{Dembo2009LargeDeviations}, theorem 4.2.13.
+%\end{proof}
 
 We are particularly interested in getting LDPs of the $k$-th largest eigenvalues of the GOE, but it turns out in order to get those we first need a LDP for the law of the empirical measure $\mu^N=\frac{1}{N}\sum_{i=1}^N\delta_{\lambda_i}$.
 
 \begin{theorem}[LDP of Wigner's semicircle law for the GOE]\label{thm:LDPforWSCL}
-	Let $I(\mu):=\frac{1}{2}\left(\int x^2\diff\mu(x) - \Sigma(\mu) - \frac{3}{4}-\frac{1}{2}\log 2 \right)$, for $\Sigma(\mu):=\int\int\log|x-y|\diff\mu(x)\diff\mu(y)$. Then:
-	\begin{enumerate}
-		\item $I$ is well defined on the space of probability measures $\mathcal M(\mathbb{R})$ on $\mathbb{R}$ endowed with the weak topology and takes values in $[0,\infty]$.
-		\item $I(\mu)=\infty \Leftrightarrow \int x^2\diff\mu(x)=\infty$ or $\exists A\subseteq\mathbb R: \mu(A)>0 \land \exp\{-\inf_{\nu\in\mathcal M(A)}\int\int \log|x-y|^{-1}\diff\mu(x)\diff\mu(y)\}=0$, where the latter condition is usually referred to as the existence of a set of ``null logarithmic capacity''.
-		\item $I$ is a good rate function.
-		\item $I$ is a convex function.
-		\item $I$ achieves its unique minimum value at Wigner's semicircle law.
-	\end{enumerate}
+	Let $I(\mu):=\frac{1}{2}\left(\int x^2\diff\mu(x) - \Sigma(\mu) - \frac{3}{4}-\frac{1}{2}\log 2 \right)$, for $\Sigma(\mu):=\int\int\log|x-y|\diff\mu(x)\diff\mu(y)$. Then $I$ is well defined on the space of probability measures $\mathcal M(\mathbb{R})$ on $\mathbb{R}$ endowed with the weak topology and takes values in $[0,\infty]$.
+	%\begin{enumerate}
+		%\item 
+		%\item $I(\mu)=\infty \Leftrightarrow \int x^2\diff\mu(x)=\infty$ or $\exists A\subseteq\mathbb R: \mu(A)>0 \land \exp\{-\inf_{\nu\in\mathcal M(A)}\int\int \log|x-y|^{-1}\diff\mu(x)\diff\mu(y)\}=0$, where the latter condition is usually referred to as the existence of a set of ``null logarithmic capacity''.
+		%\item $I$ is a good rate function.
+		%\item $I$ is a convex function.
+		%\item $I$ achieves its unique minimum value at Wigner's semicircle law.
+	%\end{enumerate}
 	In particular the law of the empirical measure $\mu^N$ satisfies a LDP with good rate function $I$ and speed $N^2$.
 \end{theorem}
 
 A proof can be found in \cite{ArousLDPforWSL}.
-%\begin{proof}
-%	We will only give a very rough outline of the proof that can be found in . \todo{give rough outline}
-	
-	%To prove that $I$ is we	ll defined one splits it up in $I(\mu)=H(\mu)+C$. 
-%\end{proof}
 
-With this we can state the main result of this section. Note that without loss of generality we set the variances of the entries of the GOE to $1$.
+With this we can state the most important theorem of this section.
+
 \begin{theorem}[LDP for the $k$-th largest eigenvalue of the GOE]\label{thm:A1}
 	For each fixed $k\geq 1$, the $k$-th largest eigenvalue $\lambda_{N-k+1}$ of the GOE satisfies a LDP with speed $N$ and good rate function
 	$$I_k(x)=kI_1(x)=\begin{cases}
@@ -178,121 +500,81 @@ With this we can state the main result of this section. Note that without loss o
 						\infty, &\mbox{else.}
 					  \end{cases}$$
 \end{theorem}
-\begin{proof}
-	We will prove the two cases $x<2$ and $x\geq 2$ separately and start with the first one:
-	
-	Since $\lambda_{N-k+1}\leq x<2$ we have that the empirical spectral measure $\mu_N((x,2])\leq \frac{k-1}{N}$. However, Wigner's semicircle law implies that $\mu_{sc}((x,2])=\lim_{N\rightarrow\infty} \mu_N((x,2])>0$. So there exists a closed set $A\in\mathcal P(\mathbb R)$ such that $\mu_{sc}\notin A$, but the set of all empirical spectral distributions with $k$-th largest eigenvalue being smaller than $x$ being a subset of $A$, i.e. $\{\tilde \mu_N:\lambda_{N-k+1}\leq x\}\subseteq A$. Because of the LDP with speed  $N^2$ of $\{\mu_N\}_N$ we have $Q_N(A)\leq\exp(-cN^2)$ for some $c>0$ which concludes the case for $x<2$.
-	
-	The second part will be split up in showing the upper and lower bounds of the equation. We will start with the upper one
-	
-	\begin{equation}\label{eq:LDPlargestEVupperbound}
-		\limsup \frac{1}{N}\log Q_N(\lambda_{N-k+1}\geq x)\leq -I_k(x).
-	\end{equation}
-	
-	However, instead of showing this directly we will use the obvious\footnote{This is basically $\mathbb P(E)=\mathbb P(\neg F)+\mathbb P(E\land F)$.} upper bound
-	
-	$$Q_N(\lambda_{N-k+1}\geq x)\leq Q_N(\max_{i=1}^N |\lambda_i|\geq M)+ Q_N(\lambda_{N-k+1}\geq x,\max_{i=1}^N|\lambda_i|<M),$$
-	
-	which, together with the estimate (see \cite{ArousAging})
-	
-	\begin{equation}\label{eq:maxEVinequality}
-		Q_N(\max_{i=1}^N|\lambda_i|\geq M)\leq \exp(-NM^2/9)
-	\end{equation}
-	
-	for $M$ large enough and all $N$\footnote{It follows by integrating the elementary estimate $|x-\lambda_i|e^{-\lambda_i^2/4}\leq (|x|+|\lambda_i|)e^{-\lambda_i^2/4}\leq 2|x|\leq e^{x^2/8}$ which holds for $|x|\geq M \geq 8$ and using the fact that $Z_{N-1}/Z_N\leq e^{CN}$ for some $C$ independent of $N$ (see Selberg's formula in \cite{Mehta2004random}).} lets us prove \ref{eq:LDPlargestEVupperbound} by showing
-	
-	$$\limsup\frac{1}{N}\log Q_N(\max_{i=1}^N|\lambda_i|\leq M, \lambda_{N-k+1}\geq x)\leq-I_k(x),$$
-	
-	for all $M>x>2$.
-	
-	To that end let $\overline Q_{N-k}^N$ be a rescaled version of the joint law of unordered eigenvalues $\overline Q_{N-k}$, given by 
-	$$\overline Q_{N-k}^N(\lambda\in\cdot) = \overline Q_{N-k}(\sqrt{1-k/N}\lambda\in\cdot),$$ where the factor $\sqrt{1-k/N}=\sqrt{\frac{N-k}{N}}$ serves the purpose of ``changing the units'' of an eigenvalue $\lambda$ from an $(N-k)$-dimensional distribution (which is normalised by $(N-k)^{-1/2}$) to an $N$-dimensional one.
-	
-	Similar considerations apply for the new normalisation constant 
-	
-	$$C_N^k = (1-k/N)^{(N-k)(N-k+1)/4}\frac{\overline Z_{N-k}}{\overline Z_N},$$
-	
-	where $\overline Z_N$ is the normalization factor for $\overline Q_N$.
-	
-	For $x\in\mathbb R$ and $\mu\in\mathcal P(\mathbb R)$ we define
-	
-	$$\Phi(x,\mu)=\int_\mathbb{R}\log|x-y|\diff\mu(y)-\frac{x^2}{4},$$
-	
-	which can be shown (\cite{ArousAging}, p.50) to be upper semi-continuous on $[-M,M]\times\mathcal P([-M,M])$ and continuous on $[x,y]\times\mathcal P([-M,M])$ for $x,y,M$ such that $2<M<x<y$.
-	
-	Using \ref{thm:probabilitydensityofEV} we see that
-	
-	\begin{align*}
-		Q_N(\max_{i=1}^N&|\lambda_i|\leq M,\lambda_{N-k+1}\geq x)= \\ N! Z_N^{-1}&\int_{[x,M]^k}\int_{[-M,M]^{N-k}}\left(\prod_{1\leq i<j\leq N}|\lambda_i-\lambda_j|\prod_{i=1}^N \exp(-N\lambda_i^2/4)\right)\\
-		&\diff\lambda_1\dots\diff\lambda_{N-k}\diff\lambda_{N-k+1}\dots\diff\lambda_N,
-	\end{align*}
-	
-	where the $N!$ comes from dropping the $\mathbf 1_{\lambda_1\leq\dots\lambda_N}$ term. This can be bounded from above by
-	
-	\begin{align}\label{eq:upperbound1forQN}
-		C_N^k\frac{N!}{(N-k)!}&\int_{[x,M]^k}\prod_{N-k<i<j\leq N}|\lambda_i-\lambda_j| \int_{[-M,M]^{N-k}}e^{(N-k)\sum_{i=N-k+1}^N\Phi(\lambda_i,\mu_{N-k})}\nonumber\\
-		&\overline Q_{N-k}^N(\diff\lambda_1,\dots,\diff\lambda_{N-k})\diff\lambda_{N-k+1}\dots\diff\lambda_N,
-	\end{align}
-	
-	where $\mu_{N-k}$ is determined by the variables $\lambda_1,\dots,\lambda_{N-k}$ we are integrating against.
-	%For $k=1$ this inequality can be thought of as ``If I pick the largest EV lambda1 as some value between x and M, what is the probability of the other EVs being ...? basically Q_N-k^N(...) but you also have to account for the fact that they are repellent -> include this Phi'' - zeichnung! 
-	
-	We write $B(\rho,\delta)$ for the open ball with radius $\delta$ in $\mathcal P(\mathbb R)$ with center $\rho$ and let $B_M(\rho,\delta)=B(\rho,\delta)\cap\mathcal P([-M,M])$. Noting that $|\lambda_i-\lambda_j|\leq 2M$ on the domain of integration and $e^{(N-k)\Phi(\lambda_i,\mu_{N-k})}\leq (2M)^{N-k}$ we get the following upper bound on \ref{eq:upperbound1forQN}:
-	
-	\begin{align}\label{eq:upperbound2forQN}
-		C_N^k\frac{N!}{(N-k)!}(2M)^{k(k-1)/2}\Big\{
-			\Big(
-				&\int_x^M e^{(N-k)\sup_{\mu\in B_M(\mu_{sc},\delta)}\Phi(x,\mu)}\diff x
-			\Big)^k \nonumber\\
-			+&(2M)^{N-k}\overline Q_{N-k}^N(\mu_{N-k}\notin B(\mu_{sc},\delta))
-		\Big\}.
-	\end{align}
-	
-	This may be seen as a crude upper bound on some case detection whether or not $\mu_{N-k}$ is in some $\delta$-neighbourhood of the semicircle law $\mu_{sc}$. Intuitively the probability of the second case occuring should vanish as $N\rightarrow\infty$ and this can be made precise by showing that $\mu_{N-k}$ under $\overline Q_{N-k}^N$ satisfies the same LDP as under $\overline Q_{N-k}$ (where it is already known to vanish by \ref{thm:LDPforWSCL}). To do so we observe that for all Lipschitz functions $h:\mathbb R \rightarrow\mathbb R$ of norm at most $1$ and $N\geq 2k$ we have the following inequality:
-	
-	\begin{equation}\label{eq:lipschitzRescalingBoundedByEV}
-		\left|(N-k)^{-1}\sum_{i=1}^{N-k}h\left(\sqrt{1-kN^{-1}}\lambda_i\right)-h(\lambda_i)\right|\leq cN^{-1}\max_{i=k}^{N-k}|\lambda_i|,
-	\end{equation}
-
-	for some $c>0$ independent of $N$ and $k$. 
-	
-	The measure $\overline Q_{N-k}^N$ can be thought of describing the random variable that picks $N-k$ values as described by $\overline Q_{N-k}$ and then renormalizes them so that they on the same scale as the ones that would be picked by $\overline Q_N$ (so basically picking $N-k$ values from the distribution for $N$ values).
-	
-	Equation \ref{eq:lipschitzRescalingBoundedByEV} lets us bound the metric $d$ from the definition of the exponential equivalence by $cN^{-1}\max_{i=k}^{N-k}|\lambda_i|$, which in turn, using inequality \ref{eq:maxEVinequality} with $M=c^{-1}N$ yields the exponential equivalence of the two measures $\overline Q_N$ and $\overline Q_{N-k}^N$ because $\Gamma_\delta$ (as in definition \ref{def:exponentialequivalence}) is of the order $\exp(-CN^3)$ for some $C>0$.
-	
-	Hence, the second term in \ref{eq:upperbound2forQN} is exponentially negligible for any $\delta >0$ and $M<\infty$, which, in turn, implies that
-	
-	\begin{align}
-		Q_N(\lambda_{N-k+1}\geq x,&\max_{i=1}^N|\lambda_i|\leq M)\leq \nonumber\\
-		&\limsup_{N\rightarrow\infty}\frac{1}{N}\log C_N^k + k\lim_{\delta\searrow 0}\sup_{z\in[x,M],\mu\in B_M(\mu_{sc},\delta)}\Phi(z,\mu).
-	\end{align}
-	
-	Since $\Phi$ is upper semi-continuous (notice that $\Phi(z,\mu)=\inf_{\eta>0}\Phi_{\eta}(z,\mu)$, where $\Phi_{\eta}(z,\mu) := \int \log(\max(|z-y|,\eta))\diff\mu(y)-z^2/4$ which is continuous on $[-M,M]\times\mathcal P([-M,M])$) the term $\lim_{\delta\searrow 0}\sup_{z\in[x,M],\mu\in B_M(\mu_{sc},\delta)}\Phi(z,\mu)$ simplifies to $\sup_{z\in[x,M]}\Phi(z,\mu_{sc})$.
-	
-	With $\text{supp}(\mu_{sc})=[-2,2]$, the derivative $D(z):=\frac{\partial}{\partial z}\Phi(z,\mu_{sc})$ exists for $z\geq 2$ and can be shown to be $-\sqrt{z^2/4-1}\leq 0$ (see \cite{ArousLDPforWSL}, proof of lemma 2.7) using several changes of variables and the residue method. Hence $\sup_{z\in[x,M]}\Phi(z,\mu_{sc}) = \Phi(x,\mu_{sc})=-1/2-I_1(x)$.
-	
-	With Selberg's formula (\cite{Mehta2004random}) it can be shown that, in the LDP, the normalization constant $\lim_{N\rightarrow\infty}N^{-1}\log C_N^k = k/2$.
-	
-	Putting those logarithmic asymptotics together completes the proof of the upper bound.
-	
-	To prove the complementary lower bound we fix $y>x>r>2$ and $\delta>0$. Similarly to the steps \ref{eq:upperbound1forQN} and \ref{eq:upperbound2forQN} we get
-	
-	\begin{align*}
-		Q_N(&\lambda_{N-k+1}\geq x)\geq \\
-		&\overline Q_N(\lambda_N\in[x,y],\dots,\lambda_{N-k+1}\in[x,y]\max_{i=1}^{N-k}|\lambda_i|\leq r)\geq\\
-		&KC_N^k\exp\Big(k(N-k)\inf_{z\in[x,y],\mu\in B_r(\mu_{sc},\delta)}\Phi(z,\mu)\Big)\overline Q_{N-k}^N\big(\mu_{N-k}\in B_r(\mu_{sc},\delta)\big),
-	\end{align*}
-	for some $K=K(x,y,k)>0$. Again, by using the LDP of $\mu_{N-k}$ under $\overline Q_{N-k}^N$ we see that $\lim_{N\rightarrow\infty}Q_{N-k}^N(\mu_{N-k}\notin B_r(\mu_{sc},\delta))=0$.
-	
-	Using the behaviour of $C_N^k$ we get
-	
-	\begin{equation*}
-		\liminf_{N\rightarrow\infty}N^{-1}\log Q_N(\lambda_{N-k+1}\geq x)\geq k(2^{-1} + \inf_{z\in[x,y],\mu\in B_r(\mu_{sc},\delta)}\Phi(z,\mu)),
-	\end{equation*}
-	which, after letting $\delta\searrow 0$ and $y\searrow x$ (note the continuity of $\Phi$ in the used range of parameters), yields the desired result.
-\end{proof}
-
-Another result that will be used later on is Varadhan's lemma which can be viewed as the LDP equivalent of Laplace's principle which states that $\lim_{\varepsilon\rightarrow 0} \varepsilon \int_A \exp(-\phi(x)/\varepsilon)\diff x = -\inf_{x\in A} \phi(x)$ or more loosely $\int_A \exp(-\phi(x)/\varepsilon)\diff x\approx\exp(-\inf_{x\in A}\phi(x)/\varepsilon)$.
+%\begin{proof}
+%	We will prove the two cases $x<2$ and $x\geq 2$ separately and start with the first one:
+%	Since $\lambda_{N-k+1}\leq x<2$ we have that the empirical spectral measure $\mu_N((x,2])\leq \frac{k-1}{N}$. However, Wigner's semicircle law implies that $\mu_{sc}((x,2])=\lim_{N\rightarrow\infty} \mu_N((x,2])>0$. So there exists a closed set $A\in\mathcal P(\mathbb R)$ such that $\mu_{sc}\notin A$, but the set of all empirical spectral distributions with $k$-th largest eigenvalue being smaller than $x$ being a subset of $A$, i.e. $\{\tilde \mu_N:\lambda_{N-k+1}\leq x\}\subseteq A$. Because of the LDP with speed  $N^2$ of $\{\mu_N\}_N$ we have $Q_N(A)\leq\exp(-cN^2)$ for some $c>0$ which concludes the case for $x<2$.
+%	The second part will be split up in showing the upper and lower bounds of the equation. We will start with the upper one
+%	\begin{equation}\label{eq:LDPlargestEVupperbound}
+%		\limsup \frac{1}{N}\log Q_N(\lambda_{N-k+1}\geq x)\leq -I_k(x).
+%	\end{equation}
+%	However, instead of showing this directly we will use the obvious\footnote{This is basically $\mathbb P(E)\leq\mathbb P(\neg F)+\mathbb P(E\land F)$.} upper bound
+%	$$Q_N(\lambda_{N-k+1}\geq x)\leq Q_N(\max_{i=1}^N |\lambda_i|\geq M)+ Q_N(\lambda_{N-k+1}\geq x,\max_{i=1}^N|\lambda_i|<M),$$
+%	which, together with the estimate (see \cite{ArousAging})
+%	\begin{equation}\label{eq:maxEVinequality}
+%		Q_N(\max_{i=1}^N|\lambda_i|\geq M)\leq \exp(-NM^2/9)
+%	\end{equation}
+%	for $M$ large enough and all $N$\footnote{It follows by integrating the elementary estimate $|x-\lambda_i|e^{-\lambda_i^2/4}\leq (|x|+|\lambda_i|)e^{-\lambda_i^2/4}\leq 2|x|\leq e^{x^2/8}$ which holds for $|x|\geq M \geq 8$ and using the fact that $Z_{N-1}/Z_N\leq e^{CN}$ for some $C$ independent of $N$ (see Selberg's formula in \cite{Mehta2004random}).} lets us prove \eqref{eq:LDPlargestEVupperbound} by showing
+%	$$\limsup\frac{1}{N}\log Q_N(\max_{i=1}^N|\lambda_i|\leq M, \lambda_{N-k+1}\geq x)\leq-I_k(x),$$
+%	for all $M>x>2$.
+%	To that end let $\overline Q_{N-k}^N$ be a rescaled version of the joint law of unordered eigenvalues $\overline Q_{N-k}$, given by 
+%	$$\overline Q_{N-k}^N(\lambda\in\cdot) = \overline Q_{N-k}(\sqrt{1-k/N}\lambda\in\cdot),$$ where the factor $\sqrt{1-k/N}=\sqrt{\frac{N-k}{N}}$ serves the purpose of ``changing the units'' of an eigenvalue $\lambda$ from an $(N-k)$-dimensional distribution (which is normalised by $(N-k)^{-1/2}$) to an $N$-dimensional one.
+%	Similar considerations apply for the new normalisation constant 
+%	$$C_N^k = (1-k/N)^{(N-k)(N-k+1)/4}\frac{\overline Z_{N-k}}{\overline Z_N},$$
+%	where $\overline Z_N$ is the normalization factor for $\overline Q_N$.
+%	For $x\in\mathbb R$ and $\mu\in\mathcal P(\mathbb R)$ we define
+%	$$\Phi(x,\mu)=\int_\mathbb{R}\log|x-y|\diff\mu(y)-\frac{x^2}{4},$$
+%	which can be shown (\cite{ArousAging}, p.50) to be upper semi-continuous on $[-M,M]\times\mathcal P([-M,M])$ and continuous on $[x,y]\times\mathcal P([-M,M])$ for $x,y,M$ such that $2<M<x<y$.
+%	Using \ref{thm:probabilitydensityofEV} we see that
+%	\begin{align*}
+%		Q_N(\max_{i=1}^N&|\lambda_i|\leq M,\lambda_{N-k+1}\geq x)= \\ N! Z_N^{-1}&\int_{[x,M]^k}\int_{[-M,M]^{N-k}}\left(\prod_{1\leq i<j\leq N}|\lambda_i-\lambda_j|\prod_{i=1}^N \exp(-N\lambda_i^2/4)\right)\\
+%		&\diff\lambda_1\dots\diff\lambda_{N-k}\diff\lambda_{N-k+1}\dots\diff\lambda_N,
+%	\end{align*}
+%	where the $N!$ comes from dropping the $\mathbf 1_{\lambda_1\leq\dots\lambda_N}$ term. This can be bounded from above by
+%	\begin{align}\label{eq:upperbound1forQN}
+%		C_N^k\frac{N!}{(N-k)!}&\int_{[x,M]^k}\prod_{N-k<i<j\leq N}|\lambda_i-\lambda_j| \int_{[-M,M]^{N-k}}e^{(N-k)\sum_{i=N-k+1}^N\Phi(\lambda_i,\mu_{N-k})}\nonumber\\
+%		&\overline Q_{N-k}^N(\diff\lambda_1,\dots,\diff\lambda_{N-k})\diff\lambda_{N-k+1}\dots\diff\lambda_N,
+%	\end{align}
+%	where $\mu_{N-k}$ is determined by the variables $\lambda_1,\dots,\lambda_{N-k}$ we are integrating against.
+%	%For $k=1$ this inequality can be thought of as ``If I pick the largest EV lambda1 as some value between x and M, what is the probability of the other EVs being ...? basically Q_N-k^N(...) but you also have to account for the fact that they are repellent -> include this Phi'' - zeichnung! 
+%	We write $B(\rho,\delta)$ for the open ball with radius $\delta$ in $\mathcal P(\mathbb R)$ with center $\rho$ and let $B_M(\rho,\delta)=B(\rho,\delta)\cap\mathcal P([-M,M])$. Noting that $|\lambda_i-\lambda_j|\leq 2M$ on the domain of integration and $e^{(N-k)\Phi(\lambda_i,\mu_{N-k})}\leq (2M)^{N-k}$ we get the following upper bound on \eqref{eq:upperbound1forQN}:
+%	\begin{align}\label{eq:upperbound2forQN}
+%		C_N^k\frac{N!}{(N-k)!}(2M)^{k(k-1)/2}\Big\{
+%			\Big(
+%				&\int_x^M e^{(N-k)\sup_{\mu\in B_M(\mu_{sc},\delta)}\Phi(x,\mu)}\diff x
+%			\Big)^k \nonumber\\
+%			+&(2M)^{N-k}\overline Q_{N-k}^N(\mu_{N-k}\notin B(\mu_{sc},\delta))
+%		\Big\}.
+%	\end{align}
+%	This may be seen as a crude upper bound on some case detection whether or not $\mu_{N-k}$ is in some $\delta$-neighbourhood of the semicircle law $\mu_{sc}$. Intuitively the probability of the second case occuring should vanish as $N\rightarrow\infty$ and this can be made precise by showing that $\mu_{N-k}$ under $\overline Q_{N-k}^N$ satisfies the same LDP as under $\overline Q_{N-k}$ (where it is already known to vanish by \ref{thm:LDPforWSCL}). To do so we observe that for all Lipschitz functions $h:\mathbb R \rightarrow\mathbb R$ of norm at most $1$ and $N\geq 2k$ we have the following inequality:
+%	\begin{equation}\label{eq:lipschitzRescalingBoundedByEV}
+%		\left|(N-k)^{-1}\sum_{i=1}^{N-k}h\left(\sqrt{1-kN^{-1}}\lambda_i\right)-h(\lambda_i)\right|\leq cN^{-1}\max_{i=k}^{N-k}|\lambda_i|,
+%	\end{equation}
+%	for some $c>0$ independent of $N$ and $k$. 
+%	The measure $\overline Q_{N-k}^N$ can be thought of describing the random variable that picks $N-k$ values as described by $\overline Q_{N-k}$ and then renormalizes them so that they on the same scale as the ones that would be picked by $\overline Q_N$ (so basically picking $N-k$ values from the distribution for $N$ values).
+%	Equation \eqref{eq:lipschitzRescalingBoundedByEV} lets us bound the metric $d$ from the definition of the exponential equivalence by $cN^{-1}\max_{i=k}^{N-k}|\lambda_i|$, which in turn, using inequality \eqref{eq:maxEVinequality} with $M=c^{-1}N$ yields the exponential equivalence of the two measures $\overline Q_N$ and $\overline Q_{N-k}^N$ because $\Gamma_\delta$ (as in definition \ref{def:exponentialequivalence}) is of the order $\exp(-CN^3)$ for some $C>0$.
+%	Hence, the second term in \eqref{eq:upperbound2forQN} is exponentially negligible for any $\delta >0$ and $M<\infty$, which, in turn, implies that
+%	\begin{align}
+%		Q_N(\lambda_{N-k+1}\geq x,&\max_{i=1}^N|\lambda_i|\leq M)\leq \nonumber\\
+%		&\limsup_{N\rightarrow\infty}\frac{1}{N}\log C_N^k + k\lim_{\delta\searrow 0}\sup_{z\in[x,M],\mu\in B_M(\mu_{sc},\delta)}\Phi(z,\mu).
+%	\end{align}
+%	Since $\Phi$ is upper semi-continuous (notice that $\Phi(z,\mu)=\inf_{\eta>0}\Phi_{\eta}(z,\mu)$, where $\Phi_{\eta}(z,\mu) := \int \log(\max(|z-y|,\eta))\diff\mu(y)-z^2/4$ which is continuous on $[-M,M]\times\mathcal P([-M,M])$) the term $\lim_{\delta\searrow 0}\sup_{z\in[x,M],\mu\in B_M(\mu_{sc},\delta)}\Phi(z,\mu)$ simplifies to $\sup_{z\in[x,M]}\Phi(z,\mu_{sc})$.
+%	With $\text{supp}(\mu_{sc})=[-2,2]$, the derivative $D(z):=\frac{\partial}{\partial z}\Phi(z,\mu_{sc})$ exists for $z\geq 2$ and can be shown to be $-\sqrt{z^2/4-1}\leq 0$ (see \cite{ArousLDPforWSL}, proof of lemma 2.7) using several changes of variables and the residue method. Hence $\sup_{z\in[x,M]}\Phi(z,\mu_{sc}) = \Phi(x,\mu_{sc})=-1/2-I_1(x)$.
+%	With Selberg's formula (\cite{Mehta2004random}) it can be shown that, in the LDP, the normalization constant $\lim_{N\rightarrow\infty}N^{-1}\log C_N^k = k/2$.
+%	Putting those logarithmic asymptotics together completes the proof of the upper bound.
+%	To prove the complementary lower bound we fix $y>x>r>2$ and $\delta>0$. Similarly to the steps \eqref{eq:upperbound1forQN} and \eqref{eq:upperbound2forQN} we get
+%	\begin{align*}
+%		Q_N(&\lambda_{N-k+1}\geq x)\geq \\
+%		&\overline Q_N(\lambda_N\in[x,y],\dots,\lambda_{N-k+1}\in[x,y]\max_{i=1}^{N-k}|\lambda_i|\leq r)\geq\\
+%		&KC_N^k\exp\Big(k(N-k)\inf_{z\in[x,y],\mu\in B_r(\mu_{sc},\delta)}\Phi(z,\mu)\Big)\overline Q_{N-k}^N\big(\mu_{N-k}\in B_r(\mu_{sc},\delta)\big),
+%	\end{align*}
+%	for some $K=K(x,y,k)>0$. Again, by using the LDP of $\mu_{N-k}$ under $\overline Q_{N-k}^N$ we see that $\lim_{N\rightarrow\infty}Q_{N-k}^N(\mu_{N-k}\notin B_r(\mu_{sc},\delta))=0$.
+%	Using the behaviour of $C_N^k$ we get
+%	\begin{equation*}
+%		\liminf_{N\rightarrow\infty}N^{-1}\log Q_N(\lambda_{N-k+1}\geq x)\geq k(2^{-1} + \inf_{z\in[x,y],\mu\in B_r(\mu_{sc},\delta)}\Phi(z,\mu)),
+%	\end{equation*}
+%	which, after letting $\delta\searrow 0$ and $y\searrow x$ (note the continuity of $\Phi$ in the used range of parameters), yields the desired result.
+%\end{proof}
+Another result that will be used later on is Varadhan's lemma which can be viewed as the LDP equivalent of Laplace's principle which states that $\lim_{\varepsilon\rightarrow 0} \varepsilon \int_A \exp(-\phi(x)/\varepsilon)\diff x = -\inf_{x\in A} \phi(x)$ or more loosely \newline$\int_A \exp(-\phi(x)/\varepsilon)\diff x\approx\exp(-\inf_{x\in A}\phi(x)/\varepsilon)$.
 \begin{lemma}[Varadhan]
 	Let $X_\varepsilon$ be random variables in a metric space $M$ that satisfy a LDP with rate $1/\varepsilon$ and rate function $J$, and $\phi:M\rightarrow\mathbb R$ be continuous and bounded from above. Then 
 	
@@ -307,9 +589,8 @@ Another result that will be used later on is Varadhan's lemma which can be viewe
 		&\leq(-n)\lor\max_{i=1}^m \limsup\varepsilon\log\mathbb E[\exp(\phi(X_\varepsilon)/\varepsilon)\mathbf 1\{X_\varepsilon\in B_i\}]\\
 		&\leq(-n)\lor\max_{i=1}^m\sup_{x\in B_i}\phi(x)-\inf_{x\in B_i} J(x)\\
 		&\leq(-n)\lor\max_{i=1}^m\sup_{x\in B_i}\phi(x)-J(x)+1/n\\
-		&\leq(-n)\lor\sup_{x\in M}\phi(x)-J(x)+1/n
+		&\leq(-n)\lor\sup_{x\in M}\phi(x)-J(x)+1/n.
 	\end{align*}
-	
 	Letting $n\rightarrow\infty$ we get $\limsup\varepsilon\log\mathbb E[\phi(X_\varepsilon)/\varepsilon]=\sup \phi(x)-J(x)$.
 	To get the $\liminf$, pick any $x\in M$ and let $B_{\delta}(x)$ be a ball of arbitrary radius $\delta$ centered at $x$.
 	We have
@@ -331,18 +612,15 @@ $$
 	\frac{1}{2\varepsilon}, &\mbox{if } |x|<\varepsilon \\
 		0, &\mbox{else.}
 \end{cases}$$
-
 Clearly $\lim_{\varepsilon\rightarrow 0}\int_\mathbb{R}\varphi_\varepsilon(x)f(x)=f(0)$ and 
 
 \begin{equation}\label{eq:KacRice1D}
 	\int_I \varphi_\varepsilon(f(x))|f'(x)|\diff x = \frac{1}{2\varepsilon}\int_{x:|f(x)|<\varepsilon}|f'(x)|\diff x,
 \end{equation}
-
 for $\varepsilon$ small enough. Now let $x_0\in f^{-1}(0)$, $x_+=\min\{x>x_0: |f(x)|=\varepsilon\}$ and $x_-=\max\{x<x_0: |f(x)|=\varepsilon\}$, then we get
 
 $$\int_{x_-}^{x_+}|f'(x)|\diff x = |f(x_+)-f(x_-)|=2\varepsilon,$$
-
-which motivates using \ref{eq:KacRice1D} to count zeros of a function $f$ which satisfies the following definition:
+which motivates using \eqref{eq:KacRice1D} to count zeros of a function $f$ which satisfies the following definition:
 \begin{definition}[Convenient functions]
 	A $\mathcal C^1$ function $f:[a,b]\rightarrow\mathbb R$ is called convenient if $f(a),f(b)\neq 0$ and all zeros are nondegenerate, i.e. $f(x)=0\implies f'(x)\neq 0$.
 \end{definition}
@@ -352,15 +630,13 @@ To generalize this intuition to higher dimensions it is useful to think of the d
 \begin{equation}\label{eq:KacRiceSN}
 	\mathbb E Crt_N^f = \int_{S^{N-1}}\mathbb E[|\det\nabla^2f(\sigma)|\mathbf 1\{f(\sigma)\in B\}|\nabla f(\sigma)=0]\diff\mathbb P(\nabla f(\sigma)=0)\diff\sigma.
 \end{equation}
-
 While the above considerations motivate the choice of this integrand, it still remains to be checked what kind of criteria we have to impose on a random $f$ for this formula to hold. We will formulate these conditions in the following lemma:
 
 \begin{theorem}[Kac-Rice formula for centered Gaussian fields]\label{thm:KacRice}
 	Let $f$ be a centered Gaussian field on $S^{N-1}$ and let $\mathcal A=(U_\alpha,\Psi_\alpha)_{\alpha\in I}$ be a finite atlas on $S^{N-1}$. Set $f^\alpha = f\circ\Psi^{-1}_\alpha$ and denote the derivatives analogously to \ref{sec:GRF}. Assume that for all $\alpha\in I$ and all $x,y\in \Psi_\alpha(U_\alpha)$ the joint distribution of $(f_i^\alpha(x),f_{ij}^\alpha(x))_{1\leq i,j<N}$ is nondegenerate, and 
 	
 	$$\max_{i,j}|\text{Var}(f_{ij}^\alpha(x)+\text{Var}(f_{ij}^\alpha(y)-2\text{Cov}(f_{ij}^\alpha(x),f_{ij}^\alpha(y))|\leq K_\alpha|\log|x-y||^{-1-\beta}$$
-	
-	for some $K_\alpha,\beta>0$. Then equation \ref{eq:KacRiceSN} holds.
+	for some $K_\alpha,\beta>0$. Then equation \eqref{eq:KacRiceSN} holds.
 \end{theorem}
 
 A proof can be found in \cite{Adler07}.

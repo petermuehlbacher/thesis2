@@ -1,10 +1,22 @@
-\section{Motivation}
-Given some Hamiltonian $H_{N,p}: S^{N-1}\rightarrow\mathbb R$ given by $$H_{N,p}(\bm\sigma)=\frac{1}{N^{(p-1)/2}}\sum_{i_1,\dots,i_p=1}^N J_{i_1,\dots,i_p}\sigma_{i_1}\dots\sigma_{i_p},$$ where the $J_{i_1,\dots,i_p}$ are independent centered standard Gaussian random variables and $\bm\sigma=(\sigma_1,\dots,\sigma_N)$ referred to as states, one is interested in finding the expected number of critical points $Crt_N(u)$ and the restriction to some index $k$, denoted by $Crt_{N,k}(u)$, in some region in $(-\infty,Nu]$.
+\section{Notations}
+Let $S^{N-1}(r)\subseteq\mathbb R^N$ denote the Euclidean sphere of radius $r$ and fix $p$ to be an integer larger or equal to $2$. Now consider the Hamiltonian $H_{N,p}: S^{N-1}(\sqrt N)\rightarrow\mathbb R$, given by
+$$H_{N,p}(\bm\sigma)=\frac{1}{N^{(p-1)/2}}\sum_{i_1,\dots,i_p=1}^N J_{i_1,\dots,i_p}\sigma_{i_1}\dots\sigma_{i_p},$$
+where the $J_{i_1,\dots,i_p}$ are independent centered standard Gaussian random variables and $\bm\sigma=(\sigma_1,\dots,\sigma_N)$ referred to as states.
 
-For practical applications like neural networks it may be nice to know how the critical points are distributed, but there is still the open question whether local minima that are close to the global minimum will also yield ``good results''. From a practical point of view this has been empirically confirmed (\cite{LeCun2014loss}), however, it can also be shown theoretically like in \cite{loh2013regularized} for a far more general class of problems.
+For any Borel set $B\subset\mathbb R$ we introduce the (random) number of critical points $Crt_{N,k}(B)$ with index $k$, defined as
+$$Crt_{N,k}(B) = \sum_{\bm\sigma : \nabla H_{N,p}(\bm\sigma)=0}\bm 1\{H_{N,p}(\bm\sigma)\in NB\}\bm 1\{i(\nabla^2 H_{N,p}(\bm\sigma))=k\},$$
+where $i(\cdot)$ is the index function, i.e. it counts the number of negative eigenvalues of its argument, and $NB$ is defined as $\{Nx : x\in B\}$. Furthermore, let $Crt_N(B):=\sum_k Crt_{N,k}(B)$ be the number of critical points regardless of their index.
+By abuse of notation, let $Crt_N(u) = Crt_N((-\infty,Nu])$ for all $u\in\mathbb R$.
+
+
+%For practical applications like neural networks it may be nice to know how the critical points are distributed, but there is still the open question whether local minima that are close to the global minimum will also yield ``good results''. From a practical point of view this has been empirically confirmed (\cite{LeCun2014loss}), however, it can also be shown theoretically like in \cite{loh2013regularized} for a far more general class of problems.
 
 \section{Main Results}
-\begin{theorem}[Large deviations for ${\mathbb E[\text{Crt}_{N,k}(u)]}$]
+The distribution of critical points with given index of some function $f:K\rightarrow\mathbb R$ is of interest since, roughly speaking, it encodes the topology of the ``landscape'' induced by $f$, i.e. its graph $\{(x,f(x))\in K\times\mathbb R : x\in K \}$. This is beyond the scope of this thesis, but it is done rigorously in the field of Morse theory. Instead we will focus on getting a better understanding of the distribution of the critical points of the Hamiltonian $H_{N,p}$, for some fixed $p$, on an exponential scale, asymptotically as $N$ goes to infinity, by obtaining a large deviation principle for their first moments. Higher moment calculations have been done recently in \cite{subag2015extremal}.
+
+Intuitively this means that we calculate $\mathbb E[Crt_{N,k}]$ up to some subexponential, additive factor for very large systems.
+
+\begin{theorem}\label{thm:1}[Large deviations for ${\mathbb E[\text{Crt}_{N,k}(u)]}$]
 	\begin{equation}\label{thm:2.5}
 		\lim_{N\rightarrow\infty}\frac{1}{N}\log\mathbb E[\text{Crt}_{N,k}(u)] = \Theta_{k,p}(u)
 	\end{equation}
@@ -22,25 +34,25 @@ For practical applications like neural networks it may be nice to know how the c
 						\frac{1}{2}\log(p-1)-\frac{p-2}{4(p-1)}u^2-(k+1)I_1(u), &\mbox{if } u\leq-E_\infty \\
 						\frac{1}{2}\log(p-1)-\frac{p-2}{p}, &\mbox{if } u \geq E_\infty
 					  \end{cases},$$
-	where $E_\infty=E_\infty(p)=2\sqrt{\frac{p-1}{p}}$ and $I_1:(-\infty,E_\infty]\rightarrow\mathbb R$ is given by $$I_1(u)=\frac{2}{E_\infty^2}\int_u^{-E_\infty}\sqrt{z^2-E_\infty^2}dz$$ and is the the rate function of the LDP for the smallest eigenvalue of the GOE.
+	where $E_\infty=E_\infty(p)=2\sqrt{\frac{p-1}{p}}$ and $I_1:(-\infty,E_\infty]\rightarrow\mathbb R$ is given by $$I_1(u)=\frac{2}{E_\infty^2}\int_u^{-E_\infty}\sqrt{z^2-E_\infty^2}dz.$$
 \end{theorem}
+One particularly interesting consequence of this result is that $H_{N,p}$ exhibits a ``layered structure'' in the sense that, on an exponential scale, ``most'' critical points $\bm\sigma$ with higher index $i(\nabla^2 H_{N,p}(\bm\sigma))$ correspond to higher energy levels $H_{N,p}(\bm\sigma)$. This statement is made precise with the following theorem:
 
 \begin{theorem}[Layered structure]
 	For all $k\geq 0$ and $\varepsilon>0$ we have
 	\begin{equation}\label{thm:2.15}
 		\limsup_{N\rightarrow\infty}\frac{1}{N}\log\mathbb P\left(\left\{\sum_{i=k}^\infty Crt_{N,i}(-E_k-\varepsilon)>0\right\}\right)<0,
 	\end{equation}
-	where $E_k=E_k(p)$ is chosen (uniquely because of strict monotonicity) such that $\Theta_{k,p}(-E_k)=0$.
+	where $E_k=E_k(p)$ is the unique solution to $\Theta_{k,p}(-E_k)=0$.
 \end{theorem}
 
-\section{Outlook}
-According to \cite{LeCun2014lossvariance} there is empirical evidence that the energy of critical points concentrates around the limiting floor value, however, up to now and to the best of my knowledge there is no proof for this theoretical statement and in particular (from a theoretical point of view) nothing is known about the speed of convergence to the expected value that is presented here.
+\section{Outline}
 
+The intuition is that we would to employ the Kac-Rice formula to reduce the problem of counting the expected number of critical points of the fairly complicated object $H_{N,p}$ to one of counting eigenvalues of some ``GOE-like'' object.
 
+To make this precise we need to know about the covariance structure of the GOE, how moments behave under conditioning and a large deviation principle for the $k$-th largest eigenvalue of the GOE.
 
-
-
-
+Finally, one can use Varadhan's lemma and Wigner's semicircle law to arrive at the main results stated above.
 
 
 

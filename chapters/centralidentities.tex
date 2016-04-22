@@ -48,7 +48,7 @@ Using \ref{thm:probabilitydensityofEV} we get
 	\mathbb E_{GOE}^{N-1}\left[|\det(M-xI)|\mathbf 1\{i(M-xI)=k\}\right]=\int_{A_k^N(x)}\prod_{i=1}^{N-2}|\lambda_i^{N-1}-x|Q_{N-1}(\diff\lambda^{N-1}).
 \end{equation*}
 
-The definition of $A_k^N(x)$ and the determinant in the equation above suggests considering $x$ as the $k+1$-th smallest eigenvalue of a $N\times N$ GOE matrix. Performing the corresponding rescaling, that is, change of variables given by $\lambda_i^{N-1}=\sqrt{N/(N-1)}\lambda_i^N$ for $i\in\{0,\dots,k-1\}$, $\lambda_i^{N-1}=\sqrt{N(/(N-1)}\lambda_{i+1}^N$ for $i\in\{k,\dots,N-2\}$ and $x=\sqrt{N/(N-1)\lambda_k^N}$, writing out $Q_N$ and substituting back in equation \ref{eq:expressEintermsofEGOE} we obtain
+The definition of $A_k^N(x)$ and the determinant in the equation above suggests considering $x$ as the $k+1$-th smallest eigenvalue of a $N\times N$ GOE matrix. Performing the corresponding rescaling, that is, change of variables given by $\lambda_i^{N-1}=\sqrt{N/(N-1)}\lambda_i^N$ for $i\in\{0,\dots,k-1\}$, $\lambda_i^{N-1}=\sqrt{N(/(N-1)}\lambda_{i+1}^N$ for $i\in\{k,\dots,N-2\}$ and $x=\sqrt{N/(N-1)\lambda_k^N}$, writing out $Q_N$ and substituting back in equation \eqref{eq:expressEintermsofEGOE} we obtain
 
 \begin{align*}
 	&\frac{Z_N}{Z_{N-1}\sqrt{2\pi t^2}}(N/(N-1))^{(N+2)(N+1)/4}\\
@@ -62,7 +62,7 @@ Some algebra then yields the first claim, the second one is obtained by summing 
 %\frac{\Gamma(N/2)(N-1)^{-N/2}}{\sqrt{\pi t^2}}\mathbb E_{GOE}^{N}\Bigg[\exp\Big(\frac{N(\lambda_k^N)^2}{2}-\frac{\frac{N}{N-1}(\lambda_k^N)^2}{2t^2}\Big)\mathbf 1\{\lambda_k^N\in\sqrt{\frac{N-1}{N}}G\}\Bigg]
 \end{proof}
 
-Now we are ready to give a sketch of the proof of theorem \ref{thm:2.5}:
+Now we are ready to give a sketch of the proof of theorem \ref{thm:1}:
 
 \begin{proof}
 	For simplicity's sake we fix $B$ in $\mathbb E Crt_{N,k}(B)$ to be $(-\infty,u)$. The proof naturally extends to arbitrary Borel sets $B$.
@@ -82,4 +82,4 @@ Now we are ready to give a sketch of the proof of theorem \ref{thm:2.5}:
 	For $t\leq-\sqrt 2$ both suprema equal $\phi(t)-J_k(t)$ and if $t>-\sqrt 2$ they equal $\phi(\sqrt 2)$. The claim essentially follows after appropriate rescaling of the rate function $I_1$ (cf. \cite{Cerny10}).
 \end{proof}
 
-Applying Markov's inequality to theorem \ref{thm:2.5} (as in \cite{Cerny10} proof of theorem 2.14) then yields \ref{thm:2.15}.
+Applying Markov's inequality to \eqref{thm:2.5} (as in \cite{Cerny10} proof of theorem 2.14) then yields \eqref{thm:2.15}.
