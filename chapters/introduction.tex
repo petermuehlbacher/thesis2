@@ -1,5 +1,7 @@
+Since spherical spin glasses can be seen to be a reasonable mathematical model for a lot of applications in statistics (e.g. neural networks, financial mathematics) and physics it is of great interest to investigate the distribution of critical points.
+
 \section{Notations}
-Let $S^{N-1}(r)\subseteq\mathbb R^N$ denote the Euclidean sphere of radius $r$ and fix $p$ to be an integer larger or equal to $2$. Now consider the Hamiltonian $H_{N,p}: S^{N-1}(\sqrt N)\rightarrow\mathbb R$, given by
+Let $S^{N-1}(r)\subseteq\mathbb R^N$ denote the Euclidean sphere of radius $r$ and fix $p$ to be an integer larger or equal to $2$. Now consider the Hamiltonian of $p$-spherical spin glasses $H_{N,p}: S^{N-1}(\sqrt N)\rightarrow\mathbb R$, given by
 $$H_{N,p}(\bm\sigma)=\frac{1}{N^{(p-1)/2}}\sum_{i_1,\dots,i_p=1}^N J_{i_1,\dots,i_p}\sigma_{i_1}\dots\sigma_{i_p},$$
 where the $J_{i_1,\dots,i_p}$ are independent centered standard Gaussian random variables and $\bm\sigma=(\sigma_1,\dots,\sigma_N)$ referred to as states.
 
@@ -38,7 +40,7 @@ Intuitively this means that we calculate $\mathbb E[Crt_{N,k}]$ up to some subex
 \end{theorem}
 One particularly interesting consequence of this result is that $H_{N,p}$ exhibits a ``layered structure'' in the sense that, on an exponential scale, ``most'' critical points $\bm\sigma$ with higher index $i(\nabla^2 H_{N,p}(\bm\sigma))$ correspond to higher energy levels $H_{N,p}(\bm\sigma)$. This statement is made precise with the following theorem:
 
-\begin{theorem}[Layered structure]
+\begin{theorem}[Layered structure]\label{thm:layeredstruc}
 	For all $k\geq 0$ and $\varepsilon>0$ we have
 	\begin{equation}\label{thm:2.15}
 		\limsup_{N\rightarrow\infty}\frac{1}{N}\log\mathbb P\left(\left\{\sum_{i=k}^\infty Crt_{N,i}(-E_k-\varepsilon)>0\right\}\right)<0,
@@ -48,7 +50,7 @@ One particularly interesting consequence of this result is that $H_{N,p}$ exhibi
 
 \section{Outline}
 
-The intuition is that we would to employ the Kac-Rice formula to reduce the problem of counting the expected number of critical points of the fairly complicated object $H_{N,p}$ to one of counting eigenvalues of some ``GOE-like'' object.
+The intuition is that we would to use a probabilistic generalisation of the Kac-Rice formula on the derivative of the Hamiltonian to get an analytic expression for the expected number of critical points in some region which will then be simplified to the problem of counting eigenvalues of some ``GOE-like'' object.
 
 To make this precise we need to know about the covariance structure of the GOE, how moments behave under conditioning and a large deviation principle for the $k$-th largest eigenvalue of the GOE.
 
